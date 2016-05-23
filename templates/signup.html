@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block body %}
+  <h2>Sign Up</h2>
+  <form action="" method=post>
+    <p>
+      Your Name:
+      <input type=text name=name value="{{ request.form.name }}">
+    </p>
+    <p>Your ZipCode:
+      <input type=text name=ZipCode value="{{ request.form.ZipCode }}">
+    </p>
+      <input type=submit value="Sign In">
+      <!-- <a href="{{ url_for('activity') }}">Sign In</a> -->
+  </form>
+{% endblock %}

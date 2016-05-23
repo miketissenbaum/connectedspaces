@@ -1,0 +1,49 @@
+<html>
+	<head>
+	    <title>{{ location }} - Makerspace </title>
+	</head>
+	<body>
+		<div id="banner">
+			<img src="{{url_for('static', filename='bubbler.jpeg')}}" style="width:100%"></img>
+		</div>
+		<div style="text-align: center; display: table; width: 100%; height: 77%">
+			<h1 style="display: table-cell; vertical-align: middle">Welcome to {{ location }} - Place your card on the reader to begin</h1>
+		</div>
+	</body>
+
+	<script>
+
+	function httpGet(theUrl)
+	{
+		       var xmlHttp = new XMLHttpRequest();
+		       xmlHttp.open( "GET", theUrl, false );
+		       xmlHttp.send(null);
+		       return xmlHttp.responseText;
+	}
+
+	var refreshIntervalId = setInterval(function(){checkFunc()}, 1000);
+
+	function checkFunc(){
+		var json = httpGet("/getSignIn");
+	    	obj = JSON.parse(json);
+	    	console.log("new checkin = "+obj.newCheckin);
+	    	console.log("member_ID = "+obj.member_ID);
+	    	console.log("IsMember? "+obj.isMember);
+	    	if(obj.newCheckin){
+	    		clearInterval(refreshIntervalId);
+	    		checkUser(obj.isMember, obj.member_ID);
+	    	}
+	}
+	
+	function checkUser(isMember, memberID){
+		if(isMember == false){
+			window.location = "signup";
+		}
+		else{
+			window.location = "activity";
+		}
+	}
+
+
+  </script>
+</html>
