@@ -29,18 +29,26 @@
 	    	console.log("new checkin = "+obj.newCheckin);
 	    	console.log("member_ID = "+obj.member_ID);
 	    	console.log("IsMember? "+obj.isMember);
+	    	console.log("IsIn? "+obj.isIn);
 	    	if(obj.newCheckin){
 	    		clearInterval(refreshIntervalId);
-	    		checkUser(obj.isMember, obj.member_ID);
+	    		checkUser(obj.isMember, obj.member_ID, obj.isIn);
 	    	}
 	}
 	
-	function checkUser(isMember, memberID){
+	function checkUser(isMember, memberID, isIn){
 		if(isMember == false){
 			window.location = "signup";
 		}
 		else{
-			window.location = "activity";
+			if(isIn == false){
+				window.location = "select_activity";
+				console.log("Not Logged in")
+			}
+			else{
+				console.log("Logging out")
+				window.location = "index";
+			}
 		}
 	}
 

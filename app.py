@@ -15,6 +15,7 @@ app.config['SESSION_TYPE'] = 'filesystem'
 
 checkCheck = False
 isMember = False
+isIn = False
 
 member_name = ""
 member_ID = ""
@@ -52,13 +53,14 @@ db.register([Activities])
 
 @app.route('/getSignIn', methods=['GET','POST'])
 def getSignIn():
-	print checkCheck
 	global checkCheck
 	global member_name
 	global member_ID
+	global isIn
+	print isIn
 	if(checkCheck == True):
 		print "Sending confirmation for check in";
-	list = {'newCheckin': checkCheck, 'isMember' : isMember,'member_ID' : member_ID, 'name' : member_name}
+	list = {'newCheckin': checkCheck, 'isMember' : isMember,'member_ID' : member_ID, 'name' : member_name, 'isIn' : isIn}
 	checkCheck = False
 	return jsonify(list)
 
@@ -70,19 +72,28 @@ def check_in():
 		# global location
 		global member_ID
 		global checkCheck
+		global isMember
+		global isIn
 		checkCheck = True
 		member_ID = request.form['cardID']
 		print member_ID
-		if db.Members.find({'MemberID': {"$exact": member_ID}}):
+		if db.Members.find_one({'MemberID': {"$eq": member_ID}}) > 0:
+			isMember = True
+			if db.Activities.find_one({'MemberID': {"$eq": member_ID}}) > 0:
+				print "logged in"
+				isIn = True
+				signout = db.Activities.find({'MemberID': {"$eq": member_ID}})
+				for so in signout:
+					so.delete()
+			else:
+				print "not found"
 			print "existing member"
 			flash('Account already exists for ' +member_name +' memberID: ' +member_ID)
-			return redirect(url_for('activity'))
+
 		else:
 			print "new member"
-			return redirect(url_for('sign_up'))
+
 	return render_template('index.html')
-
-
 
 @app.route('/signup', methods=["GET", "POST"])
 def sign_up():
@@ -94,16 +105,6 @@ def sign_up():
 		member.name = member_name
 		member.ZipCode = request.form['ZipCode']
 		member.MemberID = member_ID.decode('utf-8')
-
-		# Need to figure this out doesn't write to db if this is in
-
-		# if db.Members.find({'MemberID': {"$eq": member_ID}}):
-		# 	print member_ID
-		# 	flash('Account already exists for ' +member_name +' memberID: ' +member_ID)
-		# 	return redirect(url_for('activity'))
-
-		# end of error 
-			
 		member.save()
 		flash('Account created for ' +member_name +' memberID: ' +member_ID)
 		return redirect(url_for('activity'))
