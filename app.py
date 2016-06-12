@@ -1,3 +1,5 @@
+import os
+import logins
 from datetime import datetime
 from flask import render_template, flash
 from flask import Flask, request, jsonify, session, redirect, url_for
@@ -6,11 +8,18 @@ import requests
 
 
 # from app import app
-import requests
+MONGO_URL = os.environ.get('MONGO_URL')
+if not MONGO_URL:
+	# MONGO_URL = "mongodb://localhost:27017/cspace";
+	# MONGO_URL = "mongodb://52.40.145.101:27017/cspace";
+	# MONGO_URL = "mongodb://52.40.145.101:27017/cspace"
+	MONGO_URL = "mongodb://" + logins.MONGO_USER + ":" + logins.MONGO_PASS + "@" + logins.MONGO_IP "/cspace"
+
+app.config['MONGO_URI'] = MONGO_URL
 
 app = Flask(__name__)
 
-app.secret_key = 'you-will-never-guess'
+app.secret_key = logins.secret_key
 app.config['SESSION_TYPE'] = 'filesystem'
 
 checkCheck = False
