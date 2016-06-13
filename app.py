@@ -8,16 +8,18 @@ import requests
 
 
 # from app import app
+app = Flask(__name__)
+
 MONGO_URL = os.environ.get('MONGO_URL')
 if not MONGO_URL:
 	# MONGO_URL = "mongodb://localhost:27017/cspace";
 	# MONGO_URL = "mongodb://52.40.145.101:27017/cspace";
 	# MONGO_URL = "mongodb://52.40.145.101:27017/cspace"
-	MONGO_URL = "mongodb://" + logins.MONGO_USER + ":" + logins.MONGO_PASS + "@" + logins.MONGO_IP "/cspace"
+	MONGO_URL = "mongodb://" + logins.MONGO_USER + ":" + logins.MONGO_PASS + "@" + logins.MONGO_IP + "/cspace"
 
 app.config['MONGO_URI'] = MONGO_URL
 
-app = Flask(__name__)
+
 
 app.secret_key = logins.secret_key
 app.config['SESSION_TYPE'] = 'filesystem'
@@ -28,8 +30,8 @@ isIn = False
 
 # MONGO_URL = os.environ.get('MONGO_URL')
 # if not MONGO_URL:
-MONGO_URL = "mongodb://localhost:27017/cspace";
-app.config['MONGO_URI'] = MONGO_URL
+# MONGO_URL = "mongodb://localhost:27017/cspace";
+# app.config['MONGO_URI'] = MONGO_URL
 
 
 member_name = ""
