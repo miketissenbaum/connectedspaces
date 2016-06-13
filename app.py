@@ -26,6 +26,12 @@ checkCheck = False
 isMember = False
 isIn = False
 
+# MONGO_URL = os.environ.get('MONGO_URL')
+# if not MONGO_URL:
+MONGO_URL = "mongodb://localhost:27017/cspace";
+app.config['MONGO_URI'] = MONGO_URL
+
+
 member_name = ""
 member_ID = ""
 location = "Room 150"
