@@ -7,10 +7,5 @@ Meteor.startup(() => {
 
 // rests = new Mongo.Collection("restaurants");
 
-// var db = new MongoInternals.RemoteCollectionDriver(
-//     "mongodb://localhost:27017/db", 
-//     );
-// var collection = new Mongo.Collection("Coll", {_driver: driver});
-
 var db = new MongoInternals.RemoteCollectionDriver("mongodb://username:password@52.41.24.224:27017/cspace");
 Members = new Mongo.Collection("Members", {_driver: db});

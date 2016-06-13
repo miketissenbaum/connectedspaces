@@ -1,0 +1,790 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"Ses",
+				"Session.get(\"Role	(routes.js)"
+			],
+			[
+				"gr",
+				"groupIDs"
+			],
+			[
+				"groupI",
+				"groupIDs"
+			],
+			[
+				"grou",
+				"groups	(TODOS.txt)"
+			],
+			[
+				"upda",
+				"update"
+			],
+			[
+				"recent",
+				"recentGameCodes"
+			],
+			[
+				"update",
+				"updateGameJoin	(server.js)"
+			],
+			[
+				"joine",
+				"joinerID"
+			],
+			[
+				"Runn",
+				"RunningGames.find({$and"
+			],
+			[
+				"player",
+				"players"
+			],
+			[
+				"joi",
+				"joinerID"
+			],
+			[
+				"cons",
+				"console.log"
+			],
+			[
+				"req",
+				"requester"
+			],
+			[
+				"Mete",
+				"Meteor.call('raiseAlert	(client.js)"
+			],
+			[
+				"Met",
+				"Meteor.call('raiseAlert"
+			],
+			[
+				"Rou",
+				"Router.go"
+			],
+			[
+				"con",
+				"console.log(\"user"
+			],
+			[
+				"reg",
+				"registerForm	(base.html)"
+			],
+			[
+				"res",
+				"result"
+			],
+			[
+				"userI",
+				"userId"
+			],
+			[
+				"user",
+				"userID"
+			],
+			[
+				"Grou",
+				"GroupNo"
+			],
+			[
+				"reqi",
+				"reqId"
+			],
+			[
+				"Aler",
+				"Alerts.findOne({_id	(client.js)"
+			],
+			[
+				"gro",
+				"group"
+			],
+			[
+				"userID",
+				"userId"
+			],
+			[
+				"RUnn",
+				"RunningGames.findOne({$and	(client.js)"
+			],
+			[
+				"reqn",
+				"reqno"
+			],
+			[
+				"Sess",
+				"Session.get(\"GameCode"
+			],
+			[
+				"set",
+				"setupNewGameStocks"
+			],
+			[
+				"re",
+				"return"
+			],
+			[
+				"Meteo",
+				"Meteor.userId"
+			],
+			[
+				"ga",
+				"gameCode"
+			],
+			[
+				"code",
+				"codeString"
+			],
+			[
+				"acc",
+				"accessCode"
+			],
+			[
+				"fin",
+				"findOne"
+			],
+			[
+				"new",
+				"newGameCode"
+			],
+			[
+				"gam",
+				"games"
+			],
+			[
+				"me",
+				"meteor	(client.js)"
+			],
+			[
+				"dashBo",
+				"dashboardBase.html	(dashboardBase.js)"
+			],
+			[
+				"make",
+				"makeNewGame	(main.js)"
+			],
+			[
+				"All",
+				"AllStocks	(tradewars-bet.js)"
+			],
+			[
+				"Colle",
+				"Collection	(tradewars-bet.js)"
+			],
+			[
+				"for",
+				"form	Tag"
+			],
+			[
+				"butt",
+				"button	Tag"
+			],
+			[
+				"final",
+				"finalRequesterRequestedStock"
+			],
+			[
+				"find",
+				"findOne"
+			],
+			[
+				"exc",
+				"exchangeResources"
+			],
+			[
+				"acce",
+				"acceptance"
+			],
+			[
+				"reqRe",
+				"reqResStock"
+			],
+			[
+				"reqR",
+				"reqResStock"
+			],
+			[
+				"gruop",
+				"groupID"
+			],
+			[
+				"cn",
+				"console"
+			],
+			[
+				"dis",
+				"distinctValues"
+			],
+			[
+				"group",
+				"groupIDs"
+			],
+			[
+				"resou",
+				"resources"
+			],
+			[
+				"us",
+				"users"
+			],
+			[
+				"allR",
+				"allRequests	(tradewars-bet.html)"
+			],
+			[
+				"pre",
+				"preventDefault"
+			],
+			[
+				"type",
+				"typeof"
+			],
+			[
+				"va",
+				"value	(simple-todos.js)"
+			],
+			[
+				"chec",
+				"checkAvailability"
+			],
+			[
+				"requ",
+				"requestTrade"
+			],
+			[
+				"Giv",
+				"Giving-Resource"
+			],
+			[
+				"co",
+				"console"
+			],
+			[
+				"pro",
+				"profile"
+			],
+			[
+				"grop",
+				"groupID"
+			],
+			[
+				"M",
+				"Mongo	(simple-todos.js)"
+			],
+			[
+				"session",
+				"session_token"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "app.py",
+			"settings":
+			{
+				"buffer_size": 3564,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "templates/base.html",
+			"settings":
+			{
+				"buffer_size": 870,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "templates/index.html",
+			"settings":
+			{
+				"buffer_size": 1428,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 87.0,
+		"last_filter": "projec",
+		"selected_items":
+		[
+			[
+				"projec",
+				"Project: Save As"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"",
+				"Package Control: List Packages"
+			],
+			[
+				"project",
+				"Project: Save As"
+			],
+			[
+				"packages",
+				"Package Control: Install Package"
+			],
+			[
+				"packa",
+				"Package Control: Install Package"
+			],
+			[
+				"pack",
+				"Package Control: Discover Packages"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/visheshk/Documents/CPL+GLS/connectedspaces"
+	],
+	"file_history":
+	[
+		"/Users/visheshk/Documents/PDC/Learning_Theater/Activities/tradewars-bet/lib/collections.js",
+		"/Users/visheshk/Documents/PDC/Learning_Theater/Activities/tradewars-bet/base.html",
+		"/Users/visheshk/Documents/PDC/Learning_Theater/Activities/tradewars-bet/client.js",
+		"/Users/visheshk/Documents/PDC/Learning_Theater/Activities/tradewars-bet/.meteor/packages",
+		"/Users/visheshk/Documents/PDC/Learning_Theater/Activities/tradewars-bet/server.js",
+		"/Users/visheshk/Documents/PDC/Learning_Theater/Activities/tradewars-bet/README.md",
+		"/Users/visheshk/Documents/PDC/Learning_Theater/Activities/tradewars-bet/setup-console-queries.txt",
+		"/Users/visheshk/Documents/PDC/Learning_Theater/Activities/tradewars-bet/tradewars-bet.css",
+		"/Users/visheshk/Documents/PDC/Learning_Theater/Activities/tradewars-bet/config/at_config.js",
+		"/Users/visheshk/Documents/PDC/Learning_Theater/Activities/tradewars-bet/.meteor/versions",
+		"/Users/visheshk/Documents/PDC/Learning_Theater/Activities/tradewars-bet/server/main.js",
+		"/Users/visheshk/Documents/PDC/Learning_Theater/Activities/tradewars-bet/client/ui/trading.js",
+		"/Users/visheshk/Documents/PDC/Learning_Theater/Activities/tradewars-bet/client/ui/dashboardBase.js",
+		"/Users/visheshk/Documents/PDC/Learning_Theater/Activities/iron-router-devel/examples/basic/basic.html",
+		"/Users/visheshk/Documents/PDC/Learning_Theater/Activities/tradewars-bet/client/ui/dashboardBase.html",
+		"/Users/visheshk/Documents/PDC/Learning_Theater/Activities/tradewars-bet/setup-console-queries.js",
+		"/Users/visheshk/Documents/PDC/Learning_Theater/Activities/tradewars-bet/client/base-dash.html",
+		"/Users/visheshk/Documents/PDC/Learning_Theater/Activities/tradewars-bet/mup.json",
+		"/Users/visheshk/Documents/PDC/Learning_Theater/Activities/simple-todos/simple-todos.css",
+		"/Users/visheshk/Documents/PDC/Learning_Theater/Activities/simple-todos/simple-todos.html",
+		"/Users/visheshk/Documents/PDC/Learning_Theater/Activities/simple-todos/simple-todos.js",
+		"/Users/visheshk/Downloads/pdcny_tradewars-master/setup-console-queries.js",
+		"/Users/visheshk/Documents/PDC/Learning_Theater/Activities/tradewars-bet/tradewars-bet.js",
+		"/Users/visheshk/Documents/Oztoc/Oztoc-Tablet/www/js/Logger.js",
+		"/Users/visheshk/Documents/Oztoc/Oztoc-Tablet/www/js/DataFaker.js",
+		"/Users/visheshk/Documents/Oztoc/errorPage.html",
+		"/Users/visheshk/Documents/Oztoc/Oztoc-Tablet/www/js/ADAGE.js",
+		"/Users/visheshk/Documents/Oztoc/Oztoc-Tablet/readme.md",
+		"/Users/visheshk/Documents/Oztoc/Oztoc-Tablet/www/scss/logger.scss",
+		"/Users/visheshk/Documents/Semester-1/Computational_Literacy/twibble/Final Project Playground.py",
+		"/Users/visheshk/Documents/Situating_Big_Data/parser.py",
+		"/Users/visheshk/Documents/Oztoc/Oztoc-Tablet/www/js/Analyzer.js",
+		"/Users/visheshk/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings"
+	],
+	"find":
+	{
+		"height": 22.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			"/Users/visheshk/Documents/PDC/Learning_Theater/Activities/tradewars-bet",
+			"/Users/visheshk/Documents/PDC/Learning_Theater/Activities",
+			"/Users/visheshk/Documents/Oztoc/Oztoc-Tablet/www/",
+			"/Users/visheshk/Documents/Oztoc/Oztoc-Tablet/www/js",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"adminda",
+			"resources",
+			"groupID",
+			"trade",
+			"totalval",
+			"groupId",
+			"table",
+			"gaussia",
+			"newprice",
+			"update",
+			"giving",
+			"excha",
+			"conso",
+			"findusergrou",
+			"reqlo",
+			"lead ca",
+			"align",
+			"dash",
+			"stockin",
+			"admin",
+			"parseint",
+			"parsein",
+			"group",
+			"groups",
+			"alerts",
+			"allsto",
+			"findusergroup",
+			"runninggames",
+			"runninggame",
+			"running",
+			"group",
+			"groupno",
+			"group",
+			"exchang",
+			"requester",
+			"requester\"",
+			"requester",
+			"excha",
+			"requester",
+			"readreq",
+			"readrequ",
+			"update",
+			"requester",
+			"reqno",
+			"reqtra",
+			"function (err",
+			"reqtrade",
+			"allaler",
+			"alerts",
+			"alert",
+			"stockin",
+			"alerts",
+			"submit",
+			"runninggame",
+			"userin",
+			"group",
+			"stock",
+			"user",
+			"\"userInfo",
+			"meteor.call",
+			"getgamedo",
+			"group",
+			"stockinfo",
+			"stocking",
+			"stockin",
+			"stockinfo",
+			"userdash",
+			"adminda",
+			"basedas",
+			"playing",
+			"playingGames",
+			"playinggames",
+			"access",
+			"button",
+			"basedas",
+			"userda",
+			"basedas",
+			".update",
+			".insert",
+			"insert",
+			"games.inser",
+			"getgameD",
+			").",
+			"alerts",
+			"request",
+			"accessCode",
+			"users",
+			"reqresst",
+			"request",
+			"session.",
+			"session.set",
+			"session",
+			"raisealert",
+			"clear",
+			"exchange",
+			"request",
+			"alert",
+			"resources",
+			"groupids",
+			"groupid",
+			"play",
+			"error,",
+			"makenew",
+			"userdas",
+			"makenewga",
+			"makenewgame",
+			"insert",
+			"makenewgam",
+			"host",
+			"click",
+			".events",
+			"submit",
+			"meteor",
+			"find",
+			"button",
+			"form",
+			"input",
+			"click",
+			"button",
+			"alert",
+			"requests",
+			"nodeversion",
+			"nodev",
+			"node",
+			"update",
+			"stocks",
+			"new mon",
+			"print"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"gameCode"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "app.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3564,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"WordCount":
+							{
+								"changes": -1,
+								"modified": true,
+								"selection": true,
+								"status": -1,
+								"syntax": "python"
+							},
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "templates/base.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 870,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"WordCount":
+							{
+								"changes": 0,
+								"count": 22,
+								"modified": false,
+								"selection": false,
+								"status": -1,
+								"syntax": "plain text"
+							},
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "templates/index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1428,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"WordCount":
+							{
+								"changes": 0,
+								"count": 44,
+								"modified": false,
+								"selection": false,
+								"status": -1,
+								"syntax": "plain text"
+							},
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 254.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 22.0
+	},
+	"input":
+	{
+		"height": 30.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "connected spaces.sublime-project",
+	"replace":
+	{
+		"height": 40.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"c",
+				"~/Documents/Connected_Spaces/connected_spaces.sublime-workspace"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+		"max_columns": 2
+	}
+}
