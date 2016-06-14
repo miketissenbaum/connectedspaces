@@ -1,17 +1,22 @@
+import os
+import logins
 from datetime import datetime
 from flask import render_template, flash
 from flask import Flask, request, jsonify, session, redirect, url_for
 from flask.ext.mongokit import MongoKit, Document
 import requests
 
-
-# from app import app
-import requests
-
 app = Flask(__name__)
 
-app.secret_key = 'you-will-never-guess'
+app.config['MONGODB_HOST'] = MONGO_IP[:-6]
+app.config['MONGODB_DATABASE'] = "cspace"
+# app.config['MONGODB_PORT'] = 27017
+app.config['MONGODB_USERNAME'] = MONGO_USER
+app.config['MONGODB_PASSWORD'] = MONGO_PASS
+
+app.secret_key = logins.secret_key
 app.config['SESSION_TYPE'] = 'filesystem'
+
 
 checkCheck = False
 isMember = False
