@@ -6,23 +6,29 @@ from flask import Flask, request, jsonify, session, redirect, url_for
 from flask.ext.mongokit import MongoKit, Document
 import requests
 
-
 # from app import app
 app = Flask(__name__)
+# MONGODB_HOST = MONGO_IP[:-6]
+# MONGODB_PORT = 27017
 
-MONGO_URL = os.environ.get('MONGO_URL')
-if not MONGO_URL:
+# MONGO_URL = os.environ.get('MONGO_URL')
+# if not MONGO_URL:
 	# MONGO_URL = "mongodb://localhost:27017/cspace";
 	# MONGO_URL = "mongodb://52.40.145.101:27017/cspace";
 	# MONGO_URL = "mongodb://52.40.145.101:27017/cspace"
-	MONGO_URL = "mongodb://" + logins.MONGO_USER + ":" + logins.MONGO_PASS + "@" + logins.MONGO_IP + "/cspace"
+	# MONGO_URL = "mongodb://" + logins.MONGO_USER + ":" + logins.MONGO_PASS + "@" + logins.MONGO_IP + "/cspace"
 
-app.config['MONGO_URI'] = MONGO_URL
+app.config['MONGODB_HOST'] = MONGO_IP[:-6]
+app.config['MONGODB_DATABASE'] = "cspace"
+# app.config['MONGODB_PORT'] = MONGO_IP[:-6]
+app.config['MONGODB_USERNAME'] = MONGO_USER
+app.config['MONGODB_PASSWORD'] = MONGO_PASS
 
-
+# app.config.from_object(__name__)
 
 app.secret_key = logins.secret_key
 app.config['SESSION_TYPE'] = 'filesystem'
+
 
 checkCheck = False
 isMember = False
