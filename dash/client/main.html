@@ -7,6 +7,8 @@
 
   {{> hello}}
   {{> info}}
+  {{> boxes}}
+
 </body>
 
 <template name="hello">
@@ -22,4 +24,25 @@
     <li><a href="https://docs.meteor.com">Read the Docs</a></li>
     <li><a href="https://forums.meteor.com">Discussions</a></li>
   </ul>
+</template>
+
+<template name="boxes"> 
+  <div id="div1">UW-Madison <br />
+    {{> boxData location = "Room 150"}}
+  </div>
+  <div id="div2">Columbia <br />
+    {{> boxData location = "Columbia"}}
+  </div>
+  <div id="div3">Test <br />
+  </div>
+  <div id="div4">Video space <br />
+  </div>
+</template>
+
+<template name = "boxData">
+  {{#each allData}}
+    Name: {{name}}
+    Current Activity: {{currentActivity}}
+  {{/each}}
+
 </template>
