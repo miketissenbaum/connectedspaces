@@ -4,7 +4,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 
 import './main.html';
 // import { members } from '../server/imports/collections.js';
-import { activities } from '../imports/collections.js';
+// import { activities } from '../imports/collections.js';
 
 Template.hello.onCreated(function helloOnCreated() {
   // counter starts at 0
@@ -30,7 +30,7 @@ Template.hello.events({
 
 Template.boxData.helpers({
 	allData(){
-		// console.log(template);
-		return activities.find({location: "Room 150"})
+		console.log(this.location);
+		return activities.find({location: this.location})
 	}
 });
