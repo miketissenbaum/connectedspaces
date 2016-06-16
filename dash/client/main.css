@@ -1,1 +1,6 @@
-/* CSS declarations go here */
+html, body { height: 100%; padding: 0; margin: 0; }
+div { width: 50%; height: 50%; float: left; }
+#div1 { background: #eee; }
+#div2 { background: #eee; }
+#div3 { background: #eee; }
+#div4 { background: #ccc; }
