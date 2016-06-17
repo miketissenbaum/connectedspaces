@@ -3,27 +3,34 @@
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
-
-  {{> hello}}
-  {{> info}}
-  {{> boxes}}
-
+  <h1>Connected Spaces</h1>
+  <p>Tap your card at the reader!</p>
+  {{> signUp}}
+  {{> activityEntry}}
 </body>
 
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
+<template name = "signUp">
+  <form class = "signup">
+    Name: <input type="text" name="name" value="name" />
+    ZipCode: <input type="number" name="zipcode" value="zipcode" />
+    <input type="submit" value="submit">
+    <!-- </input> -->
+    
+    <!-- <input type="text" name="name">
+    </input>     -->
+  </form>
 </template>
 
-<template name="info">
-  <h2>Learn Meteor!</h2>
-  <ul>
-    <li><a href="https://www.meteor.com/try">Do the Tutorial</a></li>
-    <li><a href="http://guide.meteor.com">Follow the Guide</a></li>
-    <li><a href="https://docs.meteor.com">Read the Docs</a></li>
-    <li><a href="https://forums.meteor.com">Discussions</a></li>
-  </ul>
+<template name = "activityEntry">
+  Hi {{name}}!    (not you? Update your id here) -- there will be a link here when this functionality is ready
+  <form class = "activityForm">
+    <input type="text" name="activity" />
+  </form>
+</template>
+
+
+<template name = "home">
+  {{> boxes}}
 </template>
 
 <template name="boxes"> 
