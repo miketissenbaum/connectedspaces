@@ -1,6 +1,6 @@
 Meteor.startup(() => {
 	// console.log(process.env.MONGO_URL);
-	// export MONGO_URL = "mongodb://127.0.0.1:27017/local";
+	// export MONGO_URL = "mongodb://" + mongo_user + ":" + mongo_pass + "@" +  mongo_ip + ":27017/cspace";
 	// process.env.MONGO_URL = "mongodb://" + mongo_user + ":" + mongo_pass + "@" +  mongo_ip + ":27017/cspace";
 });
 

@@ -14,3 +14,7 @@ dash/lib/logins.js
 connected spaces.sublime-workspace
 
 *.sublime-workspace
+
+dash/mup.json
+
+dash/package.json
