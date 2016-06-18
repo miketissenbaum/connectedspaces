@@ -24,7 +24,7 @@ def rfidResponse(responseID):
 	payload = {"cardID":responseID}
 	print payload
 	# r = requests.post("http://127.0.0.1:5000/index", data=payload)
-	webbrowser.open_url("http://52.41.24.224/member/" + payload)
+	webbrowser.open_url("http://52.10.31.209/member/" + payload)
 
 while True:
 	try:
