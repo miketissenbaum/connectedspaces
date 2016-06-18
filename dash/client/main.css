@@ -1,6 +1,6 @@
-html, body { height: 100%; padding: 0; margin: 0; }
-div { width: 50%; height: 50%; float: left; }
-#div1 { background: #eee; }
-#div2 { background: #eed; }
-#div3 { background: #eef; }
-#div4 { background: #ccc; }
+html, body { height: 100%; padding: 0; margin: 20px; }
+div { width: 45%; height: 45%; float: left; padding: 10px;}
+#div1 { background: #eee; margin: 2px; }
+#div2 { background: #eed; margin: 2px; }
+#div3 { background: #eef; margin: 2px; }
+#div4 { background: #ccc; margin: 2px; }

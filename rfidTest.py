@@ -4,6 +4,7 @@ Continuously read.
 
 import serial
 import re
+import webbrowser
 import requests
 
 ser = serial.Serial('/dev/tty.usbserial-AH02MAUE', 9600) # here you have to write your port. If you dont know how to find it just write ls -l /dev/tty.* in your terminal (i'm using mac)
@@ -22,7 +23,8 @@ def rfidResponse(responseID):
 	# 	print "other one"
 	payload = {"cardID":responseID}
 	print payload
-	r = requests.post("http://127.0.0.1:5000/index", data=payload)
+	# r = requests.post("http://127.0.0.1:5000/index", data=payload)
+	webbrowser.open_url("http://52.41.24.224/member/" + payload)
 
 while True:
 	try:
