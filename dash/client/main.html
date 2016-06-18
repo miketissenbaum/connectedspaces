@@ -53,6 +53,7 @@
 </template>
 
 <template name = "locationRegistration">
+<br />
   {{> atForm}}
 </template>
 
@@ -63,15 +64,15 @@
 <template name="boxes"> 
   {{> noLocation}}
 
-  <div id="div1"><h4>UW-Madison</h4>
+  <div id="div1" class="boxdiv"><h4>UW-Madison</h4>
     {{> boxData location = "room150"}}
   </div>
-  <div id="div2"><h4>Columbia</h4>
+  <div id="div2" class="boxdiv"><h4>Columbia</h4>
     {{> boxData location = "Columbia"}}
   </div>
-  <div id="div3"><h4>Test</h4>
+  <div id="div3" class="boxdiv"><h4>Test</h4>
   </div>
-  <div id="div4"><h4>Video space</h4>
+  <div id="div4" class="boxdiv"><h4>Video space</h4>
   </div>
 </template>
 
