@@ -25,6 +25,7 @@ Meteor.startup(() => {
         },
 
         logActivity: function(memId, name, activity, location) {
+            Meteor.call("logOut", memId);
             activities.insert({
                 "LoggedIn": date.getTime(),
                 "Name": name,
