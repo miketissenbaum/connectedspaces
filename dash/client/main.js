@@ -70,8 +70,15 @@ Template.activityEntry.events({
 	},
 
 	'click .logOut': function (event) {
-		Meteor.call("logOut", Session.set("Member"));
-		Router.go('/');
+		Meteor.call("logOut", Session.get("Member"), function(err, res) {
+			if (err){
+				alert("Server failed to log you out :(")
+				Router.go('/');
+			}
+			else {
+				Router.go('/');
+			}
+		});
 	}
 });
 

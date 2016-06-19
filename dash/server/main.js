@@ -45,13 +45,14 @@ Meteor.startup(() => {
 
         logOut: function (memId) {
             activities.update({"MemberID": memId}, {$set: {"Status": "out", "LogOutTime": date.getTime()}});
+            return true;
         },
 
         checkLogins: function () {
             console.log("checking")
             timeOut = 1800000;
             // timeOut = 5000;
-            activities.find({"LoggedIn": {$lt: (date.getTime() - timeOut)}}).forEach(function (doc) {
+            activities.find({$and: [{"LoggedIn": {$lt: (date.getTime() - timeOut)}}, {"Status": "in"}]}).forEach(function (doc) {
                 Meteor.call("logOut", doc.MemberID);
                 console.log("logging out " + doc.MemberID);
             });
