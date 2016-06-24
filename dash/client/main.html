@@ -1,55 +1,86 @@
 <head>
-  <title>simple</title>
+  <title>Connected Spaces</title>
 </head>
 
 <body>
   <h1>Connected Spaces</h1>
-  <p>Tap your card at the reader!</p>
-  {{> signUp}}
-  {{> activityEntry}}
+  <p>Tap your card at the reader to sign in or register!</p>
+  <!-- {{> signUp}}
+  {{> activityEntry}} -->
 </body>
 
+<template name = "loading">
+  Loading...
+</template>
+
+<template name = "noLocation">
+  {{#unless currentUser}}
+    <h4> This computer does not have a logged in location, so we don't where you are, right now! Ask the librarian/boss person around to log in! </h4>
+  {{/unless}}
+</template>
+
 <template name = "signUp">
+  {{#if currentUser}}
+  <h4> Hey there! </h4>
+  <p>This is a new card for our system. Enter your details to register it with us! </p>
   <form class = "signup">
-    Name: <input type="text" name="name" value="name" />
-    ZipCode: <input type="number" name="zipcode" value="zipcode" />
+    Name: <input type="text" name="name" />
+    ZipCode: <input type="number" name="zipcode" />
     <input type="submit" value="submit">
     <!-- </input> -->
     
     <!-- <input type="text" name="name">
     </input>     -->
   </form>
+  {{/if}}
+
+  {{>noLocation}}
 </template>
 
 <template name = "activityEntry">
-  Hi {{name}}!    (not you? Update your id here) -- there will be a link here when this functionality is ready
+  {{#if currentUser}}
+  Hi {{name}}! &emsp;&emsp;&emsp;&emsp;   <sup>(not you? <a class="updateCard" href="#">Update this card's user details here)</a></sup>
   <form class = "activityForm">
     <input type="text" name="activity" />
+    <input type="submit" name="submit" />
   </form>
+  <br /><br /><br /><br />
+  <p>OR:</p>
+  <button class = "logOut">Log out</button>
+  {{/if}}
+
+  {{>noLocation}}
 </template>
 
+<template name = "locationRegistration">
+<br />
+  {{> atForm}}
+</template>
 
 <template name = "home">
   {{> boxes}}
 </template>
 
 <template name="boxes"> 
-  <div id="div1">UW-Madison <br />
-    {{> boxData location = "Room 150"}}
+  {{> noLocation}}
+
+  <div id="div1" class="boxdiv"><h4>UW-Madison</h4>
+    {{> boxData location = "room150"}}
   </div>
-  <div id="div2">Columbia <br />
+  <div id="div2" class="boxdiv"><h4>Columbia</h4>
     {{> boxData location = "Columbia"}}
   </div>
-  <div id="div3">Test <br />
+  <div id="div3" class="boxdiv"><h4>Test</h4>
   </div>
-  <div id="div4">Video space <br />
+  <div id="div4" class="boxdiv"><h4>Video space</h4>
   </div>
 </template>
 
 <template name = "boxData">
   {{#each allData}}
-    Name: {{name}}
-    Current Activity: {{currentActivity}}
+    Name: {{Name}}<br />
+    Current Activity: {{CurrentActivity}}
+    <br /><br />
   {{/each}}
 
 </template>

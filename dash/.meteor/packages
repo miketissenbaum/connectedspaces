@@ -21,3 +21,8 @@ autopublish             # Publish all data to the clients (for prototyping)
 insecure                # Allow all DB writes from clients (for prototyping)
 iron:router
 twbs:bootstrap
+session
+accounts-base
+accounts-password
+useraccounts:bootstrap
+useraccounts:iron-routing
