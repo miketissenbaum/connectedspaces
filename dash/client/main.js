@@ -6,72 +6,8 @@ import './main.html';
 // import { members } from '../server/imports/collections.js';
 // import { activities } from '../imports/collections.js';
 
-// Template.hello.onCreated(function helloOnCreated() {
-//   // counter starts at 0
-//   this.counter = new ReactiveVar(0);
-// });
-
-// Template.hello.helpers({
-//   counter() {
-//     return Template.instance().counter.get();
-//   },
-// });
-
-// Template.hello.events({
-//   'click button'(event, instance) {
-//     // increment the counter when button is clicked
-//     instance.counter.set(instance.counter.get() + 1);
-//   },
-// });
-
 Session.set("locationSet", true);
 Session.set("refreshBox", true);
-
-Template.boxes.onCreated = function () {
-	this.paneLocation1 = new ReactiveVar("none");
-	this.paneLocation2 = new ReactiveVar("none");
-}
-
-Template.boxes.helpers({
-	otherLocations: function () {
-		return Meteor.users.find();
-	},
-
-	selectedLocation: function (pane) {
-		if (Session.get("locationSet") == true){
-			paneLoc = {"pane": "none"};
-			// console.log(pane);
-
-			if (pane == "location-1"){
-				paneLoc = {"pane": Template.instance().paneLocation1};
-			}
-			else if (pane == "location-2"){
-				// console
-				paneLoc = {"pane": Template.instance().paneLocation2};
-			}
-
-			// console.log("selected location: " + paneLoc);
-			Session.set("locationSet", false);
-			Session.set("refreshBox", true);
-			// console.log(Session.get("refreshBox"));
-			return paneLoc;
-		}
-	}
-
-});
-
-Template.boxes.events({
-	// "change .locationSelector": function (event) {
-	// 	event.preventDefault();
-	// 	// a = event;
-	// 	Template.instance().paneLocation1 = event.currentTarget.location1.value;
-	// 	Template.instance().paneLocation2 = event.currentTarget.location2.value;
-	// 	// console.log(Template.instance().paneLocation2);
-	// 	Session.set("locationSet", true);
-	// }
-});
-
-
 
 Template.eachBox.onCreated(function () {
 	firstlocid = 0;
