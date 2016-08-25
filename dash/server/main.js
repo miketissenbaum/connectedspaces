@@ -1,5 +1,5 @@
-import { Meteor } from 'meteor/meteor';
-import { Mongo } from 'meteor/mongo';
+// import { Meteor } from 'meteor/meteor';
+// import { Mongo } from 'meteor/mongo';
 
 
 // console.log("mongodb://" + mongo_user + ":" + mongo_pass + "@" +  mongo_ip + ":27017/cspace");
@@ -24,7 +24,7 @@ Meteor.startup(() => {
             return name;
         },
 
-        logActivity: function(memId, name, activity, location) {
+        logActivity: function(memId, name, activity, locationID, location) {
             Meteor.call("logOut", memId);
             activities.insert({
                 "LoggedIn": date.getTime(),
@@ -32,6 +32,7 @@ Meteor.startup(() => {
                 "MemberID": memId,
                 "CurrentActivity": activity,
                 "Location": location,
+                "locationID": locationID,
                 "Status": "in"
             });
             return "logged";
@@ -44,7 +45,7 @@ Meteor.startup(() => {
         },
 
         logOut: function (memId) {
-            activities.update({"MemberID": memId}, {$set: {"Status": "out", "LogOutTime": date.getTime()}});
+            activities.update({"MemberID": memId}, {$set: {"Status": "out", "LogOutTime": date.getTime()}}, {multi: true});
             return true;
         },
 

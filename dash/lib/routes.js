@@ -1,9 +1,10 @@
 Router.route('/', function() {
 	// this.Member =  new ReactiveVar(0);
-	this.render('home');
 	Session.set("Member", "0");
 	Session.set("Name", undefined);
+	this.render('home');
 	// Session.set("Name", undefined);
+	console.log("home");
 });
 
 // Router.route('/member/:memid', function() {
@@ -65,6 +66,9 @@ Router.route('/memberCheck', function () {
 
 Router.route('/setLocation/', function () {
 	this.render("locationRegistration");
+	if(Meteor.userId() != undefined) {
+		this.render("locationSettings");
+	}
 });
 
 Router.route('/actitout', function () {

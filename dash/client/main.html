@@ -57,23 +57,81 @@
   {{> atForm}}
 </template>
 
+<template name = "locationSettings">
+  
+</template>
+
 <template name = "home">
   {{> boxes}}
+  {{> videoBox}}
 </template>
 
 <template name="boxes"> 
   {{> noLocation}}
+  <div class = "row">
+  <!-- <form class = "locationSelector"> -->
+    <div id="div1" class="boxdiv col-md-5">
+      <!-- <div class="form-group"> -->
+        <!-- <label class = "control-label col-sm-4">Who do you want to request a trade with?</label> -->
+        <!-- <div class = "col-sm-8"> -->
+      <!-- <div> -->
+        <!-- <select name = "location1" class = "form-control" id = "location-1">
+          {{#each otherLocations}}
+            <option value="{{_id}}">{{username}}</option> 
+          {{/each}}
+        </select> -->
+      <!-- </div> -->
+      <!-- {{#with selectedLocation 'location-1'}}
+        {{> boxData location = pane }}
+      {{/with}} -->
+      {{> eachBox}}
+    </div>
 
-  <div id="div1" class="boxdiv"><h4>UW-Madison</h4>
-    {{> boxData location = "room150"}}
+      <div class = "col-md-1"> </div>
+    <!-- </div> -->
+    <div id="div2" class="boxdiv col-md-5">
+      <!-- <div> -->
+        <!-- <select name = "location2" class = "form-control" id = "location-2">
+          {{#each otherLocations}}
+            <option value="{{_id}}">{{username}}</option> 
+          {{/each}}
+        </select> -->
+      <!-- </div> -->
+      <!-- {{#with selectedLocation 'location-2'}} -->
+        <!-- {{> boxData location = pane }} -->
+        {{> eachBox}}
+      <!-- {{/with}} -->
+    </div>
+    <!-- </form> -->
   </div>
-  <div id="div2" class="boxdiv"><h4>Columbia</h4>
-    {{> boxData location = "Columbia"}}
+</template>
+
+<template name="videoBox"> 
+  <div class = "row">
+    <div id="div3" class="boxdiv col-md-5">
+      <h4>Test</h4>
+    </div>
+    <div id="div4" class="boxdiv col-md-5">
+      <h4>Video space</h4>
+    </div>
   </div>
-  <div id="div3" class="boxdiv"><h4>Test</h4>
-  </div>
-  <div id="div4" class="boxdiv"><h4>Video space</h4>
-  </div>
+</template>
+
+<template name = "eachBox">
+  <form class = "locationSelector">
+    <select name = "location" class = "form-control" id = "location">
+      {{#each otherLocations}}
+        <option value="{{_id}}">{{username}}</option> 
+      {{/each}}
+    </select>
+  </form>
+  
+  {{#each allData}}
+    Name: {{Name}}<br />
+    Current Activity: {{CurrentActivity}}
+    <br /><br />
+  {{/each}}
+
 </template>
 
 <template name = "boxData">

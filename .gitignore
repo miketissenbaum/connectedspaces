@@ -20,3 +20,5 @@ dash/mup.json
 dash/package.json
 
 dash/npm-debug.log
+
+.deploy/mup.js
