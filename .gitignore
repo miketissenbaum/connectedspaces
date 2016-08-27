@@ -22,3 +22,7 @@ dash/package.json
 dash/npm-debug.log
 
 .deploy/mup.js
+
+obsolete/mup.js
+
+obsolete/mup.json
