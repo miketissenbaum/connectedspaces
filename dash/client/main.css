@@ -1,5 +1,5 @@
-html, body { height: 100%; padding: 10px; margin: 10px; }
-.boxdiv { height: 300px; float: left; padding: 10px;}
+html, body { padding: 10px; margin: 10px; }
+.boxdiv { height: 300px; padding: 10px;}
 #div1 { background: #eee; margin: 2px; }
 #div2 { background: #eed; margin: 2px; }
 #div3 { background: #eef; margin: 2px; }

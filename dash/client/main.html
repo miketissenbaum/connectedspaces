@@ -1,5 +1,6 @@
 <head>
   <title>Connected Spaces</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
@@ -94,12 +95,25 @@
     </select>
   </form>
   
+  <div class="panel panel-default">
+    <div class="panel-heading">Speaker - Activity</div>
+    <ul class="list-group">
+        {{#each allData}}
+        <a href="/games/{{gameCode}}">
+            <li class="list-group-item">
+                {{Name}} – {{CurrentActivity}}
+            </li>
+        </a>
+        {{/each}}
+    </ul>
+  </div>
+<!-- 
   {{#each allData}}
     Name: {{Name}}<br />
     Current Activity: {{CurrentActivity}}
     <br /><br />
   {{/each}}
-
+ -->
 </template>
 
 <template name = "boxData">

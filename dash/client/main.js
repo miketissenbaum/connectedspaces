@@ -8,6 +8,7 @@ import './main.html';
 
 Session.set("locationSet", true);
 Session.set("refreshBox", true);
+// Session.set()
 
 Template.eachBox.onCreated(function () {
 	firstlocid = 0;
@@ -25,6 +26,7 @@ Template.eachBox.helpers({
 	
 	otherLocations: function () {
 		return Meteor.users.find();
+		// Session.set("boxDefault", {"change": true, "id": Meteor.users.findOne()._id});
 	},
 
 	allData: function() {
@@ -37,7 +39,13 @@ Template.eachBox.helpers({
 			// console.log(activities.find({$and: [{locationID: Template.instance().paneLocation}, {Status: "in"}]}).fetch());
 			// return activities.find({$and: [{locationID: Template.instance().paneLocation}, {Status: "in"}]}).fetch();
 		}
-		return activities.find({$and: [{locationID: Template.instance().paneLocation}, {Status: "in"}]}).fetch();
+		console.log(Template.instance().paneLocation);
+		if (Template.instance().paneLocation != 0){
+			return activities.find({$and: [{locationID: Template.instance().paneLocation}, {Status: "in"}]}).fetch();
+		}
+		else {
+			return activities.find({$and: [{locationID: Meteor.users.findOne()._id}, {Status: "in"}]}).fetch();
+		}
 	}
 });
 
