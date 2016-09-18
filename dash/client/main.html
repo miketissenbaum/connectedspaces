@@ -6,7 +6,26 @@
 <body>
   <h1>Connected Spaces</h1>
   <p>Tap your card at the reader to sign in or register!</p>
+  {{>videoChat}}
 </body>
+
+<template name = "videoChat">
+    <h2>Video Chat</h2>
+    <div id="video-container">
+      <!-- note the 'autoplay' -->
+      Their video: <video id="theirVideo" class="theirVideo" autoplay></video>
+      <video id="myVideo" muted="true" class="myVideo" autoplay></video>: Your video
+    </div>
+
+    <h2>Controls</h2>
+    <div>
+      <p>Your id: <span id="myPeerId">...</span></p>
+      <p>Make a call</p><br>
+      <input type="text" placeholder="Call user id..." id="remotePeerId">
+      <p><a href="#" id="makeCall">Call</a></p>
+      <p><a href="#" id="endCall">End call</a></p>
+    </div>
+</template>
 
 <template name = "loading">
   Loading...

@@ -60,25 +60,6 @@ Template.eachBox.events({
 	}
 });
 
-
-
-
-Template.boxData.onCreated = function () {
-	this.loc = new ReactiveVar(this.location);
-}
-
-Template.boxData.helpers({
-	allData: function (){
-		console.log(Session.get("refreshBox"));
-		if (Session.get("refreshBox") == true){
-			console.log(this);
-			// locationName = Meteor.users.findOne({_id: this.location})
-			Session.set("refreshBox", false);
-			return activities.find({$and: [{locationID: Template.instance().loc}, {Status: "in"}]});
-		}
-	}
-});
-
 Template.activityEntry.helpers({
 	name() {
 		memb = members.findOne({"MemberID": Session.get("Member")});
@@ -146,4 +127,60 @@ Template.signUp.events({
 			}
 		});
 	}
+});
+
+Template.videoChat.onCreated(function () {
+	window.peer = new Peer({
+		key: peerKey,  // get a free key at http://peerjs.com/peerserver
+		debug: 3,
+		config: {'iceServers': [
+			{ url: 'stun:stun.l.google.com:19302' },
+			{ url: 'stun:stun1.l.google.com:19302' },
+		]}
+    });
+	peer.on('open', function () {
+		$('#myPeerId').text(peer.id);
+	});
+
+    // Handle event: remote peer receives a call
+    peer.on('call', function (incomingCall) {
+		window.currentCall = incomingCall;
+		incomingCall.answer(window.localStream);
+		incomingCall.on('stream', function (remoteStream) {
+			window.remoteStream = remoteStream;
+			var video = document.getElementById("theirVideo")
+			video.src = URL.createObjectURL(remoteStream);
+		});
+    });
+
+    navigator.getUserMedia = ( navigator.getUserMedia ||
+                            navigator.webkitGetUserMedia ||
+                            navigator.mozGetUserMedia ||
+                            navigator.msGetUserMedia );
+
+    // get audio/video
+    navigator.getUserMedia({audio:true, video: true}, function (stream) {
+        //display video
+        var video = document.getElementById("myVideo");
+      video.src = URL.createObjectURL(stream);
+        window.localStream = stream;
+      },
+      function (error) { console.log(error); }
+    );
+});
+
+Template.videoChat.events({
+    "click #makeCall": function () {
+      var outgoingCall = peer.call($('#remotePeerId').val(), window.localStream);
+      window.currentCall = outgoingCall;
+      outgoingCall.on('stream', function (remoteStream) {
+        window.remoteStream = remoteStream;
+        var video = document.getElementById("theirVideo")
+        video.src = URL.createObjectURL(remoteStream);
+      });
+    },
+
+    "click #endCall": function () {
+      window.currentCall.close();
+    }
 });
