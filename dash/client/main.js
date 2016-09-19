@@ -26,18 +26,11 @@ Template.eachBox.helpers({
 	
 	otherLocations: function () {
 		return Meteor.users.find();
-		// Session.set("boxDefault", {"change": true, "id": Meteor.users.findOne()._id});
 	},
 
 	allData: function() {
 		if (Session.get("locationSet") == true){
-			// console.log("in alldata " + Template.instance().paneLocation + " " + this.paneLocation);
-			// locationName = Meteor.users.findOne({_id: this.location})
-			// Session.set("refreshBox", false);
-			// return activities.find({$and: [{locationID: Template.instance().paneLocation}, {Status: "in"}]}).fetch();
 			Session.set("locationSet", false);
-			// console.log(activities.find({$and: [{locationID: Template.instance().paneLocation}, {Status: "in"}]}).fetch());
-			// return activities.find({$and: [{locationID: Template.instance().paneLocation}, {Status: "in"}]}).fetch();
 		}
 		console.log(Template.instance().paneLocation);
 		if (Template.instance().paneLocation != 0){
@@ -153,34 +146,41 @@ Template.videoChat.onCreated(function () {
 		});
     });
 
-    navigator.getUserMedia = ( navigator.getUserMedia ||
-                            navigator.webkitGetUserMedia ||
-                            navigator.mozGetUserMedia ||
-                            navigator.msGetUserMedia );
+    //Meteor.call("setPeerId", peer.id);
+    //
 
-    // get audio/video
-    navigator.getUserMedia({audio:true, video: true}, function (stream) {
-        //display video
-        var video = document.getElementById("myVideo");
-      video.src = URL.createObjectURL(stream);
-        window.localStream = stream;
-      },
-      function (error) { console.log(error); }
-    );
+	navigator.getUserMedia = ( navigator.getUserMedia ||
+	                        navigator.webkitGetUserMedia ||
+	                        navigator.mozGetUserMedia ||
+	                        navigator.msGetUserMedia );
+
+	// get audio/video
+	navigator.getUserMedia({
+		audio:true, 
+		video: true
+	}, function (stream) {
+	    //display video
+		var video = document.getElementById("myVideo");
+		video.src = URL.createObjectURL(stream);
+		window.localStream = stream;
+	},
+	function (error) { 
+		console.log(error); 
+	});
 });
 
 Template.videoChat.events({
-    "click #makeCall": function () {
-      var outgoingCall = peer.call($('#remotePeerId').val(), window.localStream);
-      window.currentCall = outgoingCall;
-      outgoingCall.on('stream', function (remoteStream) {
-        window.remoteStream = remoteStream;
-        var video = document.getElementById("theirVideo")
-        video.src = URL.createObjectURL(remoteStream);
-      });
+	"click #makeCall": function () {
+		var outgoingCall = peer.call($('#remotePeerId').val(), window.localStream);
+		window.currentCall = outgoingCall;
+		outgoingCall.on('stream', function (remoteStream) {
+			window.remoteStream = remoteStream;
+			var video = document.getElementById("theirVideo")
+			video.src = URL.createObjectURL(remoteStream);
+		});
     },
 
-    "click #endCall": function () {
-      window.currentCall.close();
-    }
+	"click #endCall": function () {
+		window.currentCall.close();
+	}
 });
