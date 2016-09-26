@@ -7,3 +7,6 @@
 members = new Mongo.Collection("members");
 // console.log(members.findOne());
 activities = new Mongo.Collection("activities");
+
+// presences = new Mongo.Collection("presences");
+

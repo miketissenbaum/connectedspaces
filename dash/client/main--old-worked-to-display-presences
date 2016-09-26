@@ -10,11 +10,9 @@ Session.set("locationSet", true);
 Session.set("refreshBox", true);
 Session.set("peerId", 0);
 
-Session.set("streamSettings", {audio: true, video: false});
-
 // Session.set()
 
-Template.body.onRendered(function () {
+Template.body.onCreated(function () {
 	Meteor.subscribe('userPresence');
 	Presence.state = function() {
 	  return {
@@ -168,19 +166,16 @@ Template.videoChat.onCreated(function () {
 	//   };
 	// }
 
-	// var tempData = Template.currentData();
-	// console.log(Template.currentData());
-
-	// tempData.streamProps = {audio: true, video: true};
-	// var streamProps = tempData[streamProps];
 	navigator.getUserMedia = ( navigator.getUserMedia ||
 	                        navigator.webkitGetUserMedia ||
 	                        navigator.mozGetUserMedia ||
 	                        navigator.msGetUserMedia );
 
 	// get audio/video
-	console.log(Session.get("streamSettings"));
-	navigator.getUserMedia(Session.get("streamSettings"), function (stream) {
+	navigator.getUserMedia({
+		audio:true, 
+		video: true
+	}, function (stream) {
 	    //display video
 		var video = document.getElementById("myVideo");
 		video.src = URL.createObjectURL(stream);
@@ -193,33 +188,12 @@ Template.videoChat.onCreated(function () {
 
 Template.videoChat.helpers({
 	videoPeers: function () {
-		return Presences.find({$and: [{"state.peerId": {$ne: 0}}, {"userId": {$ne: Meteor.userId()}}]});
-		// console.log(Presences.find({}));
-	},
-
-
+		return Presences.find({$and: [{"state.peerId": {$ne: 0}}]});
+		console.log(Presences.find({}));
+	}
 });
 
 Template.videoChat.events({
-	"click .toggleStream": function (event) {
-		console.log(event.target.id);
-		feat = "video";
-		var streamSettings = Session.get("streamSettings");
-		streamSettings[feat] = !streamSettings[feat];
-		Session.set("streamSettings", streamSettings);
-		// get audio/video
-		console.log(Session.get("streamSettings"));
-		navigator.getUserMedia(Session.get("streamSettings"), function (stream) {
-		    //display video
-			var video = document.getElementById("myVideo");
-			video.src = URL.createObjectURL(stream);
-			window.localStream = stream;
-		},
-		function (error) { 
-			console.log(error); 
-		});	
-	},
-
 	"click #makeCall": function () {
 		var outgoingCall = peer.call($('#remotePeerId').val(), window.localStream);
 		window.currentCall = outgoingCall;

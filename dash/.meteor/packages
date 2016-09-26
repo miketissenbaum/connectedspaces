@@ -27,3 +27,5 @@ accounts-password@1.3.0
 useraccounts:bootstrap
 useraccounts:iron-routing
 shell-server
+tmeasday:presence
+check

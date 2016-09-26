@@ -11,9 +11,10 @@
 
 <template name = "videoChat">
     <h2>Video Chat</h2>
+    <button class="toggleStream" id = "audioToggle">Toggle Video</button>
     <div id="video-container">
       <!-- note the 'autoplay' -->
-      Their video: <video id="theirVideo" class="theirVideo" autoplay></video>
+      Their video: <video id="theirVideo" class="theirVideo" autoplay=""></video>
       <video id="myVideo" muted="true" class="myVideo" autoplay></video>: Your video
     </div>
 
@@ -22,6 +23,14 @@
       <p>Your id: <span id="myPeerId">...</span></p>
       <p>Make a call</p><br>
       <input type="text" placeholder="Call user id..." id="remotePeerId">
+
+      <form class = "callPeer">
+        <select name = "peer" class = "form-control" id = "peerIds">
+          {{#each videoPeers}}
+            <option value="{{userId}}">{{state.username}}</option> 
+          {{/each}}
+        </select>
+      </form>
       <p><a href="#" id="makeCall">Call</a></p>
       <p><a href="#" id="endCall">End call</a></p>
     </div>
@@ -116,14 +125,13 @@
   </form>
   
   <div class="panel panel-default">
-    <div class="panel-heading">Speaker - Activity</div>
+    <div class="panel-heading">Maker - Activity</div>
     <ul class="list-group">
         {{#each allData}}
-        <a href="/games/{{gameCode}}">
+        
             <li class="list-group-item">
-                {{Name}} – {{CurrentActivity}}
+                <a href="#">{{Name}}</a> – <a href="#">{{CurrentActivity}}</a>
             </li>
-        </a>
         {{/each}}
     </ul>
   </div>
