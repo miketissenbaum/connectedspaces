@@ -12,47 +12,7 @@ Session.set("peerId", 0);
 
 Session.set("streamSettings", {audio: true, video: false});
 
-// Session.set()
 Meteor.subscribe('userPresence');
-	
-// window.peer = new Peer({
-// 	key: peerKey,  // get a free key at http://peerjs.com/peerserver
-// 	debug: 3,
-// 	config: {'iceServers': [
-// 		{ url: 'stun:stun.l.google.com:19302' },
-// 		{ url: 'stun:stun1.l.google.com:19302' },
-// 	]}
-// });
-// Session.set("peerId", peer.id);
-
-// Presence.state = function() {
-//   return {
-//     peerId: Session.get("peerId"),
-//     username: Meteor.user().username
-//   };
-// }
-
-// Template.body.onCreated(function () {
-// 	Presence.state = function() {
-// 	  return {
-// 	    peerId: Session.get("peerId"),
-// 	    username: Meteor.user().username
-// 	  };
-// 	}
-
-// 	p = new Peer({
-// 		key: "rwcwolonbw8hyqfr",  // get a free key at http://peerjs.com/peerserver
-// 		debug: 3,
-// 		config: {'iceServers': [
-// 			{ url: 'stun:stun.l.google.com:19302' },
-// 			{ url: 'stun:stun1.l.google.com:19302' },
-// 		]}
-//     });
-//     window.peer = p;
-//     sock = p.socket;
-//     console.log(sock);
-// });
-
 Template.eachBox.onCreated(function () {
 	firstlocid = 0;
 	firstloc = Meteor.users.findOne();
@@ -72,6 +32,7 @@ Template.eachBox.helpers({
 	},
 
 	allData: function() {
+		// Mousetrap.bind('4', function() { console.log('4'); });
 		if (Session.get("locationSet") == true){
 			Session.set("locationSet", false);
 		}
@@ -98,6 +59,35 @@ Template.eachBox.events({
 
 Template.activityEntry.helpers({
 	name() {
+		chosenAction = ""
+		Mousetrap.bind('m', function() { 
+			chosenAction = "3D Modeling";
+			console.log(chosenAction); 
+			logAct(chosenAction);
+		});
+		Mousetrap.bind('p', function() { 
+			chosenAction = "Programming";
+			console.log(chosenAction); 
+			logAct(chosenAction);
+		});
+		Mousetrap.bind('v', function() { 
+			chosenAction = "Video Production";
+			console.log(chosenAction); 
+			logAct(chosenAction);
+		});
+
+		logAct = function (act) {
+			Meteor.call("logActivity", Session.get("Member"), Session.get("Name"), act, Meteor.userId(), Meteor.user().username, function (err, res){
+				if(err){
+					alert("couldn't log activity! Something wrong with server :(");
+					Router.go('/');
+				}
+				else {
+					Router.go('/');
+				}
+			});
+		}
+
 		memb = members.findOne({"MemberID": Session.get("Member")});
 		if (memb != undefined){
 			Session.set("Name", members.findOne({"MemberID": Session.get("Member")}).Name);	
@@ -167,7 +157,7 @@ Template.signUp.events({
 
 Template.videoChat.onCreated(function () {
 	window.peer = new Peer({
-		key: "rwcwolonbw8hyqfr",  // get a free key at http://peerjs.com/peerserver
+		key: peerKey,  // get a free key at http://peerjs.com/peerserver
 		debug: 3,
 		config: {'iceServers': [
 			{ url: 'stun:stun.l.google.com:19302' },
@@ -191,24 +181,14 @@ Template.videoChat.onCreated(function () {
 			video.src = URL.createObjectURL(remoteStream);
 		});
     });
-
-    // Session.set("peerId", peer.id);
-    // console.log(peer.id);
-    //Meteor.call("setPeerId", peer.id);
     
     Presence.state = function() {
 	  return {
-	    // currentRoomId: Session.get('currentRoomId'),
 	    peerId: Session.get("peerId"),
 	    room: Meteor.user().username
 	  };
 	}
 
-	// var tempData = Template.currentData();
-	// console.log(Template.currentData());
-
-	// tempData.streamProps = {audio: true, video: true};
-	// var streamProps = tempData[streamProps];
 	navigator.getUserMedia = ( navigator.getUserMedia ||
 	                        navigator.webkitGetUserMedia ||
 	                        navigator.mozGetUserMedia ||
@@ -225,9 +205,6 @@ Template.videoChat.onCreated(function () {
 	function (error) { 
 		console.log(error); 
 	});
-	// console.log(peer);
-	// console.log("peer " + peer.id);
-	// Session.set("peerId", peer.id);
 
 });
 
@@ -270,7 +247,9 @@ Template.videoChat.events({
 	},
 
 	"click #makeCall": function () {
-		var outgoingCall = peer.call($('#remotePeerId').val(), window.localStream);
+		// console.log("calling" + $('#peerIds').val());
+		// var outgoingCall = peer.call($('#remotePeerId').val(), window.localStream);
+		var outgoingCall = peer.call($('#peerIds').val(), window.localStream);
 		window.currentCall = outgoingCall;
 		outgoingCall.on('stream', function (remoteStream) {
 			window.remoteStream = remoteStream;

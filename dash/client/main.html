@@ -6,16 +6,15 @@
 <body>
   <h1>Connected Spaces</h1>
   <p>Tap your card at the reader to sign in or register!</p>
-  {{>videoChat}}
 </body>
 
 <template name = "videoChat">
     <h2>Video Chat</h2>
-    <button class="toggleStream" id = "audioToggle">Toggle Video</button>
+    <button type = "button" class="toggleStream" id = "audioToggle">Toggle Video</button>
     <div id="video-container">
       <!-- note the 'autoplay' -->
       Their video: <video id="theirVideo" class="theirVideo" autoplay=""></video>
-      <video id="myVideo" muted="true" class="myVideo" autoplay></video>: Your video
+      <video height = "30%" id="myVideo" muted="true" class="myVideo" autoplay></video>: Your video
     </div>
 
     <h2>Controls</h2>
@@ -27,12 +26,12 @@
       <form class = "callPeer">
         <select name = "peer" class = "form-control" id = "peerIds">
           {{#each videoPeers}}
-            <option value="{{userId}}">{{state.room}}</option> 
+            <option value="{{state.peerId}}">{{state.room}}</option> 
           {{/each}}
         </select>
       </form>
-      <p><a href="#" id="makeCall">Call</a></p>
-      <p><a href="#" id="endCall">End call</a></p>
+      <p><a class = "button" href="#" id="makeCall">Call</a></p>
+      <p><a class = "button" href="#" id="endCall">End call</a></p>
     </div>
 </template>
 
@@ -111,6 +110,7 @@
     <div class = "col-md-1"> </div>
     <div id="div4" class="boxdiv col-md-5">
       <h4>Video space</h4>
+      {{>videoChat}}
     </div>
   </div>
 </template>

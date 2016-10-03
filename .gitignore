@@ -28,3 +28,9 @@ obsolete/mup.js
 obsolete/mup.json
 
 .DS_Store
+
+dash/server.crt
+
+dash/server.csr
+
+dash/server.key
