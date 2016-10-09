@@ -4,3 +4,14 @@ html, body { padding: 10px; margin: 10px; }
 #div2 { background: #eed; margin: 2px; }
 #div3 { background: #eef; margin: 2px; }
 #div4 { background: #ccc; margin: 2px; }
+
+
+video {
+    width: 100%;
+    max-width: 500px;
+}
+
+#myVideo {
+	width: 40%;
+    max-width: 200px;	
+}

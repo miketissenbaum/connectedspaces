@@ -10,18 +10,20 @@
 
 <template name = "videoChat">
     <h2>Video Chat</h2>
-    <button type = "button" class="toggleStream" id = "audioToggle">Toggle Video</button>
+    <!-- <button type = "button" class="toggleStream" id = "audioToggle">Toggle Video</button> -->
     <div id="video-container">
       <!-- note the 'autoplay' -->
-      Their video: <video id="theirVideo" class="theirVideo" autoplay=""></video>
-      <video height = "30%" id="myVideo" muted="true" class="myVideo" autoplay></video>: Your video
+      <div id = "theirVidContainer">
+        Their video: <video id="theirVideo" class="theirVideo" autoplay=""></video>
+      </div>
+      <video id="myVideo" muted="true" class="myVideo" autoplay></video>: Your video
     </div>
 
-    <h2>Controls</h2>
+    <!-- <h2>Controls</h2> -->
     <div>
-      <p>Your id: <span id="myPeerId">...</span></p>
+      <!-- <p>Your id: <span id="myPeerId">...</span></p> -->
       <p>Make a call</p><br>
-      <input type="text" placeholder="Call user id..." id="remotePeerId">
+      <!-- <input type="text" placeholder="Call user id..." id="remotePeerId"> -->
 
       <form class = "callPeer">
         <select name = "peer" class = "form-control" id = "peerIds">
@@ -110,7 +112,12 @@
     <div class = "col-md-1"> </div>
     <div id="div4" class="boxdiv col-md-5">
       <h4>Video space</h4>
-      {{>videoChat}}
+      {{#if currentUser}}
+        {{>videoChat}}
+      {{/if}}
+      {{#unless currentUser}}
+        You aren't signed in, so we can't set up calls for you with others
+      {{/unless}}
     </div>
   </div>
 </template>

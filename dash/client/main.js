@@ -10,10 +10,25 @@ Session.set("locationSet", true);
 Session.set("refreshBox", true);
 Session.set("peerId", 0);
 
-Session.set("streamSettings", {audio: true, video: false});
+Session.set("streamSettings", {audio: true, video: true});
 
 Meteor.subscribe('userPresence');
+
+Presence.state = function() {
+console.log("calling here state");
+  return {
+    peerId: Session.get("peerId"),
+    room: Meteor.user().username
+  };
+}
+
 Template.eachBox.onCreated(function () {
+ //    Presence.state = function() {
+	//   return {
+	//     peerId: Session.get("peerId"),
+	//     room: Meteor.user().username
+	//   };
+	// }
 	firstlocid = 0;
 	firstloc = Meteor.users.findOne();
 	if (firstloc != undefined){
@@ -28,7 +43,10 @@ Template.eachBox.onCreated(function () {
 Template.eachBox.helpers({
 	
 	otherLocations: function () {
-		return Meteor.users.find();
+		users = Meteor.users.find({_id: {$ne: Meteor.userId()}});
+		// numb = users.count();
+		// Mousetrap.bind('p', function() { console.log('4'); });
+		return users;
 	},
 
 	allData: function() {
@@ -77,7 +95,13 @@ Template.activityEntry.helpers({
 		});
 
 		logAct = function (act) {
-			Meteor.call("logActivity", Session.get("Member"), Session.get("Name"), act, Meteor.userId(), Meteor.user().username, function (err, res){
+			Meteor.call("logActivity", 
+				Session.get("Member"), 
+				Session.get("Name"), 
+				act, 
+				Meteor.userId(), 
+				Meteor.user().username, 
+					function (err, res){
 				if(err){
 					alert("couldn't log activity! Something wrong with server :(");
 					Router.go('/');
@@ -102,7 +126,13 @@ Template.activityEntry.helpers({
 Template.activityEntry.events({
 	'submit .activityForm': function(event) {
 		event.preventDefault();
-		Meteor.call("logActivity", Session.get("Member"), Session.get("Name"), event.target.activity.value, Meteor.userId(), Meteor.user().username, function (err, res){
+		Meteor.call("logActivity", 
+			Session.get("Member"), 
+			Session.get("Name"), 
+			event.target.activity.value, 
+			Meteor.userId(), 
+			Meteor.user().username, 
+			function (err, res){
 			if(err){
 				alert("couldn't log activity! Something wrong with server :(");
 				Router.go('/');
@@ -142,7 +172,10 @@ Template.activityEntry.events({
 Template.signUp.events({
 	'submit .signup': function(event) {
 		event.preventDefault();
-		Meteor.call("createMember", Session.get("Member"), event.target.name.value, event.target.zipcode.value, function (err, res) {
+		Meteor.call("createMember", 
+			Session.get("Member"), 
+			event.target.name.value, 
+			event.target.zipcode.value, function (err, res) {
 			if (err) {
 				alert("sign up failed at server end! :(");
 			}
@@ -168,11 +201,18 @@ Template.videoChat.onCreated(function () {
 	peer.on('open', function () {
 		$('#myPeerId').text(peer.id);
 		Session.set("peerId", peer.id);
+		// Presence.state = function() {
+		// console.log("calling here state");
+		//   return {
+		//     peerId: Session.get("peerId"),
+		//     room: Meteor.user().username
+		//   };
+		// }
 		console.log(peer.id);
+
 	});
 
-    // Handle event: remote peer receives a call
-    peer.on('call', function (incomingCall) {
+	receiveCall = function (incomingCall) {
 		window.currentCall = incomingCall;
 		incomingCall.answer(window.localStream);
 		incomingCall.on('stream', function (remoteStream) {
@@ -180,14 +220,80 @@ Template.videoChat.onCreated(function () {
 			var video = document.getElementById("theirVideo")
 			video.src = URL.createObjectURL(remoteStream);
 		});
+	}
+    // Handle event: remote peer receives a call
+    peer.on('call', function (incomingCall) {
+		swal({   
+			title: "Call!",   
+			text: "You're receiving a call!",   
+			type: "warning",   
+			showCancelButton: true,   
+			confirmButtonColor: "#DD6B55",   
+			confirmButtonText: "Receive!",   
+			cancelButtonText: "Hang up!",   
+			closeOnConfirm: false,   
+			closeOnCancel: false 
+		}, function(isConfirm){   
+			if (isConfirm) {     
+				// swal("Deleted!", "Your imaginary file has been deleted.", "success");  
+				// console.log("yaahs");
+				receiveCall(incomingCall);
+				swal.close();
+				$('#theirVidContainer').show();
+			} else {     
+				swal.close();
+				// swal("Cancelled", "Your imaginary file is safe :)", "error");   
+			} 
+		});
+    // 	confirm("Are you sure you want to submit this form?", function(result) {
+    // 		console.log(result);
+		  //   if(result) {
+		  //       console.log("yaahs");
+				// window.currentCall = incomingCall;
+				// incomingCall.answer(window.localStream);
+				// incomingCall.on('stream', function (remoteStream) {
+				// 	window.remoteStream = remoteStream;
+				// 	var video = document.getElementById("theirVideo")
+				// 	video.src = URL.createObjectURL(remoteStream);
+				// });
+		    // }
+		// }); 
+
+
+  //   	$.confirm({
+		// 	text: "Receive a call?",
+		// 	confirm: function(button) {
+		// 		//user clicked "ok"
+		// 		// call.answer(window.localStream);
+		// 		// step3(call); 
+		// 		window.currentCall = incomingCall;
+		// 		incomingCall.answer(window.localStream);
+		// 		incomingCall.on('stream', function (remoteStream) {
+		// 			window.remoteStream = remoteStream;
+		// 			var video = document.getElementById("theirVideo")
+		// 			video.src = URL.createObjectURL(remoteStream);
+		// 		});
+		// 	},
+		// 	cancel: function(button) {
+		// 	  //user clicked "cancel"
+		// 	}
+		// });
+
+		// window.currentCall = incomingCall;
+		// incomingCall.answer(window.localStream);
+		// incomingCall.on('stream', function (remoteStream) {
+		// 	window.remoteStream = remoteStream;
+		// 	var video = document.getElementById("theirVideo")
+		// 	video.src = URL.createObjectURL(remoteStream);
+		// });
     });
     
-    Presence.state = function() {
-	  return {
-	    peerId: Session.get("peerId"),
-	    room: Meteor.user().username
-	  };
-	}
+ //    Presence.state = function() {
+	//   return {
+	//     peerId: Session.get("peerId"),
+	//     room: Meteor.user().username
+	//   };
+	// }
 
 	navigator.getUserMedia = ( navigator.getUserMedia ||
 	                        navigator.webkitGetUserMedia ||
@@ -205,11 +311,41 @@ Template.videoChat.onCreated(function () {
 	function (error) { 
 		console.log(error); 
 	});
-
+	// $('#theirVideo').hide()
 });
 
 Template.videoChat.helpers({
 	videoPeers: function () {
+		Mousetrap.bind('1', function() { 
+			// changePeerSelector(0);
+			$('#peerIds option:eq(0)').prop('selected', 'selected');
+		});
+
+		Mousetrap.bind('2', function() { 
+			$('#peerIds option:eq(1)').prop('selected', 'selected');
+		});
+
+		Mousetrap.bind('v', function() { 
+			$('#makeCall').click()
+		});
+
+		Mousetrap.bind('c', function() { 
+			$('#endCall').click()
+		});
+
+		// changePeerSelector = function (selected) {
+		// 	console.log($('#peerIds option:eq(selected)'));
+		// 	$('#peerIds option:eq(selected)').prop('selected', 'selected');
+		// }
+
+
+	 //    Presence.state = function() {
+	 //    	console.log("setting this in");
+		//   return {
+		//     peerId: Session.get("peerId"),
+		//     room: Meteor.user().username
+		//   };
+		// }
 		//only chat with other locations signed in
 		return Presences.find({$and: [{"state.peerId": {$ne: 0}}, {"userId": {$ne: Meteor.userId()}}]});
 
@@ -220,6 +356,7 @@ Template.videoChat.helpers({
 		// Session.set("peerId", peer.id);
 		// console.log(peer);
 		// console.log(Presences.find({}));
+		$('#theirVidContainer').hide();
 	},
 
 
@@ -231,6 +368,12 @@ Template.videoChat.events({
 		feat = "video";
 		var streamSettings = Session.get("streamSettings");
 		streamSettings[feat] = !streamSettings[feat];
+		if (streamSettings[feat]){
+			$('#myVideo').show();
+		}
+		else {
+			$('#myVideo').hide();
+		}
 		Session.set("streamSettings", streamSettings);
 		// get audio/video
 		// console.log(Session.get("streamSettings"));
@@ -247,11 +390,14 @@ Template.videoChat.events({
 	},
 
 	"click #makeCall": function () {
+		
 		// console.log("calling" + $('#peerIds').val());
 		// var outgoingCall = peer.call($('#remotePeerId').val(), window.localStream);
 		var outgoingCall = peer.call($('#peerIds').val(), window.localStream);
 		window.currentCall = outgoingCall;
 		outgoingCall.on('stream', function (remoteStream) {
+			$('#theirVidContainer').show();
+			console.log("connected");
 			window.remoteStream = remoteStream;
 			var video = document.getElementById("theirVideo")
 			video.src = URL.createObjectURL(remoteStream);
@@ -260,5 +406,6 @@ Template.videoChat.events({
 
 	"click #endCall": function () {
 		window.currentCall.close();
+		$('#theirVidContainer').hide();
 	}
 });

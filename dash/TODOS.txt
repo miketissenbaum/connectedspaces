@@ -1,1 +1,10 @@
-Get boxes to have default values that actually work
+TODOS
+/// 1. make the video space disappear when not in call
+/// 2. keyboard shortcuts to select options in the select box, or just set the corresponding variable 
+
+/// 3. Set up receive or hang up function
+
+/~ presence.state isn't always called, mighty annoying
+
+
+*** Get boxes to have default values that actually work
