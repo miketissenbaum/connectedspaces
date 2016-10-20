@@ -14,21 +14,15 @@ Session.set("streamSettings", {audio: true, video: true});
 
 Meteor.subscribe('userPresence');
 
-Presence.state = function() {
-console.log("calling here state");
-  return {
-    peerId: Session.get("peerId"),
-    room: Meteor.user().username
-  };
-}
+// Presence.state = function() {
+// console.log("calling here state");
+//   return {
+//     peerId: Session.get("peerId"),
+//     room: Meteor.user().username
+//   };
+// }
 
 Template.eachBox.onCreated(function () {
- //    Presence.state = function() {
-	//   return {
-	//     peerId: Session.get("peerId"),
-	//     room: Meteor.user().username
-	//   };
-	// }
 	firstlocid = 0;
 	firstloc = Meteor.users.findOne();
 	if (firstloc != undefined){
@@ -45,7 +39,6 @@ Template.eachBox.helpers({
 	otherLocations: function () {
 		users = Meteor.users.find({_id: {$ne: Meteor.userId()}});
 		// numb = users.count();
-		// Mousetrap.bind('p', function() { console.log('4'); });
 		return users;
 	},
 
@@ -188,129 +181,182 @@ Template.signUp.events({
 	}
 });
 
-Template.videoChat.onCreated(function () {
-	window.peer = new Peer({
-		key: peerKey,  // get a free key at http://peerjs.com/peerserver
-		debug: 3,
-		config: {'iceServers': [
-			{ url: 'stun:stun.l.google.com:19302' },
-			{ url: 'stun:stun1.l.google.com:19302' },
-		]}
-    });
-    // Session.set("peerId", peer.id);
-	peer.on('open', function () {
-		$('#myPeerId').text(peer.id);
-		Session.set("peerId", peer.id);
-		// Presence.state = function() {
-		// console.log("calling here state");
-		//   return {
-		//     peerId: Session.get("peerId"),
-		//     room: Meteor.user().username
-		//   };
-		// }
-		console.log(peer.id);
+Template.videoBox.onCreated(function () {
+	// var AppearIn = window.AppearIn || require('appearin-sdk');
+	// var appearin = new AppearIn();
 
-	});
+	// // API.isAppearinCompatible(function (data) {
+	// // 	if (!data.isSupported) {
+	// // 	    // $('#notSupportedModal').modal();
+	// // 	    // mixpanel.track("Did not pass the technical checks");
+	// // 	    console.log("not supported");
+	// // 	    alert("not sop!!!");
+	// // 	}
+	// // 	else {
+	// // 		console.log("not supported");
+	// // 		alert("supported!!!");
+	// // 	}
+	// // });
 
-	receiveCall = function (incomingCall) {
-		window.currentCall = incomingCall;
-		incomingCall.answer(window.localStream);
-		incomingCall.on('stream', function (remoteStream) {
-			window.remoteStream = remoteStream;
-			var video = document.getElementById("theirVideo")
-			video.src = URL.createObjectURL(remoteStream);
-		});
-	}
-    // Handle event: remote peer receives a call
-    peer.on('call', function (incomingCall) {
-		swal({   
-			title: "Call!",   
-			text: "You're receiving a call!",   
-			type: "warning",   
-			showCancelButton: true,   
-			confirmButtonColor: "#DD6B55",   
-			confirmButtonText: "Receive!",   
-			cancelButtonText: "Hang up!",   
-			closeOnConfirm: false,   
-			closeOnCancel: false 
-		}, function(isConfirm){   
-			if (isConfirm) {     
-				// swal("Deleted!", "Your imaginary file has been deleted.", "success");  
-				// console.log("yaahs");
-				receiveCall(incomingCall);
-				swal.close();
-				$('#theirVidContainer').show();
-			} else {     
-				swal.close();
-				// swal("Cancelled", "Your imaginary file is safe :)", "error");   
-			} 
-		});
-    // 	confirm("Are you sure you want to submit this form?", function(result) {
-    // 		console.log(result);
-		  //   if(result) {
-		  //       console.log("yaahs");
-				// window.currentCall = incomingCall;
-				// incomingCall.answer(window.localStream);
-				// incomingCall.on('stream', function (remoteStream) {
-				// 	window.remoteStream = remoteStream;
-				// 	var video = document.getElementById("theirVideo")
-				// 	video.src = URL.createObjectURL(remoteStream);
-				// });
-		    // }
-		// }); 
-
-
-  //   	$.confirm({
-		// 	text: "Receive a call?",
-		// 	confirm: function(button) {
-		// 		//user clicked "ok"
-		// 		// call.answer(window.localStream);
-		// 		// step3(call); 
-		// 		window.currentCall = incomingCall;
-		// 		incomingCall.answer(window.localStream);
-		// 		incomingCall.on('stream', function (remoteStream) {
-		// 			window.remoteStream = remoteStream;
-		// 			var video = document.getElementById("theirVideo")
-		// 			video.src = URL.createObjectURL(remoteStream);
-		// 		});
-		// 	},
-		// 	cancel: function(button) {
-		// 	  //user clicked "cancel"
-		// 	}
-		// });
-
-		// window.currentCall = incomingCall;
-		// incomingCall.answer(window.localStream);
-		// incomingCall.on('stream', function (remoteStream) {
-		// 	window.remoteStream = remoteStream;
-		// 	var video = document.getElementById("theirVideo")
-		// 	video.src = URL.createObjectURL(remoteStream);
-		// });
-    });
-    
- //    Presence.state = function() {
-	//   return {
-	//     peerId: Session.get("peerId"),
-	//     room: Meteor.user().username
-	//   };
+	// var isWebRtcCompatible = appearin.isWebRtcCompatible();
+	// if (isWebRtcCompatible){
+	// 	// alert("compatibuuul");
+	// }
+	// else {
+	// 	// alert("not compats");
 	// }
 
-	navigator.getUserMedia = ( navigator.getUserMedia ||
-	                        navigator.webkitGetUserMedia ||
-	                        navigator.mozGetUserMedia ||
-	                        navigator.msGetUserMedia );
+	// roomname = "cspace-roooom1";
+	// appearin.addRoomToElementById("vidframe2", roomname);
+})
 
-	// get audio/video
-	// console.log(Session.get("streamSettings"));
-	navigator.getUserMedia(Session.get("streamSettings"), function (stream) {
-	    //display video
-		var video = document.getElementById("myVideo");
-		video.src = URL.createObjectURL(stream);
-		window.localStream = stream;
-	},
-	function (error) { 
-		console.log(error); 
-	});
+Template.videoBox.helpers({
+	// chatFrame: function () {
+	// 	var AppearIn = window.AppearIn || require('appearin-sdk');
+	// 	var appearin = new AppearIn();
+
+	// 	// API.isAppearinCompatible(function (data) {
+	// 	// 	if (!data.isSupported) {
+	// 	// 	    // $('#notSupportedModal').modal();
+	// 	// 	    // mixpanel.track("Did not pass the technical checks");
+	// 	// 	    console.log("not supported");
+	// 	// 	    alert("not sop!!!");
+	// 	// 	}
+	// 	// 	else {
+	// 	// 		console.log("not supported");
+	// 	// 		alert("supported!!!");
+	// 	// 	}
+	// 	// });
+
+	// 	var isWebRtcCompatible = appearin.isWebRtcCompatible();
+	// 	if (isWebRtcCompatible){
+	// 		// alert("compatibuuul");
+	// 	}
+	// 	else {
+	// 		// alert("not compats");
+	// 	}
+
+	// 	roomname = "cspace-roooom1";
+	// 	appearin.addRoomToElementById("vidframe2", roomname);
+	// }
+
+	chatRoomName: function () {
+		roomname = "cspace-roooom1";
+		return roomname;
+	}
+})
+
+Template.videoChat.onCreated(function () {
+	// var AppearIn = window.AppearIn || require('appearin-sdk');
+	// var appearin = new AppearIn();
+
+	// // API.isAppearinCompatible(function (data) {
+	// // 	if (!data.isSupported) {
+	// // 	    // $('#notSupportedModal').modal();
+	// // 	    // mixpanel.track("Did not pass the technical checks");
+	// // 	    console.log("not supported");
+	// // 	    alert("not sop!!!");
+	// // 	}
+	// // 	else {
+	// // 		console.log("not supported");
+	// // 		alert("supported!!!");
+	// // 	}
+	// // });
+
+	// var isWebRtcCompatible = appearin.isWebRtcCompatible();
+	// if (isWebRtcCompatible){
+	// 	alert("compatibuuul");
+	// }
+	// else {
+	// 	alert("not compats");
+	// }
+
+	// roomname = "cspace-" + Meteor.user().username;
+	// appearin.addRoomToElementById("vidframe", roomname);
+
+
+
+	// window.peer = new Peer({
+	// 	key: peerKey,  // get a free key at http://peerjs.com/peerserver
+	// 	debug: 3,
+	// 	config: {'iceServers': [
+	// 		{ url: 'stun:stun.l.google.com:19302' },
+	// 		{ url: 'stun:stun1.l.google.com:19302' },
+	// 	]}
+ //    });
+ //    // Session.set("peerId", peer.id);
+	// peer.on('open', function () {
+	// 	$('#myPeerId').text(peer.id);
+	// 	Session.set("peerId", peer.id);
+	// 	// Presence.state = function() {
+	// 	// console.log("calling here state");
+	// 	//   return {
+	// 	//     peerId: Session.get("peerId"),
+	// 	//     room: Meteor.user().username
+	// 	//   };
+	// 	// }
+	// 	console.log(peer.id);
+
+	// });
+
+	// receiveCall = function (incomingCall) {
+	// 	window.currentCall = incomingCall;
+	// 	incomingCall.answer(window.localStream);
+	// 	incomingCall.on('stream', function (remoteStream) {
+	// 		window.remoteStream = remoteStream;
+	// 		var video = document.getElementById("theirVideo")
+	// 		video.src = URL.createObjectURL(remoteStream);
+	// 	});
+	// }
+ //    // Handle event: remote peer receives a call
+ //    peer.on('call', function (incomingCall) {
+	// 	swal({   
+	// 		title: "Call!",   
+	// 		text: "You're receiving a call!",   
+	// 		type: "warning",   
+	// 		showCancelButton: true,   
+	// 		confirmButtonColor: "#1acc2b",   
+	// 		confirmButtonText: "Receive!",   
+	// 		cancelButtonText: "Hang up!",   
+	// 		closeOnConfirm: false,   
+	// 		closeOnCancel: false 
+	// 	}, function(isConfirm){   
+	// 		if (isConfirm) {     
+	// 			// swal("Deleted!", "Your imaginary file has been deleted.", "success");  
+	// 			// console.log("yaahs");
+	// 			receiveCall(incomingCall);
+	// 			swal.close();
+	// 			$('#theirVidContainer').show();
+	// 		} else {     
+	// 			swal.close();
+	// 			// swal("Cancelled", "Your imaginary file is safe :)", "error");   
+	// 		} 
+	// 	});
+ //    });
+    
+ // //    Presence.state = function() {
+	// //   return {
+	// //     peerId: Session.get("peerId"),
+	// //     room: Meteor.user().username
+	// //   };
+	// // }
+
+	// navigator.getUserMedia = ( navigator.getUserMedia ||
+	//                         navigator.webkitGetUserMedia ||
+	//                         navigator.mozGetUserMedia ||
+	//                         navigator.msGetUserMedia );
+
+	// // get audio/video
+	// // console.log(Session.get("streamSettings"));
+	// navigator.getUserMedia(Session.get("streamSettings"), function (stream) {
+	//     //display video
+	// 	var video = document.getElementById("myVideo");
+	// 	video.src = URL.createObjectURL(stream);
+	// 	window.localStream = stream;
+	// },
+	// function (error) { 
+	// 	console.log(error); 
+	// });
 	// $('#theirVideo').hide()
 });
 
@@ -339,13 +385,6 @@ Template.videoChat.helpers({
 		// }
 
 
-	 //    Presence.state = function() {
-	 //    	console.log("setting this in");
-		//   return {
-		//     peerId: Session.get("peerId"),
-		//     room: Meteor.user().username
-		//   };
-		// }
 		//only chat with other locations signed in
 		return Presences.find({$and: [{"state.peerId": {$ne: 0}}, {"userId": {$ne: Meteor.userId()}}]});
 

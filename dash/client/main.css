@@ -1,10 +1,25 @@
-html, body { padding: 10px; margin: 10px; }
-.boxdiv { height: 300px; padding: 10px;}
-#div1 { background: #eee; margin: 2px; }
-#div2 { background: #eed; margin: 2px; }
-#div3 { background: #eef; margin: 2px; }
-#div4 { background: #ccc; margin: 2px; }
+html, body { padding: 10px; margin: 5px; background: #000;}
+p, h1, h2, h3, h4, h5 {color: #eee;}
+#vidframe { 
+	width: 100%; 
+	height: 100%; 
+    border: 1px solid black; 
+    position:relative; 
+}
+.boxdiv { height: 400px; margin: 15px; padding: 10px; overflow: scroll;}
+#div1 { background: #4300ff; }
+#div2 { background: #5A2178;  }
+#div3 { background: #ff8400;  }
+#div4 { 
+	background: #333; 
+	/*overflow: hidden; */
+	position:relative;
+}
 
+90, 33, 120
+5A2178
+
+ff8400
 
 video {
     width: 100%;

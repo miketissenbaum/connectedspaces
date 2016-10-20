@@ -14,9 +14,9 @@
     <div id="video-container">
       <!-- note the 'autoplay' -->
       <div id = "theirVidContainer">
-        Their video: <video id="theirVideo" class="theirVideo" autoplay=""></video>
+        <p>Their video:</p> <video id="theirVideo" class="theirVideo" autoplay=""></video>
       </div>
-      <video id="myVideo" muted="true" class="myVideo" autoplay></video>: Your video
+      <video id="myVideo" muted="true" class="myVideo" autoplay></video>: <p>Your video</p>
     </div>
 
     <!-- <h2>Controls</h2> -->
@@ -63,7 +63,7 @@
 
 <template name = "activityEntry">
   {{#if currentUser}}
-  Hi {{name}}! &emsp;&emsp;&emsp;&emsp;   <sup>(not you? <a class="updateCard" href="#">Update this card's user details here)</a></sup>
+  <p>Hi {{name}}! &emsp;&emsp;&emsp;&emsp;   <sup>(not you? <a class="updateCard" href="#">Update this card's user details here)</a></sup></p>
   <form class = "activityForm">
     <input type="text" name="activity" />
     <input type="submit" name="submit" />
@@ -113,7 +113,11 @@
     <div id="div4" class="boxdiv col-md-5">
       <h4>Video space</h4>
       {{#if currentUser}}
-        {{>videoChat}}
+      <!-- {{chatFrame}} -->
+        <!-- {{>videoChat}} -->
+        <!-- <iframe id="vidframe2" height = "500" width = "500" frameborder="0"></iframe> -->
+        <!-- <iframe id = "vidframe2" height = "500" width = "500"></iframe> -->
+        <iframe src="https://appear.in/{{chatRoomName}}" width="100%" height="80%" frameborder="0"></iframe>
       {{/if}}
       {{#unless currentUser}}
         You aren't signed in, so we can't set up calls for you with others
