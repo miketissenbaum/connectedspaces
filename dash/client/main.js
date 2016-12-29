@@ -448,3 +448,20 @@ Template.videoChat.events({
 		$('#theirVidContainer').hide();
 	}
 });
+
+
+Template.administration.helpers({
+	otherLocations: function () {
+		users = Meteor.users.find({_id: {$ne: Meteor.userId()}});
+		// numb = users.count();
+		return users;
+	}
+});
+
+Template.administration.events({
+	'submit .locationSelector': function(event) {
+		Meteor.call("setDisplaySpace", Meteor.userId(), event.target.location1.value, event.target.location2.value);
+	}
+});
+
+

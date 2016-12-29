@@ -8,3 +8,14 @@ TODOS
 
 
 *** Get boxes to have default values that actually work
+
+
+Ideas to work on and demo:
+
+Fiducial blocks with bat signals
+	3D printing block, shows hovering thing on all screens
+
+Affinities
+	First time registration – 
+
+

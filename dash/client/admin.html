@@ -1,0 +1,19 @@
+<template name = "administration">
+	{{#if currentUser}}
+	<form class = "locationSelector">
+		Space 1:
+	    <select name = "location1" class = "form-control" id = "location1">
+	      {{#each otherLocations}}
+	        <option value="{{_id}}">{{username}}</option> 
+	      {{/each}}
+	    </select>
+		Space 2:
+		<select name = "location2" class = "form-control" id = "location2">
+	      {{#each otherLocations}}
+	        <option value="{{_id}}">{{username}}</option> 
+	      {{/each}}
+	    </select>
+	    <input type="submit" value="Set">
+    </form>
+	{{/if}}
+</template>

@@ -85,6 +85,26 @@ Meteor.startup(() => {
 
         test: function (tex) {
             console.log(tex);
+        },
+
+        setDisplaySpace: function (uid, space1, space2) {
+            displaySpaces.update({
+                $and: [{"roomID": uid}, {"location": "space1"}]
+            },
+            {$set: {$"spaceID": space1} },
+            // {$setOnInsert: {"roomID": uid, "location": "space1"} },
+            {upsert: true} );
+            
+            displaySpaces.update(
+                {$and: [
+                    {"roomID": uid}, 
+                    {"location": "space2"}
+                ]},
+                {$set: {$"spaceID": space2} },
+            // {$setOnInsert: {"roomID": uid, "location": "space1"} },
+                {upsert: true}
+            );
+
         }
     });
 

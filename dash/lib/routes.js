@@ -57,3 +57,10 @@ Router.route('/newMember', function() {
 		this.render('signUp');
 	}
 });
+
+Router.route('/admin', function() {
+	this.render("administration");
+	if (Meteor.userId() == undefined) {
+		this.render("locationRegistration");
+	}
+});

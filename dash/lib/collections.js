@@ -8,5 +8,7 @@ members = new Mongo.Collection("members");
 // console.log(members.findOne());
 activities = new Mongo.Collection("activities");
 
+displaySpaces = new Mongo.Collection("displaySpaces");
+
 // presences = new Mongo.Collection("presences");
 
