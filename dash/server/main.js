@@ -88,21 +88,17 @@ Meteor.startup(() => {
         },
 
         setDisplaySpace: function (uid, space1, space2) {
-            displaySpaces.update({
-                $and: [{"roomID": uid}, {"location": "space1"}]
-            },
-            {$set: {$"spaceID": space1} },
-            // {$setOnInsert: {"roomID": uid, "location": "space1"} },
-            {upsert: true} );
-            
             displaySpaces.update(
-                {$and: [
-                    {"roomID": uid}, 
-                    {"location": "space2"}
-                ]},
-                {$set: {$"spaceID": space2} },
-            // {$setOnInsert: {"roomID": uid, "location": "space1"} },
-                {upsert: true}
+                {"roomID": uid, "location": "space1"},
+                {"roomID": uid, "location": "space1", "spaceID": space1},
+                // {$setOnInsert: {"roomID": uid, "location": "space1"} },
+                {upsert: true, multi:false} 
+            );
+            console.log(space1 + " " + uid);
+            displaySpaces.update(
+                {"roomID": uid, "location": "space2"},
+                {"roomID": uid, "location": "space2", "spaceID": space2},
+                {upsert: true, multi:false}
             );
 
         }
@@ -117,4 +113,27 @@ Meteor.startup(() => {
 
 Meteor.publish('members', function tasksPublication() {
     return members.find();
+});
+
+Accounts.onCreateUser(function (options, user) {
+    // space1 = user._id;
+    space2 = Meteor.users.findOne()._id;
+    // displaySpaces.update({
+    //     $and: [{"roomID": user._id}, {"location": "space1"}]
+    // },
+    // {$set: {$"spaceID": space1} },
+    // // {$setOnInsert: {"roomID": uid, "location": "space1"} },
+    // {upsert: true} );
+    
+    // displaySpaces.update(
+    //     {$and: [
+    //         {"roomID": user._id}, 
+    //         {"location": "space2"}
+    //     ]},
+    //     {$set: {$"spaceID": space2} },
+    // // {$setOnInsert: {"roomID": uid, "location": "space1"} },
+    //     {upsert: true}
+    // );
+
+    Meteor.call("setDisplaySpace", user._id, user._id, space2);
 });

@@ -22,51 +22,74 @@ Meteor.subscribe('userPresence');
 //   };
 // }
 
-Template.eachBox.onCreated(function () {
-	firstlocid = 0;
-	firstloc = Meteor.users.findOne();
-	if (firstloc != undefined){
-		// console.log("defined");
-		firstlocid = firstloc._id;
-		// console.log(firstloc.username);
-	}
-	this.paneLocation = new ReactiveVar(firstlocid);
-	Session.set("locationSet", true);
-});
+// Template.spaceName.helpers({
+// 	roomName: function () {
+// 		return Meteor.user().username;
+// 	}
+// });
 
-Template.eachBox.helpers({
-	
-	otherLocations: function () {
-		users = Meteor.users.find({_id: {$ne: Meteor.userId()}});
-		// numb = users.count();
-		return users;
+// Template.eachBox.onCreated(function () {
+// 	firstlocid = 0;
+// 	firstloc = Meteor.users.findOne();
+// 	if (firstloc != undefined){
+// 		// console.log("defined");
+// 		firstlocid = firstloc._id;
+// 		// console.log(firstloc.username);
+// 	}
+// 	this.paneLocation = new ReactiveVar(firstlocid);
+// 	Session.set("locationSet", true);
+// });
+
+Template.boxes.helpers({
+	spacesToDisplay: function () {
+		return displaySpaces.find({"roomID": Meteor.userId()});
+	},
+
+	spaceName: function () {
+		// console.log(this.spaceID);
+		return Meteor.users.findOne({_id: this.spaceID}).username;
 	},
 
 	allData: function() {
 		// Mousetrap.bind('4', function() { console.log('4'); });
-		if (Session.get("locationSet") == true){
-			Session.set("locationSet", false);
-		}
+		// if (Session.get("locationSet") == true){
+		// 	Session.set("locationSet", false);
+		// }
 		// console.log(Template.instance().paneLocation);
-		if (Template.instance().paneLocation != 0){
-			return activities.find({$and: [{locationID: Template.instance().paneLocation}, {Status: "in"}]}).fetch();
-		}
-		else {
-			return activities.find({$and: [{locationID: Meteor.users.findOne()._id}, {Status: "in"}]}).fetch();
-		}
+		// if (Template.instance().paneLocation != 0){
+		// 	return activities.find({$and: [{locationID: Template.instance().paneLocation}, {Status: "in"}]}).fetch();
+		// }
+		// else {
+		// 	return activities.find({$and: [{locationID: Meteor.users.findOne()._id}, {Status: "in"}]}).fetch();
+		// }
+		// console.log(this.spaceID);
+		thisID = this.spaceID;
+		return activities.find({$and: [{locationID: thisID}, {Status: "in"}]}).fetch();
 	}
 });
 
-Template.eachBox.events({
-	"change .locationSelector": function (event) {
-		event.preventDefault();
-		// a = event;
-		Template.instance().paneLocation = event.currentTarget.location.value;
-		// Template.instance().paneLocation2 = event.currentTarget.location2.value;
-		// console.log("in change form thing " + Template.instance().paneLocation);
-		Session.set("locationSet", true);
-	}
-});
+// Template.eachBox.helpers({
+	
+
+// 	otherLocations: function () {
+// 		users = Meteor.users.find({_id: {$ne: Meteor.userId()}});
+// 		// numb = users.count();
+// 		return users;
+// 	},
+
+	
+// });
+
+// Template.eachBox.events({
+// 	"change .locationSelector": function (event) {
+// 		event.preventDefault();
+// 		// a = event;
+// 		Template.instance().paneLocation = event.currentTarget.location.value;
+// 		// Template.instance().paneLocation2 = event.currentTarget.location2.value;
+// 		// console.log("in change form thing " + Template.instance().paneLocation);
+// 		Session.set("locationSet", true);
+// 	}
+// });
 
 Template.activityEntry.helpers({
 	name() {
@@ -452,7 +475,9 @@ Template.videoChat.events({
 
 Template.administration.helpers({
 	otherLocations: function () {
-		users = Meteor.users.find({_id: {$ne: Meteor.userId()}});
+		// users = Meteor.users.find({_id: {$ne: Meteor.userId()}});
+		users = Meteor.users.find();
+
 		// numb = users.count();
 		return users;
 	}
@@ -460,7 +485,9 @@ Template.administration.helpers({
 
 Template.administration.events({
 	'submit .locationSelector': function(event) {
+		event.preventDefault();
 		Meteor.call("setDisplaySpace", Meteor.userId(), event.target.location1.value, event.target.location2.value);
+		Router.go("/");
 	}
 });
 

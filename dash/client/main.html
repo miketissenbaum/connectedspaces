@@ -1,12 +1,16 @@
 <head>
-  <title>Connected Spaces</title>
+  <title>Connected Spaces </title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
-  <h1>Connected Spaces</h1>
-  <p>Tap your card at the reader to sign in or register!</p>
+  
 </body>
+
+<template name = "spaceTitle">
+  <h1>Connected Spaces &mdash;  {{currentUser.username}}</h1>
+  <p>Tap your card at the reader to sign in or register!</p>
+</template>
 
 <template name = "videoChat">
     <h2>Video Chat</h2>
@@ -86,6 +90,7 @@
 </template>
 
 <template name = "home">
+  {{> spaceTitle}}
   {{> boxes}}
   {{> videoBox}}
 </template>
@@ -93,14 +98,28 @@
 <template name="boxes"> 
   {{> noLocation}}
   <div class = "row">
+  {{#each spacesToDisplay}}
     <div id="div1" class="boxdiv col-md-5">
-      {{> eachBox}}
+      <!-- {{> eachBox}} -->
+      <div class="panel panel-default">
+        <div class="panel-heading">Maker - Activity  ({{spaceName spaceID = "{{spaceID}}"}})</div>
+        <ul class="list-group">
+            {{#each allData spaceID = "{{spaceID}}"}}
+            
+                <li class="list-group-item">
+                    <a href="#">{{Name}}</a> – <a href="#">{{CurrentActivity}}</a>
+                </li>
+            {{/each}}
+        </ul>
+      </div>
+
     </div>
 
-      <div class = "col-md-1"> </div>
-    <div id="div2" class="boxdiv col-md-5">
+      <!-- <div class = "col-md-1"> </div> -->
+    <!-- <div id="div2" class="boxdiv col-md-5">
         {{> eachBox}}
-    </div>
+    </div> -->
+  {{/each}}
   </div>
 </template>
 
@@ -109,7 +128,7 @@
     <div id="div3" class="boxdiv col-md-5">
       <h4>Test</h4>
     </div>
-    <div class = "col-md-1"> </div>
+    <!-- <div class = "col-md-1"> </div> -->
     <div id="div4" class="boxdiv col-md-5">
       <h4>Video space</h4>
       {{#if currentUser}}
@@ -126,19 +145,19 @@
   </div>
 </template>
 
-<template name = "eachBox">
-  <form class = "locationSelector">
+<!-- <template name = "eachBox"> -->
+  <!-- <form class = "locationSelector">
     <select name = "location" class = "form-control" id = "location">
       {{#each otherLocations}}
         <option value="{{_id}}">{{username}}</option> 
       {{/each}}
     </select>
-  </form>
+  </form> -->
   
-  <div class="panel panel-default">
+  <!-- <div class="panel panel-default">
     <div class="panel-heading">Maker - Activity</div>
     <ul class="list-group">
-        {{#each allData}}
+        {{#each allData spaceID = "{{spaceID}}"}}
         
             <li class="list-group-item">
                 <a href="#">{{Name}}</a> – <a href="#">{{CurrentActivity}}</a>
@@ -147,3 +166,4 @@
     </ul>
   </div>
 </template>
+ -->
