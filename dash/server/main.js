@@ -117,7 +117,9 @@ Meteor.publish('members', function tasksPublication() {
 
 Accounts.onCreateUser(function (options, user) {
     // space1 = user._id;
-    space2 = Meteor.users.findOne()._id;
+    // console.log(Meteor.users);
+    console.log(user._id); 
+    // space2 = Meteor.users.findOne()._id;
     // displaySpaces.update({
     //     $and: [{"roomID": user._id}, {"location": "space1"}]
     // },
@@ -135,5 +137,6 @@ Accounts.onCreateUser(function (options, user) {
     //     {upsert: true}
     // );
 
-    Meteor.call("setDisplaySpace", user._id, user._id, space2);
+    Meteor.call("setDisplaySpace", user._id, user._id, user._id);
+    return user;
 });

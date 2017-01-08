@@ -488,6 +488,12 @@ Template.administration.events({
 		event.preventDefault();
 		Meteor.call("setDisplaySpace", Meteor.userId(), event.target.location1.value, event.target.location2.value);
 		Router.go("/");
+	},
+
+	'click .logOut': function () {
+		// console.log("logging out?");
+		AccountsTemplates.logout();
+		Router.go('/setLocation');
 	}
 });
 
