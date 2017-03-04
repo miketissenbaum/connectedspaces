@@ -264,7 +264,8 @@ Template.videoBox.helpers({
 	// }
 
 	chatRoomName: function () {
-		roomname = "cspace-roooom1";
+		// roomname = "cspace-roooom1";
+		roomname = "cspace" + Meteor.user().username;
 		return roomname;
 	}
 })
