@@ -75,7 +75,7 @@ Meteor.startup(() => {
 
         checkLogins: function () {
             console.log("checking")
-            timeOut = 1800000;
+            timeOut = 18000000;
             // timeOut = 5000;
             activities.find({$and: [{"LoggedIn": {$lt: (date.getTime() - timeOut)}}, {"Status": "in"}]}).forEach(function (doc) {
                 Meteor.call("logOut", doc.MemberID);
