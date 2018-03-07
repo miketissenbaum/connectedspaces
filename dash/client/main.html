@@ -63,10 +63,10 @@
 <template name = "home">
   {{> spaceTitle}}
   {{> boxes}}
-  {{> videoBox}}
+  <!-- {{> videoBox}} -->
 </template>
 
-<template name="boxes"> 
+<template name="boxesold"> 
   {{> noLocation}}
   <div class = "row">
   {{#each spacesToDisplay}}
@@ -79,6 +79,34 @@
             
                 <li class="list-group-item">
                     <a href="#">{{Name}}</a> – <a href="#">{{CurrentActivity}}</a>
+                </li>
+            {{/each}}
+        </ul>
+      </div>
+
+    </div>
+
+      <!-- <div class = "col-md-1"> </div> -->
+    <!-- <div id="div2" class="boxdiv col-md-5">
+        {{> eachBox}}
+    </div> -->
+  {{/each}}
+  </div>
+</template>
+
+<template name="boxes"> 
+  {{> noLocation}}
+  <div class = "row">
+  {{#each boxesToDisplay}}
+    <div id="div1" class="boxdiv col-md-3">
+      <!-- {{> eachBox}} -->
+      <div class="panel panel-default">
+        <div class="panel-heading">Maker - Affinity  ({{team}})</div>
+        <ul class="list-group">
+            {{#each teamMembers team = "{{team}}"}}
+            
+                <li class="list-group-item">
+                    <a href="#">{{student}}</a> – <a href="#">{{affinity}}</a>
                 </li>
             {{/each}}
         </ul>

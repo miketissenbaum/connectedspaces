@@ -1,5 +1,9 @@
-html, body { padding: 10px; margin: 5px; background: #000;}
-p, h1, h2, h3, h4, h5 {color: #eee;}
+html, body { 
+	padding: 10px; 
+	margin: 5px; 
+	/*background: #000;*/
+}
+p, h1, h2, h3, h4, h5 {color: #111;}
 
 a {
 	text-decoration:none;
@@ -67,17 +71,17 @@ a:hover {
 
 /*.boxdiv { height: 400px; margin: 15px; padding: 10px; overflow: scroll;}*/
 .boxdiv { 
-	height: 900px; 
-	margin: 25px; 
-	padding: 25px; 
+	height: 450px; 
+	margin: 15px; 
+	padding: 15px; 
 	/*overflow: scroll;*/
-	border-radius: 17px;
+	border-radius: 10px;
 }
 
 #div1 { 
 	background: #4300ff; 
 	font-family: 'Open Sans', sans-serif;
-	min-width: 45%;
+	/*min-width: 45%;*/
 }
 #div2 { background: #5A2178;  
 	font-family: 'Open Sans', sans-serif;
@@ -85,7 +89,7 @@ a:hover {
 #div3 { 
 	background: #ff8400;  
 	font-family: 'Open Sans', sans-serif;
-	min-width: 45%;
+	/*min-width: 45%;*/
 }
 #div4 { 
 	background: #333; 

@@ -1,7 +1,14 @@
 Router.route('/', function() {
 	Session.set("Member", "0");
 	Session.set("Name", undefined);
-	this.render('home');
+	Session.set("User", Meteor.user());
+	if(Meteor.userId() != undefined && smallGroups.find().fetch().length > 0) {
+		// console.log(smallGroups.find().fetch());
+		this.render('home');
+	}
+	else{
+		this.render('loading');
+	}
 	console.log("home");
 });
 

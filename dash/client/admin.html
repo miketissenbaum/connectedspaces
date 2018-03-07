@@ -1,6 +1,6 @@
 <template name = "administration">
 	{{#if currentUser}}
-	<form class = "locationSelector">
+	<!-- <form class = "locationSelector">
 		Space 1:
 	    <select name = "location1" class = "form-control" id = "location1">
 	      {{#each otherLocations}}
@@ -14,9 +14,33 @@
 	      {{/each}}
 	    </select>
 	    <input type="submit" value="Set">
+    </form> -->
+    <form class = "boxSelector">
+		{{#each boxes}}
+	        <input type = "checkbox" name = "{{team}}" value = "{{team}}" /> {{team}}
+	      {{/each}}
+		<!-- Space 2:
+		<select name = "location2" class = "form-control" id = "location2">
+	      {{#each otherLocations}}
+	        <option value="{{_id}}">{{username}}</option> 
+	      {{/each}}
+	    </select> -->
+	    <input type="submit" value="chooseBoxes">
     </form>
 
     <br />
+
+    <form class = "addPerson">
+		Box/Team: <input type="text" name="teamName" />
+	    <br />
+	    Name: <input type="text" name="studName" />
+	    <br />
+		Affinity: <input type="text" name="affinity" />
+	    <input type="submit" value="addNew">
+    </form>
+
     <button class="btn btn-default navbar-btn logOut">Sign out</button>
+
+
 	{{/if}}
 </template>

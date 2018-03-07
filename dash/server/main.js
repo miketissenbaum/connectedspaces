@@ -87,6 +87,51 @@ Meteor.startup(() => {
             console.log(tex);
         },
 
+        addBoxPerson: function (room, team, student, affinity) {
+            smallGroups.update({
+                $and: 
+                    [{"room": room}, 
+                    {"team": team}, 
+                    {"student": student}]
+            }, {
+                "room": room, 
+                "team": team, 
+                "student": student, 
+                "affinity": affinity
+            }, {
+                upsert: true
+            });
+            // smallGroups.update(
+            //     {$and: [
+            //         {"room": room}, 
+            //         {"info": "boxList"}
+            //     ]}, 
+            //     {
+            //         "room": room, 
+            //         "info": "boxList", 
+            //         // $addToSet: {"visibleBoxes": team}
+            //     },
+            //     {upsert: true}
+            // );
+            smallGroups.update({$and: [{"room": room}, {"info": "boxList"}]}, {$addToSet: {"existingBoxes": team}});
+            smallGroups.update({$and: [{"room": room}, {"info": "boxList"}]}, {$addToSet: {"visibleBoxes": team}});
+
+        },
+
+        // updateVisibleBoxes
+
+        setVisibleBoxes: function (uid, vboxes) {
+            console.log(vboxes);
+            if (vboxes.length == 0){
+                console.log("filling smallGroup");
+                // smallGroups.update({$and: [{"room": uid}, {"info": "boxList"}]}, {"room": uid, "info": "boxList", "visibleBoxes": vboxes}, {upsert: true});
+                smallGroups.insert({"room": uid, "info": "boxList", "visibleBoxes": vboxes, "existingBoxes": []});
+            }
+            else if (vboxes.length > 0) {
+                smallGroups.update({$and: [{"room": uid}, {"info": "boxList"}]}, {$set: {"visibleBoxes": vboxes}});   
+            }
+        },
+
         setDisplaySpace: function (uid, space1, space2) {
             displaySpaces.update(
                 {"roomID": uid, "location": "space1"},
@@ -138,5 +183,7 @@ Accounts.onCreateUser(function (options, user) {
     // );
 
     Meteor.call("setDisplaySpace", user._id, user._id, user._id);
+    Meteor.call("setVisibleBoxes", user._id, []);
+    // smallGroups.update({$and: [{"room": room}, {"info": "boxList"}]}
     return user;
 });

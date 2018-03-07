@@ -45,9 +45,29 @@ Template.boxes.helpers({
 		return displaySpaces.find({"roomID": Meteor.userId()});
 	},
 
+	boxesToDisplay: function () {
+		// u = Meteor.user();
+		console.log(Meteor.userId());
+		// teamnames = u.visibleBoxes;
+		teamnames = smallGroups.findOne({$and: [{"room": Meteor.userId()}, {"info": "boxList"}]}).visibleBoxes;
+		console.log(teamnames);
+		if (teamnames == undefined) {
+			return null;
+		}
+		else {
+			teamnames = teamnames.map(x => { return({"team": x}); });
+			return teamnames;
+		}
+	},
+
 	spaceName: function () {
 		// console.log(this.spaceID);
 		return Meteor.users.findOne({_id: this.spaceID}).username;
+	},
+
+	teamMembers: function () {
+		console.log (this.team);
+		return smallGroups.find({$and: [{"room": Meteor.userId()}, {"team": this.team}]});
 	},
 
 	allData: function() {
@@ -481,10 +501,54 @@ Template.administration.helpers({
 
 		// numb = users.count();
 		return users;
-	}
+	},
+
+	boxes: function () {
+		// teamnames = smallGroups.distinct("team", {"room": Meteor.userId()});
+		// teamnames = Meteor.users.findOne({"_id": Meteor.userId()}).visibleBoxes;
+		// teamnames = Meteor.user().visibleBoxes;
+		teamnames = smallGroups.findOne({$and: [{"room": Meteor.userId()}, {"info": "boxList"}]}).existingBoxes;
+		console.log(teamnames);
+		if (teamnames == undefined) {
+			return null;
+		}
+		else {
+			teamnames = teamnames.map(x => { return({"team": x}); });
+			return teamnames;
+		}
+	},
 });
 
 Template.administration.events({
+	'submit .addPerson': function(event) {
+		event.preventDefault();
+		Meteor.call("addBoxPerson", Meteor.userId(), event.target.teamName.value, event.target.studName.value, event.target.affinity.value);
+		// Router.go("/");
+	},
+
+	'submit .boxSelector': function(event) {
+		event.preventDefault();
+		// console.log(event);
+		// console.log(event.target.children[0].checked);
+		checks = [];
+		for (i = 0; i < event.target.children.length - 1; i++) {
+			// console.log(i);
+			// console.log(i + " " + event.target.children[i].checked);
+			if (event.target.children[i].checked) {
+				checks.push(event.target.children[i].name);
+			}
+		}
+		console.log(checks);
+		if (checks.length > 0){
+			Meteor.call("setVisibleBoxes", Meteor.userId(), checks)
+		}
+		// else {
+
+		// }
+		// Meteor.call("setDisplayBoxes", Meteor.userId(), event.target.teamName.value, event.target.studName.value, event.target.affinity.value);
+		// Router.go("/");
+	},
+
 	'submit .locationSelector': function(event) {
 		event.preventDefault();
 		Meteor.call("setDisplaySpace", Meteor.userId(), event.target.location1.value, event.target.location2.value);
