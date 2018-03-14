@@ -8,7 +8,10 @@
 </body>
 
 <template name = "spaceTitle">
-  <h1>Connected Spaces &mdash;  {{currentUser.username}}</h1>
+  <h1>Connected Spaces &mdash;  {{currentUser.username}} <i class="fa fa-user"></i> </h1>
+  <!-- <i class="fa fa-home"></i> Home -->
+{{> legend}}
+
   <!-- <p>Tap your card at the reader to sign in or register!</p> -->
 </template>
 
@@ -38,12 +41,12 @@
   <!-- {{> videoBox}} -->
 </template>
 
-<template name="boxesold"> 
+<!-- <template name="boxesold"> 
   {{> noLocation}}
   <div class = "row">
   {{#each spacesToDisplay}}
     <div id="div1" class="boxdiv col-md-5">
-      <!-- {{> eachBox}} -->
+      
       <div class="panel panel-default">
         <div class="panel-heading">Maker - Activity  ({{spaceName spaceID = "{{spaceID}}"}})</div>
         <ul class="list-group">
@@ -57,14 +60,14 @@
       </div>
 
     </div>
-
+ -->
       <!-- <div class = "col-md-1"> </div> -->
     <!-- <div id="div2" class="boxdiv col-md-5">
         {{> eachBox}}
     </div> -->
-  {{/each}}
+  <!-- {{/each}}
   </div>
-</template>
+</template> -->
 
 <template name="boxes"> 
   {{> noLocation}}
@@ -78,7 +81,13 @@
             {{#each teamMembers team = "{{team}}"}}
             
                 <li class="list-group-item">
-                    <a href="#">{{student}}</a> – <a href="#">{{affinity}}</a>
+                    <a href="#">{{student}}</a> – <!-- <a href="#">{{affinity}}</a> -->
+                    <!-- {{printAffinities}} -->
+                    <!-- {{affinities}} -->
+                    {{#each affinities}}
+                       <!-- {{printaff}} -->
+                      <i class="fa fa-{{fontAwesomeClass}}"> </i>: {{affinityName}}; 
+                    {{/each}}
                 </li>
             {{/each}}
         </ul>

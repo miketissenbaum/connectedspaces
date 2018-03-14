@@ -24,7 +24,7 @@ Template.boxes.helpers({
 		console.log(Meteor.userId());
 		// teamnames = u.visibleBoxes;
 		teamnames = smallGroups.findOne({$and: [{"room": Meteor.userId()}, {"info": "boxList"}]}).visibleBoxes;
-		console.log(teamnames);
+		// console.log(teamnames);
 		if (teamnames == undefined) {
 			return null;
 		}
@@ -34,14 +34,30 @@ Template.boxes.helpers({
 		}
 	},
 
+	printAffinities: function () {
+		console.log("Printing team before affinities: " + this.team);
+	},
+
 	spaceName: function () {
 		// console.log(this.spaceID);
 		return Meteor.users.findOne({_id: this.spaceID}).username;
 	},
 
 	teamMembers: function () {
-		console.log (this.team);
-		return smallGroups.find({$and: [{"room": Meteor.userId()}, {"team": this.team}]});
+		// console.log (this.team);
+		return smallGroups.find({$and: [{"room": Meteor.userId()}, {"team": this.team}, {"affinity": {$ne: "-99"}}]});
+	},
+
+	fontAwesomeClass: function () {
+		console.log(this.affinityName);
+		affin = affinities.findOne({$and: [{"room": Meteor.userId()}, {"affinity": this.affinityName}]});
+		// console.log(affin);
+		if (affin == null) {
+			return null;
+		}
+		else {
+			return affin.faclass;
+		}
 	},
 
 	allData: function() {
@@ -198,7 +214,11 @@ Template.signUp.events({
 	}
 });
 
-
+Template.legend.helpers({
+	allAffinities: function () {
+		return affinities.find({"room": Meteor.userId()});
+	}
+})
 
 Template.administration.helpers({
 	otherLocations: function () {
@@ -214,7 +234,7 @@ Template.administration.helpers({
 		// teamnames = Meteor.users.findOne({"_id": Meteor.userId()}).visibleBoxes;
 		// teamnames = Meteor.user().visibleBoxes;
 		teamnames = smallGroups.findOne({$and: [{"room": Meteor.userId()}, {"info": "boxList"}]}).existingBoxes;
-		console.log(teamnames);
+		// console.log(teamnames);
 		if (teamnames == undefined) {
 			return null;
 		}
@@ -228,7 +248,17 @@ Template.administration.helpers({
 Template.administration.events({
 	'submit .addPerson': function(event) {
 		event.preventDefault();
-		Meteor.call("addBoxPerson", Meteor.userId(), event.target.teamName.value, event.target.studName.value, event.target.affinity.value);
+		affs = event.target.affinity.value.split(",");
+		console.log(affs);
+		affs = affs.map(function(s) { console.log(s); return {"affinityName": String.prototype.trim.apply(s)}; });
+		console.log(affs);
+		Meteor.call("addBoxPerson", Meteor.userId(), event.target.teamName.value, event.target.studName.value, affs);
+		// Router.go("/");
+	},
+
+	'submit .addAffinity': function(event) {
+		event.preventDefault();
+		Meteor.call("addAffinity", Meteor.userId(), event.target.affinityName.value, event.target.faclass.value);
 		// Router.go("/");
 	},
 

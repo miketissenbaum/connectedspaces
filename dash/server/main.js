@@ -87,7 +87,22 @@ Meteor.startup(() => {
             console.log(tex);
         },
 
-        addBoxPerson: function (room, team, student, affinity) {
+        addAffinity: function (room, affinity, faclass) {
+            affinities.update({
+                $and:[
+                    {"room": room},
+                    {"affinity": affinity}
+                ]
+            }, {
+                "room": room,
+                "affinity": affinity,
+                "faclass": faclass
+            }, {
+                upsert: true
+            });
+        },
+
+        addBoxPerson: function (room, team, student, affinities) {
             smallGroups.update({
                 $and: 
                     [{"room": room}, 
@@ -97,7 +112,7 @@ Meteor.startup(() => {
                 "room": room, 
                 "team": team, 
                 "student": student, 
-                "affinity": affinity
+                "affinities": affinities
             }, {
                 upsert: true
             });
@@ -149,9 +164,9 @@ Meteor.startup(() => {
         }
     });
 
-    Meteor.setInterval(function () {
-        Meteor.call('checkLogins');
-    }, 300000);
+    // Meteor.setInterval(function () {
+    //     Meteor.call('checkLogins');
+    // }, 300000);
     // }, 1000);
 });
 
