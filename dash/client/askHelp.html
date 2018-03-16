@@ -1,0 +1,26 @@
+<template name="askHelp">
+  <form class = "helpRequest">
+    Topic I want help with:
+    <select name = "affinity" class = "form-control" id = "affinity">
+      {{#each allAffinities}}
+        <option value="{{affinity}}"><i class = "fa fa-{{faclass}}"> </i> &mdash; {{affinity}}</option> 
+      {{/each}}
+    </select>
+    I am:
+    <select name = "member" class = "form-control" id = "member">
+      {{#each allMembers}}
+        <option value="{{student}}">{{student}} &mdash; {{team}} </option> 
+      {{/each}}
+    </select>
+    <!-- <input type = "checkbox" name = "{{team}}" value = "{{team}}" /> -->
+    <input class = "btn btn-primary" type="submit" value="Ask for help!">
+  </form>
+</template>
+
+
+<template name="activeRequests">
+  {{#each aliveRequests}}
+    {{helpee}} wants help regarding {{affinity}}. <a href="#">Click here</a> if this has been resolved!
+    <br />
+  {{/each}}
+</template>

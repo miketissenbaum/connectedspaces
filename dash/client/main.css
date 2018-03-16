@@ -1,6 +1,127 @@
-html, body { height: 100%; padding: 0; margin: 20px; }
-.boxdiv { width: 45%; height: 45%; float: left; padding: 10px;}
-#div1 { background: #eee; margin: 2px; }
-#div2 { background: #eed; margin: 2px; }
-#div3 { background: #eef; margin: 2px; }
-#div4 { background: #ccc; margin: 2px; }
+html, body { 
+	padding: 10px; 
+	margin: 5px; 
+	/*background: #000;*/
+}
+p, h1, h2, h3, h4, h5 {color: #111;}
+
+a {
+	text-decoration:none;
+	color:black;
+}
+
+a:hover {
+	text-decoration:none;
+	color:gray;
+}
+
+
+#vidframe { 
+	width: 100%; 
+	height: 100%; 
+    border: 1px solid black; 
+    position:relative; 
+}
+
+#space-title {
+	
+	font-family: 'Open Sans', sans-serif;	
+}
+#space-title h1,p {
+	margin:25px;
+	float: left;
+	width: 100%;
+	
+}
+
+#space-title h1 {
+	font-weight: bold;
+	
+	letter-spacing: 1px;
+	float: left;
+	
+	
+}
+
+#titlename {
+	font-family: 'Open Sans', sans-serif;
+	color: white;
+	font-size: 1.5em;
+	float: left;
+	
+}
+
+#username {
+	font-family: 'Open Sans', sans-serif;
+	color:rgba(150,150,150,1.00);
+	font-size: 1em;
+	float: left;
+	margin-top: 17px;
+	
+}
+
+#space-title .slogan {
+	font-size: 1.1em;
+	margin-bottom: 50px;
+	display: block;
+	color:white;
+	
+	
+}
+
+/*.boxdiv { height: 400px; margin: 15px; padding: 10px; overflow: scroll;}*/
+.boxdiv { 
+	height: 450px; 
+	margin: 15px; 
+	padding: 15px; 
+	/*overflow: scroll;*/
+	border-radius: 10px;
+}
+
+#div1 { 
+	background: #4300ff; 
+	font-family: 'Open Sans', sans-serif;
+	/*min-width: 45%;*/
+}
+#div2 { background: #5A2178;  
+	font-family: 'Open Sans', sans-serif;
+}
+#div3 { 
+	background: #ff8400;  
+	font-family: 'Open Sans', sans-serif;
+	/*min-width: 45%;*/
+}
+#div4 { 
+	background: #333; 
+	/*overflow: hidden; */
+	font-family: 'Open Sans', sans-serif;
+	position:relative;
+}
+
+/*90, 33, 120
+5A2178
+
+ff8400*/
+
+video {
+    width: 100%;
+    max-width: 500px;
+}
+
+#myVideo {
+	width: 40%;
+    max-width: 200px;	
+}
+
+.row-offcanvas {
+position: relative;
+-webkit-transition: all .25s ease-out;
+     -o-transition: all .25s ease-out;
+        transition: all .25s ease-out;
+}
+
+.row-offcanvas-right {
+	margin-left: 10px;
+	margin-right: 10px;
+	right: 0;
+}

@@ -1,0 +1,47 @@
+<template name = "administration">
+	{{#if currentUser}}
+    <form class = "boxSelector">
+		{{#each boxes}}
+	        <input type = "checkbox" name = "{{team}}" value = "{{team}}" /> {{team}}
+	      {{/each}}
+	    <input type="submit" value="Choose Boxes">
+    </form>
+
+    <br />
+    <h4> Add a new person, or update an existing one. (or enter -99 in affinity to remove a present one) </h4>
+
+    <form class = "addPerson">
+		Box/Team: <input type="text" name="teamName" />
+	    <br />
+	    Name: <input type="text" name="studName" />
+	    <br />
+		Affinity: <input type="text" name="affinity" />
+	    <input type="submit" value="Add Person">
+    </form>
+
+    <br />
+    <br />
+    <h4> Add an Affinity </h4>
+
+    <form class = "addAffinity">
+		Affinity: <input type="text" name="affinityName" />
+	    <br />
+	    Fontawesome class: <input type="text" name="faclass" />
+	    <br />
+	    <input type="submit" value="Add Affinity">
+    </form>
+
+    <button class="btn btn-default navbar-btn logOut">Sign out</button>
+    <h3>legend</h3>
+    {{> legend}}
+	{{/if}}
+    
+
+</template>
+
+<template name="legend">
+	{{#each allAffinities}}
+		{{affinity}} : <i class="fa fa-{{faclass}}"> </i>
+		<br />
+	{{/each}}
+</template>

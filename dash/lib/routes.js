@@ -1,39 +1,29 @@
 Router.route('/', function() {
-	// this.Member =  new ReactiveVar(0);
-	this.render('home');
 	Session.set("Member", "0");
 	Session.set("Name", undefined);
-	// Session.set("Name", undefined);
+	Session.set("User", Meteor.user());
+	if(Meteor.userId() != undefined && smallGroups.find().fetch().length > 0) {
+		// console.log(smallGroups.find().fetch());
+		this.render('home');
+	}
+	else{
+		this.render('loading');
+	}
+	console.log("home");
 });
 
-// Router.route('/member/:memid', function() {
-// 	console.log(Meteor.subscribe("members"));
-// 	this.wait(Meteor.subscribe("members"));
-// 	console.log(this);
-// 	if (this.ready()) {
-// 		var memId = String(this.params.memid);
-// 		console.log(String(memId));
-// 		Session.set("Member", memId);
-// 		console.log(members.findOne({"MemberID": memId}));
-// 		if (members.findOne({"MemberID": memId}) != undefined){
-// 			Router.go('/actitout');
-// 		}
-// 		else {
-// 			Router.go('/newMember');
-// 		}
-// 	}
-// 	else{
-// 		this.render('loading');
-// 		this.next()
-// 	}
-// });
-
+Router.route('/askHelp', function() {
+	if (Meteor.userId() != undefined){
+		this.render("askHelp");
+	}
+	else{
+		this.render("loading");
+	}
+});
 
 Router.route('/member/:memid', function () {
 	var memId = String(this.params.memid);
-	// console.log(String(memId));
 	Session.set("Member", memId);
-	// console.log(members.findOne({"MemberID": memId}));
 	this.subscribe('members', this.params.memId).wait();
 	console.log(this.ready());
 	if (this.ready()){
@@ -44,12 +34,6 @@ Router.route('/member/:memid', function () {
 		this.next();
 	}
 });
-
-// Router.route('/member/:memid', function () {
-// 	Session.set(String(this.params.memId));
-// 	this.render("memberCheck");
-// });
-
 
 Router.route('/memberCheck', function () {
 	memId = Session.get("Member");
@@ -65,6 +49,9 @@ Router.route('/memberCheck', function () {
 
 Router.route('/setLocation/', function () {
 	this.render("locationRegistration");
+	if(Meteor.userId() != undefined) {
+		this.render("locationSettings");
+	}
 });
 
 Router.route('/actitout', function () {
@@ -78,14 +65,18 @@ Router.route('/actitout', function () {
 });
 
 Router.route('/newMember', function() {
-	// if (Session.get("Location") == undefined){
-	// 	alert("The location for this system has been lost! Find the boss around and tell them to set")
-	// }
 	if(Session.get("Member") == "0" || Session.get("Member") == undefined){
 		alert("You haven't tapped a card!");
 		Router.go('/');		
 	}
 	else {
 		this.render('signUp');
+	}
+});
+
+Router.route('/admin', function() {
+	this.render("administration");
+	if (Meteor.userId() == undefined) {
+		this.render("locationRegistration");
 	}
 });

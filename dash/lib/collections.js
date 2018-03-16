@@ -7,3 +7,13 @@
 members = new Mongo.Collection("members");
 // console.log(members.findOne());
 activities = new Mongo.Collection("activities");
+
+displaySpaces = new Mongo.Collection("displaySpaces");
+
+// presences = new Mongo.Collection("presences");
+
+smallGroups = new Mongo.Collection("smallGroups");
+
+affinities = new Mongo.Collection("affinities");
+
+helpRequests = new Mongo.Collection("helpRequests");
