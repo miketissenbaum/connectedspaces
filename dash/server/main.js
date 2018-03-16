@@ -24,6 +24,9 @@ Meteor.startup(() => {
 	// console.log(rests.findOne({}));
 	// console.log(members.findOne({}));
     // code to run on server at startup
+
+    requestDuration = 300000;
+
     Meteor.publish('userPresence', function() {
       // Setup some filter to find the users your user
       // cares about. It's unlikely that you want to publish the 
@@ -85,6 +88,28 @@ Meteor.startup(() => {
 
         test: function (tex) {
             console.log(tex);
+        },
+
+        getLiveRequests: function (room) {
+            // return helpRequests.find({$and: [{"room": Meteor.userId(), "requestCreated": {$gt: date.getTime() - 300000}}]});
+            return null;
+        },
+
+        requestHelp: function (room, affinity, helpee) {
+            // if (helpRequests.find({$and: [{"room": room, "affinity": affinity, "helpee": helpee, "requestCreated": {$gt: date.getTime() - requestDuration}}]}) == undefined) {
+                console.log("adding request " + room + " " + affinity + " " + helpee);
+                helpRequests.insert({
+                    "room": room,
+                    "affinity": affinity,
+                    "helpee": helpee,
+                    "requestCreated": date.getTime()
+                });
+                
+            // }
+            // else{
+            //     console.log("not adding request");
+            // }
+            
         },
 
         addAffinity: function (room, affinity, faclass) {

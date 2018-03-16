@@ -12,6 +12,15 @@ Router.route('/', function() {
 	console.log("home");
 });
 
+Router.route('/askHelp', function() {
+	if (Meteor.userId() != undefined){
+		this.render("askHelp");
+	}
+	else{
+		this.render("loading");
+	}
+});
+
 Router.route('/member/:memid', function () {
 	var memId = String(this.params.memid);
 	Session.set("Member", memId);

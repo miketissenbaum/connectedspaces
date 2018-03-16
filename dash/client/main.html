@@ -11,13 +11,14 @@
   <h1>Connected Spaces &mdash;  {{currentUser.username}} <i class="fa fa-user"></i> </h1>
   <!-- <i class="fa fa-home"></i> Home -->
 {{> legend}}
-
+{{> activeRequests}}
   <!-- <p>Tap your card at the reader to sign in or register!</p> -->
 </template>
 
 
 <template name = "loading">
-  Loading...
+  Loading... <br />
+  If nothing comes up in some time, <a href="/setLocation">go to the homepage</a>.
 </template>
 
 <template name = "noLocation">

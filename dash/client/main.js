@@ -216,9 +216,37 @@ Template.signUp.events({
 
 Template.legend.helpers({
 	allAffinities: function () {
-		return affinities.find({"room": Meteor.userId()});
+		return affinities.find({$and: [{"room": Meteor.userId()}, {"affinity": {$ne: "-99"}}]});
 	}
-})
+});
+
+Template.askHelp.helpers({
+	allAffinities: function () {
+		return affinities.find({$and: [{"room": Meteor.userId()}, {"affinity": {$ne: "-99"}}]});
+	},
+
+	allMembers: function () {
+		return smallGroups.find({$and: [{"room": Meteor.userId()}]}, {sort: {"team": 1}});
+	},
+});
+
+Template.askHelp.events({
+	'submit .helpRequest': function (event) {
+		event.preventDefault();
+		console.log(Meteor.userId() + " " + event.target.affinity.value + " " + event.target.member.value);
+		Meteor.call("requestHelp", Meteor.userId(), event.target.affinity.value, event.target.member.value);
+	}
+});
+
+Template.activeRequests.helpers({
+	aliveRequests: function () {
+		return helpRequests.find({$and: [{"room": Meteor.userId(), "requestCreated": {$gt: Date.now() - 300000}}]});
+	},
+
+	// helpeeName: function () {
+	// 	return smallGroups.findOne({$and: [{"room": Meteor.userId()}, {}]})
+	// }
+});
 
 Template.administration.helpers({
 	otherLocations: function () {
@@ -258,6 +286,7 @@ Template.administration.events({
 
 	'submit .addAffinity': function(event) {
 		event.preventDefault();
+		console.log("adding affinity");
 		Meteor.call("addAffinity", Meteor.userId(), event.target.affinityName.value, event.target.faclass.value);
 		// Router.go("/");
 	},
