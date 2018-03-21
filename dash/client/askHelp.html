@@ -20,7 +20,15 @@
 
 <template name="activeRequests">
   {{#each aliveRequests}}
-    {{helpee}} wants help regarding {{affinity}}. <a href="#">Click here</a> if this has been resolved!
+    {{helpee}} wants help regarding {{affinity}}.
     <br />
   {{/each}}
 </template>
+
+<template name="resolveRequests">
+  {{#each aliveRequests}}
+    {{helpee}} wants help regarding {{affinity}}. <a href="#" class="requestResolution">Click here</a> if you want to mark this request as resolved.
+    <br />
+  {{/each}}
+</template>
+
