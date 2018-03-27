@@ -24,6 +24,9 @@ Meteor.startup(() => {
 	// console.log(rests.findOne({}));
 	// console.log(members.findOne({}));
     // code to run on server at startup
+
+    requestDuration = 300000;
+
     Meteor.publish('userPresence', function() {
       // Setup some filter to find the users your user
       // cares about. It's unlikely that you want to publish the 
@@ -87,6 +90,88 @@ Meteor.startup(() => {
             console.log(tex);
         },
 
+        getLiveRequests: function (room) {
+            // return helpRequests.find({$and: [{"room": Meteor.userId(), "requestCreated": {$gt: date.getTime() - 300000}}]});
+            return null;
+        },
+
+        requestHelp: function (room, affinity, helpee) {
+            // if (helpRequests.find({$and: [{"room": room, "affinity": affinity, "helpee": helpee, "requestCreated": {$gt: date.getTime() - requestDuration}}]}) == undefined) {
+                console.log("adding request " + room + " " + affinity + " " + helpee);
+                helpRequests.insert({
+                    "room": room,
+                    "affinity": affinity,
+                    "helpee": helpee,
+                    "requestCreated": date.getTime()
+                });
+                
+            // }
+            // else{
+            //     console.log("not adding request");
+            // }
+            
+        },
+
+        addAffinity: function (room, affinity, faclass) {
+            affinities.update({
+                $and:[
+                    {"room": room},
+                    {"affinity": affinity}
+                ]
+            }, {
+                "room": room,
+                "affinity": affinity,
+                "faclass": faclass
+            }, {
+                upsert: true
+            });
+        },
+
+        addBoxPerson: function (room, team, student, affinities) {
+            smallGroups.update({
+                $and: 
+                    [{"room": room}, 
+                    {"team": team}, 
+                    {"student": student}]
+            }, {
+                "room": room, 
+                "team": team, 
+                "student": student, 
+                "affinities": affinities
+            }, {
+                upsert: true
+            });
+            // smallGroups.update(
+            //     {$and: [
+            //         {"room": room}, 
+            //         {"info": "boxList"}
+            //     ]}, 
+            //     {
+            //         "room": room, 
+            //         "info": "boxList", 
+            //         // $addToSet: {"visibleBoxes": team}
+            //     },
+            //     {upsert: true}
+            // );
+            smallGroups.update({$and: [{"room": room}, {"info": "boxList"}]}, {$addToSet: {"existingBoxes": team}});
+            smallGroups.update({$and: [{"room": room}, {"info": "boxList"}]}, {$addToSet: {"visibleBoxes": team}});
+
+        },
+
+        // updateVisibleBoxes
+
+        setVisibleBoxes: function (uid, vboxes) {
+            console.log(vboxes);
+            if (vboxes.length == 0){
+                console.log("filling smallGroup");
+                // smallGroups.update({$and: [{"room": uid}, {"info": "boxList"}]}, {"room": uid, "info": "boxList", "visibleBoxes": vboxes}, {upsert: true});
+                smallGroups.insert({"room": uid, "info": "boxList", "visibleBoxes": vboxes, "existingBoxes": []});
+            }
+            else if (vboxes.length > 0) {
+                smallGroups.update({$and: [{"room": uid}, {"info": "boxList"}]}, {$set: {"visibleBoxes": vboxes}});   
+            }
+        },
+
         setDisplaySpace: function (uid, space1, space2) {
             displaySpaces.update(
                 {"roomID": uid, "location": "space1"},
@@ -104,9 +189,9 @@ Meteor.startup(() => {
         }
     });
 
-    Meteor.setInterval(function () {
-        Meteor.call('checkLogins');
-    }, 300000);
+    // Meteor.setInterval(function () {
+    //     Meteor.call('checkLogins');
+    // }, 300000);
     // }, 1000);
 });
 
@@ -138,5 +223,7 @@ Accounts.onCreateUser(function (options, user) {
     // );
 
     Meteor.call("setDisplaySpace", user._id, user._id, user._id);
+    Meteor.call("setVisibleBoxes", user._id, []);
+    // smallGroups.update({$and: [{"room": room}, {"info": "boxList"}]}
     return user;
 });

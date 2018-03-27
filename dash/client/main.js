@@ -14,40 +14,50 @@ Session.set("streamSettings", {audio: true, video: true});
 
 Meteor.subscribe('userPresence');
 
-// Presence.state = function() {
-// console.log("calling here state");
-//   return {
-//     peerId: Session.get("peerId"),
-//     room: Meteor.user().username
-//   };
-// }
-
-// Template.spaceName.helpers({
-// 	roomName: function () {
-// 		return Meteor.user().username;
-// 	}
-// });
-
-// Template.eachBox.onCreated(function () {
-// 	firstlocid = 0;
-// 	firstloc = Meteor.users.findOne();
-// 	if (firstloc != undefined){
-// 		// console.log("defined");
-// 		firstlocid = firstloc._id;
-// 		// console.log(firstloc.username);
-// 	}
-// 	this.paneLocation = new ReactiveVar(firstlocid);
-// 	Session.set("locationSet", true);
-// });
-
 Template.boxes.helpers({
 	spacesToDisplay: function () {
 		return displaySpaces.find({"roomID": Meteor.userId()});
 	},
 
+	boxesToDisplay: function () {
+		// u = Meteor.user();
+		console.log(Meteor.userId());
+		// teamnames = u.visibleBoxes;
+		teamnames = smallGroups.findOne({$and: [{"room": Meteor.userId()}, {"info": "boxList"}]}).visibleBoxes;
+		// console.log(teamnames);
+		if (teamnames == undefined) {
+			return null;
+		}
+		else {
+			teamnames = teamnames.map(x => { return({"team": x}); });
+			return teamnames;
+		}
+	},
+
+	printAffinities: function () {
+		console.log("Printing team before affinities: " + this.team);
+	},
+
 	spaceName: function () {
 		// console.log(this.spaceID);
 		return Meteor.users.findOne({_id: this.spaceID}).username;
+	},
+
+	teamMembers: function () {
+		// console.log (this.team);
+		return smallGroups.find({$and: [{"room": Meteor.userId()}, {"team": this.team}, {"affinity": {$ne: "-99"}}]});
+	},
+
+	fontAwesomeClass: function () {
+		console.log(this.affinityName);
+		affin = affinities.findOne({$and: [{"room": Meteor.userId()}, {"affinity": this.affinityName}]});
+		// console.log(affin);
+		if (affin == null) {
+			return null;
+		}
+		else {
+			return affin.faclass;
+		}
 	},
 
 	allData: function() {
@@ -204,275 +214,39 @@ Template.signUp.events({
 	}
 });
 
-Template.videoBox.onCreated(function () {
-	// var AppearIn = window.AppearIn || require('appearin-sdk');
-	// var appearin = new AppearIn();
-
-	// // API.isAppearinCompatible(function (data) {
-	// // 	if (!data.isSupported) {
-	// // 	    // $('#notSupportedModal').modal();
-	// // 	    // mixpanel.track("Did not pass the technical checks");
-	// // 	    console.log("not supported");
-	// // 	    alert("not sop!!!");
-	// // 	}
-	// // 	else {
-	// // 		console.log("not supported");
-	// // 		alert("supported!!!");
-	// // 	}
-	// // });
-
-	// var isWebRtcCompatible = appearin.isWebRtcCompatible();
-	// if (isWebRtcCompatible){
-	// 	// alert("compatibuuul");
-	// }
-	// else {
-	// 	// alert("not compats");
-	// }
-
-	// roomname = "cspace-roooom1";
-	// appearin.addRoomToElementById("vidframe2", roomname);
-})
-
-Template.videoBox.helpers({
-	// chatFrame: function () {
-	// 	var AppearIn = window.AppearIn || require('appearin-sdk');
-	// 	var appearin = new AppearIn();
-
-	// 	// API.isAppearinCompatible(function (data) {
-	// 	// 	if (!data.isSupported) {
-	// 	// 	    // $('#notSupportedModal').modal();
-	// 	// 	    // mixpanel.track("Did not pass the technical checks");
-	// 	// 	    console.log("not supported");
-	// 	// 	    alert("not sop!!!");
-	// 	// 	}
-	// 	// 	else {
-	// 	// 		console.log("not supported");
-	// 	// 		alert("supported!!!");
-	// 	// 	}
-	// 	// });
-
-	// 	var isWebRtcCompatible = appearin.isWebRtcCompatible();
-	// 	if (isWebRtcCompatible){
-	// 		// alert("compatibuuul");
-	// 	}
-	// 	else {
-	// 		// alert("not compats");
-	// 	}
-
-	// 	roomname = "cspace-roooom1";
-	// 	appearin.addRoomToElementById("vidframe2", roomname);
-	// }
-
-	chatRoomName: function () {
-		// roomname = "cspace-roooom1";
-		roomname = "cspace" + Meteor.user().username;
-		return roomname;
-	}
-})
-
-Template.videoChat.onCreated(function () {
-	// var AppearIn = window.AppearIn || require('appearin-sdk');
-	// var appearin = new AppearIn();
-
-	// // API.isAppearinCompatible(function (data) {
-	// // 	if (!data.isSupported) {
-	// // 	    // $('#notSupportedModal').modal();
-	// // 	    // mixpanel.track("Did not pass the technical checks");
-	// // 	    console.log("not supported");
-	// // 	    alert("not sop!!!");
-	// // 	}
-	// // 	else {
-	// // 		console.log("not supported");
-	// // 		alert("supported!!!");
-	// // 	}
-	// // });
-
-	// var isWebRtcCompatible = appearin.isWebRtcCompatible();
-	// if (isWebRtcCompatible){
-	// 	alert("compatibuuul");
-	// }
-	// else {
-	// 	alert("not compats");
-	// }
-
-	// roomname = "cspace-" + Meteor.user().username;
-	// appearin.addRoomToElementById("vidframe", roomname);
-
-
-
-	// window.peer = new Peer({
-	// 	key: peerKey,  // get a free key at http://peerjs.com/peerserver
-	// 	debug: 3,
-	// 	config: {'iceServers': [
-	// 		{ url: 'stun:stun.l.google.com:19302' },
-	// 		{ url: 'stun:stun1.l.google.com:19302' },
-	// 	]}
- //    });
- //    // Session.set("peerId", peer.id);
-	// peer.on('open', function () {
-	// 	$('#myPeerId').text(peer.id);
-	// 	Session.set("peerId", peer.id);
-	// 	// Presence.state = function() {
-	// 	// console.log("calling here state");
-	// 	//   return {
-	// 	//     peerId: Session.get("peerId"),
-	// 	//     room: Meteor.user().username
-	// 	//   };
-	// 	// }
-	// 	console.log(peer.id);
-
-	// });
-
-	// receiveCall = function (incomingCall) {
-	// 	window.currentCall = incomingCall;
-	// 	incomingCall.answer(window.localStream);
-	// 	incomingCall.on('stream', function (remoteStream) {
-	// 		window.remoteStream = remoteStream;
-	// 		var video = document.getElementById("theirVideo")
-	// 		video.src = URL.createObjectURL(remoteStream);
-	// 	});
-	// }
- //    // Handle event: remote peer receives a call
- //    peer.on('call', function (incomingCall) {
-	// 	swal({   
-	// 		title: "Call!",   
-	// 		text: "You're receiving a call!",   
-	// 		type: "warning",   
-	// 		showCancelButton: true,   
-	// 		confirmButtonColor: "#1acc2b",   
-	// 		confirmButtonText: "Receive!",   
-	// 		cancelButtonText: "Hang up!",   
-	// 		closeOnConfirm: false,   
-	// 		closeOnCancel: false 
-	// 	}, function(isConfirm){   
-	// 		if (isConfirm) {     
-	// 			// swal("Deleted!", "Your imaginary file has been deleted.", "success");  
-	// 			// console.log("yaahs");
-	// 			receiveCall(incomingCall);
-	// 			swal.close();
-	// 			$('#theirVidContainer').show();
-	// 		} else {     
-	// 			swal.close();
-	// 			// swal("Cancelled", "Your imaginary file is safe :)", "error");   
-	// 		} 
-	// 	});
- //    });
-    
- // //    Presence.state = function() {
-	// //   return {
-	// //     peerId: Session.get("peerId"),
-	// //     room: Meteor.user().username
-	// //   };
-	// // }
-
-	// navigator.getUserMedia = ( navigator.getUserMedia ||
-	//                         navigator.webkitGetUserMedia ||
-	//                         navigator.mozGetUserMedia ||
-	//                         navigator.msGetUserMedia );
-
-	// // get audio/video
-	// // console.log(Session.get("streamSettings"));
-	// navigator.getUserMedia(Session.get("streamSettings"), function (stream) {
-	//     //display video
-	// 	var video = document.getElementById("myVideo");
-	// 	video.src = URL.createObjectURL(stream);
-	// 	window.localStream = stream;
-	// },
-	// function (error) { 
-	// 	console.log(error); 
-	// });
-	// $('#theirVideo').hide()
-});
-
-Template.videoChat.helpers({
-	videoPeers: function () {
-		Mousetrap.bind('1', function() { 
-			// changePeerSelector(0);
-			$('#peerIds option:eq(0)').prop('selected', 'selected');
-		});
-
-		Mousetrap.bind('2', function() { 
-			$('#peerIds option:eq(1)').prop('selected', 'selected');
-		});
-
-		Mousetrap.bind('v', function() { 
-			$('#makeCall').click()
-		});
-
-		Mousetrap.bind('c', function() { 
-			$('#endCall').click()
-		});
-
-		// changePeerSelector = function (selected) {
-		// 	console.log($('#peerIds option:eq(selected)'));
-		// 	$('#peerIds option:eq(selected)').prop('selected', 'selected');
-		// }
-
-
-		//only chat with other locations signed in
-		return Presences.find({$and: [{"state.peerId": {$ne: 0}}, {"userId": {$ne: Meteor.userId()}}]});
-
-		//chat with other sign ins of same location as well
-		// console.log("video chat" + Meteor.user());
-		// return Presences.find({$and: [{"state.peerId": {$ne: 0}}, {"state.room": {$ne: Meteor.user().username}}]});
-
-		// Session.set("peerId", peer.id);
-		// console.log(peer);
-		// console.log(Presences.find({}));
-		$('#theirVidContainer').hide();
-	},
-
-
-});
-
-Template.videoChat.events({
-	"click .toggleStream": function (event) {
-		console.log(event.target.id);
-		feat = "video";
-		var streamSettings = Session.get("streamSettings");
-		streamSettings[feat] = !streamSettings[feat];
-		if (streamSettings[feat]){
-			$('#myVideo').show();
-		}
-		else {
-			$('#myVideo').hide();
-		}
-		Session.set("streamSettings", streamSettings);
-		// get audio/video
-		// console.log(Session.get("streamSettings"));
-		navigator.getUserMedia(Session.get("streamSettings"), function (stream) {
-		    //display video
-			var video = document.getElementById("myVideo");
-			video.src = URL.createObjectURL(stream);
-			window.localStream = stream;
-		},
-		function (error) { 
-			console.log(error); 
-		});	
-		// console.log(peer.id);
-	},
-
-	"click #makeCall": function () {
-		
-		// console.log("calling" + $('#peerIds').val());
-		// var outgoingCall = peer.call($('#remotePeerId').val(), window.localStream);
-		var outgoingCall = peer.call($('#peerIds').val(), window.localStream);
-		window.currentCall = outgoingCall;
-		outgoingCall.on('stream', function (remoteStream) {
-			$('#theirVidContainer').show();
-			console.log("connected");
-			window.remoteStream = remoteStream;
-			var video = document.getElementById("theirVideo")
-			video.src = URL.createObjectURL(remoteStream);
-		});
-    },
-
-	"click #endCall": function () {
-		window.currentCall.close();
-		$('#theirVidContainer').hide();
+Template.legend.helpers({
+	allAffinities: function () {
+		return affinities.find({$and: [{"room": Meteor.userId()}, {"affinity": {$ne: "-99"}}]});
 	}
 });
 
+Template.askHelp.helpers({
+	allAffinities: function () {
+		return affinities.find({$and: [{"room": Meteor.userId()}, {"affinity": {$ne: "-99"}}]});
+	},
+
+	allMembers: function () {
+		return smallGroups.find({$and: [{"room": Meteor.userId()}]}, {sort: {"team": 1}});
+	},
+});
+
+Template.askHelp.events({
+	'submit .helpRequest': function (event) {
+		event.preventDefault();
+		console.log(Meteor.userId() + " " + event.target.affinity.value + " " + event.target.member.value);
+		Meteor.call("requestHelp", Meteor.userId(), event.target.affinity.value, event.target.member.value);
+	}
+});
+
+Template.activeRequests.helpers({
+	aliveRequests: function () {
+		return helpRequests.find({$and: [{"room": Meteor.userId(), "requestCreated": {$gt: Date.now() - 300000}}]});
+	},
+
+	// helpeeName: function () {
+	// 	return smallGroups.findOne({$and: [{"room": Meteor.userId()}, {}]})
+	// }
+});
 
 Template.administration.helpers({
 	otherLocations: function () {
@@ -481,10 +255,65 @@ Template.administration.helpers({
 
 		// numb = users.count();
 		return users;
-	}
+	},
+
+	boxes: function () {
+		// teamnames = smallGroups.distinct("team", {"room": Meteor.userId()});
+		// teamnames = Meteor.users.findOne({"_id": Meteor.userId()}).visibleBoxes;
+		// teamnames = Meteor.user().visibleBoxes;
+		teamnames = smallGroups.findOne({$and: [{"room": Meteor.userId()}, {"info": "boxList"}]}).existingBoxes;
+		// console.log(teamnames);
+		if (teamnames == undefined) {
+			return null;
+		}
+		else {
+			teamnames = teamnames.map(x => { return({"team": x}); });
+			return teamnames;
+		}
+	},
 });
 
 Template.administration.events({
+	'submit .addPerson': function(event) {
+		event.preventDefault();
+		affs = event.target.affinity.value.split(",");
+		console.log(affs);
+		affs = affs.map(function(s) { console.log(s); return {"affinityName": String.prototype.trim.apply(s)}; });
+		console.log(affs);
+		Meteor.call("addBoxPerson", Meteor.userId(), event.target.teamName.value, event.target.studName.value, affs);
+		// Router.go("/");
+	},
+
+	'submit .addAffinity': function(event) {
+		event.preventDefault();
+		console.log("adding affinity");
+		Meteor.call("addAffinity", Meteor.userId(), event.target.affinityName.value, event.target.faclass.value);
+		// Router.go("/");
+	},
+
+	'submit .boxSelector': function(event) {
+		event.preventDefault();
+		// console.log(event);
+		// console.log(event.target.children[0].checked);
+		checks = [];
+		for (i = 0; i < event.target.children.length - 1; i++) {
+			// console.log(i);
+			// console.log(i + " " + event.target.children[i].checked);
+			if (event.target.children[i].checked) {
+				checks.push(event.target.children[i].name);
+			}
+		}
+		console.log(checks);
+		if (checks.length > 0){
+			Meteor.call("setVisibleBoxes", Meteor.userId(), checks)
+		}
+		// else {
+
+		// }
+		// Meteor.call("setDisplayBoxes", Meteor.userId(), event.target.teamName.value, event.target.studName.value, event.target.affinity.value);
+		// Router.go("/");
+	},
+
 	'submit .locationSelector': function(event) {
 		event.preventDefault();
 		Meteor.call("setDisplaySpace", Meteor.userId(), event.target.location1.value, event.target.location2.value);

@@ -8,41 +8,17 @@
 </body>
 
 <template name = "spaceTitle">
-  <h1>Connected Spaces &mdash;  {{currentUser.username}}</h1>
-  <p>Tap your card at the reader to sign in or register!</p>
+  <h1>Connected Spaces &mdash;  {{currentUser.username}} <i class="fa fa-user"></i> </h1>
+  <!-- <i class="fa fa-home"></i> Home -->
+{{> legend}}
+{{> activeRequests}}
+  <!-- <p>Tap your card at the reader to sign in or register!</p> -->
 </template>
 
-<template name = "videoChat">
-    <h2>Video Chat</h2>
-    <!-- <button type = "button" class="toggleStream" id = "audioToggle">Toggle Video</button> -->
-    <div id="video-container">
-      <!-- note the 'autoplay' -->
-      <div id = "theirVidContainer">
-        <p>Their video:</p> <video id="theirVideo" class="theirVideo" autoplay=""></video>
-      </div>
-      <video id="myVideo" muted="true" class="myVideo" autoplay></video>: <p>Your video</p>
-    </div>
-
-    <!-- <h2>Controls</h2> -->
-    <div>
-      <!-- <p>Your id: <span id="myPeerId">...</span></p> -->
-      <p>Make a call</p><br>
-      <!-- <input type="text" placeholder="Call user id..." id="remotePeerId"> -->
-
-      <form class = "callPeer">
-        <select name = "peer" class = "form-control" id = "peerIds">
-          {{#each videoPeers}}
-            <option value="{{state.peerId}}">{{state.room}}</option> 
-          {{/each}}
-        </select>
-      </form>
-      <p><a class = "button" href="#" id="makeCall">Call</a></p>
-      <p><a class = "button" href="#" id="endCall">End call</a></p>
-    </div>
-</template>
 
 <template name = "loading">
-  Loading...
+  Loading... <br />
+  If nothing comes up in some time, <a href="/setLocation">go to the homepage</a>.
 </template>
 
 <template name = "noLocation">
@@ -63,15 +39,15 @@
 <template name = "home">
   {{> spaceTitle}}
   {{> boxes}}
-  {{> videoBox}}
+  <!-- {{> videoBox}} -->
 </template>
 
-<template name="boxes"> 
+<!-- <template name="boxesold"> 
   {{> noLocation}}
   <div class = "row">
   {{#each spacesToDisplay}}
     <div id="div1" class="boxdiv col-md-5">
-      <!-- {{> eachBox}} -->
+      
       <div class="panel panel-default">
         <div class="panel-heading">Maker - Activity  ({{spaceName spaceID = "{{spaceID}}"}})</div>
         <ul class="list-group">
@@ -79,6 +55,40 @@
             
                 <li class="list-group-item">
                     <a href="#">{{Name}}</a> – <a href="#">{{CurrentActivity}}</a>
+                </li>
+            {{/each}}
+        </ul>
+      </div>
+
+    </div>
+ -->
+      <!-- <div class = "col-md-1"> </div> -->
+    <!-- <div id="div2" class="boxdiv col-md-5">
+        {{> eachBox}}
+    </div> -->
+  <!-- {{/each}}
+  </div>
+</template> -->
+
+<template name="boxes"> 
+  {{> noLocation}}
+  <div class = "row">
+  {{#each boxesToDisplay}}
+    <div id="div1" class="boxdiv col-md-3">
+      <!-- {{> eachBox}} -->
+      <div class="panel panel-default">
+        <div class="panel-heading">Maker - Affinity  ({{team}})</div>
+        <ul class="list-group">
+            {{#each teamMembers team = "{{team}}"}}
+            
+                <li class="list-group-item">
+                    <a href="#">{{student}}</a> – <!-- <a href="#">{{affinity}}</a> -->
+                    <!-- {{printAffinities}} -->
+                    <!-- {{affinities}} -->
+                    {{#each affinities}}
+                       <!-- {{printaff}} -->
+                      <i class="fa fa-{{fontAwesomeClass}}"> </i>: {{affinityName}}; 
+                    {{/each}}
                 </li>
             {{/each}}
         </ul>
@@ -94,47 +104,3 @@
   </div>
 </template>
 
-<template name="videoBox"> 
-  <div class = "row">
-    <div id="div3" class="boxdiv col-md-5">
-      <h4>Updates</h4>
-    </div>
-    <!-- <div class = "col-md-1"> </div> -->
-    <div id="div4" class="boxdiv col-md-5">
-      <h4>Video space</h4>
-      {{#if currentUser}}
-      <!-- {{chatFrame}} -->
-        <!-- {{>videoChat}} -->
-        <!-- <iframe id="vidframe2" height = "500" width = "500" frameborder="0"></iframe> -->
-        <!-- <iframe id = "vidframe2" height = "500" width = "500"></iframe> -->
-        <iframe src="https://appear.in/{{chatRoomName}}" width="100%" height="80%" frameborder="0"></iframe>
-      {{/if}}
-      {{#unless currentUser}}
-        You aren't signed in, so we can't set up calls for you with others
-      {{/unless}}
-    </div>
-  </div>
-</template>
-
-<!-- <template name = "eachBox"> -->
-  <!-- <form class = "locationSelector">
-    <select name = "location" class = "form-control" id = "location">
-      {{#each otherLocations}}
-        <option value="{{_id}}">{{username}}</option> 
-      {{/each}}
-    </select>
-  </form> -->
-  
-  <!-- <div class="panel panel-default">
-    <div class="panel-heading">Maker - Activity</div>
-    <ul class="list-group">
-        {{#each allData spaceID = "{{spaceID}}"}}
-        
-            <li class="list-group-item">
-                <a href="#">{{Name}}</a> – <a href="#">{{CurrentActivity}}</a>
-            </li>
-        {{/each}}
-    </ul>
-  </div>
-</template>
- -->

@@ -12,3 +12,8 @@ displaySpaces = new Mongo.Collection("displaySpaces");
 
 // presences = new Mongo.Collection("presences");
 
+smallGroups = new Mongo.Collection("smallGroups");
+
+affinities = new Mongo.Collection("affinities");
+
+helpRequests = new Mongo.Collection("helpRequests");
