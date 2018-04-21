@@ -49,7 +49,7 @@
     <div id="div1" class="boxdiv col-md-5">
       
       <div class="panel panel-default">
-        <div class="panel-heading">Maker - Activity  ({{spaceName spaceID = "{{spaceID}}"}})</div>
+        <div class="panel-heading">{{spaceName spaceID = "{{spaceID}}"}}</div>
         <ul class="list-group">
             {{#each allData spaceID = "{{spaceID}}"}}
             
@@ -87,7 +87,7 @@
                     <!-- {{affinities}} -->
                     {{#each affinities}}
                        <!-- {{printaff}} -->
-                      <i class="fa fa-{{fontAwesomeClass}}"> </i> . <!-- : {{affinityName}}; --> 
+                      <i class="fa fa-{{fontAwesomeClass}}"> </i>  
                     {{/each}}
                 </li>
             {{/each}}
