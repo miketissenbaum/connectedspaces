@@ -46,7 +46,7 @@ Meteor.startup(() => {
                 "MemberID": memId,
                 "Name": name,
                 "Zipcode": zipcode,
-                "CreatedAt": date.getTime()
+                "CreatedAt": (new Date()).getTime()
             });
             return name;
         },
@@ -54,7 +54,7 @@ Meteor.startup(() => {
         logActivity: function(memId, name, activity, locationID, location) {
             Meteor.call("logOut", memId);
             activities.insert({
-                "LoggedIn": date.getTime(),
+                "LoggedIn": (new Date()).getTime(),
                 "Name": name,
                 "MemberID": memId,
                 "CurrentActivity": activity,
@@ -72,7 +72,7 @@ Meteor.startup(() => {
         },
 
         logOut: function (memId) {
-            activities.update({"MemberID": memId}, {$set: {"Status": "out", "LogOutTime": date.getTime()}}, {multi: true});
+            activities.update({"MemberID": memId}, {$set: {"Status": "out", "LogOutTime": (new Date()).getTime()}}, {multi: true});
             return true;
         },
 
@@ -80,7 +80,7 @@ Meteor.startup(() => {
             console.log("checking")
             timeOut = 18000000;
             // timeOut = 5000;
-            activities.find({$and: [{"LoggedIn": {$lt: (date.getTime() - timeOut)}}, {"Status": "in"}]}).forEach(function (doc) {
+            activities.find({$and: [{"LoggedIn": {$lt: ((new Date()).getTime() - timeOut)}}, {"Status": "in"}]}).forEach(function (doc) {
                 Meteor.call("logOut", doc.MemberID);
                 console.log("logging out " + doc.MemberID);
             });
@@ -102,7 +102,8 @@ Meteor.startup(() => {
                     "room": room,
                     "affinity": affinity,
                     "helpee": helpee,
-                    "requestCreated": date.getTime()
+                    "requestCreated": (new Date()).getTime(),
+                    "resolved": false
                 });
                 
             // }
@@ -110,6 +111,23 @@ Meteor.startup(() => {
             //     console.log("not adding request");
             // }
             
+        },
+
+        resolveRequest: function (reqId, helperId, comments) {
+            helperDeets = {};
+            helper = smallGroups.findOne({"_id": helperId});
+            if (helper != null) {
+                helperDeets = {"name": helper.student, "team": helper.team, "affinities": helper.affinities};
+            }
+            helpRequests.update(
+                { "_id": reqId },
+                {$set:{
+                    "resolved": true,
+                    "helperId": helperId,
+                    "helperDetails": helperDeets,
+                    "comments": comments
+                }}
+            )
         },
 
         addAffinity: function (room, affinity, faclass) {

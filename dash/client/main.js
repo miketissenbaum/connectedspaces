@@ -226,27 +226,101 @@ Template.askHelp.helpers({
 	},
 
 	allMembers: function () {
-		return smallGroups.find({$and: [{"room": Meteor.userId()}]}, {sort: {"team": 1}});
+		return smallGroups.find({$and: [{"room": Meteor.userId()}, {"info": {$ne: "boxList"}} ]}, {sort: {"team": 1}});
 	},
 });
 
 Template.askHelp.events({
 	'submit .helpRequest': function (event) {
 		event.preventDefault();
-		console.log(Meteor.userId() + " " + event.target.affinity.value + " " + event.target.member.value);
-		Meteor.call("requestHelp", Meteor.userId(), event.target.affinity.value, event.target.member.value);
+		if (event.target.member.value != "—") {
+			console.log(Meteor.userId() + " " + event.target.affinity.value + " " + event.target.member.value);
+			Meteor.call("requestHelp", Meteor.userId(), event.target.affinity.value, event.target.member.value);
+		}
 	}
 });
 
 Template.activeRequests.helpers({
 	aliveRequests: function () {
-		return helpRequests.find({$and: [{"room": Meteor.userId(), "requestCreated": {$gt: Date.now() - 300000}}]});
+		return helpRequests.find(
+			{$and: [
+				{"room": Meteor.userId() , 
+				"requestCreated": {$gt: Date.now() - 300000},
+				"resolved": false}
+			]}
+		);
 	},
 
 	// helpeeName: function () {
 	// 	return smallGroups.findOne({$and: [{"room": Meteor.userId()}, {}]})
 	// }
 });
+
+Template.resolveRequests.helpers({
+	aliveRequests: function () {
+		console.log("resolve requests called: ");
+		// console.log(helpRequests.find(
+		// 	{$and: [
+		// 		{"room": Meteor.userId(), 
+		// 		"requestCreated": {$gt: Date.now() - 300000}, 
+		// 		"resolved": "false"} 
+		// 	]}
+		// ).fetch());
+		return helpRequests.find({
+			$and: [
+			{"room": Meteor.userId(), 
+			"requestCreated": {$gt: Date.now() - 300000}, 
+			"resolved": false} ]
+		});
+	}
+});
+
+Template.resolveRequests.events({
+	'click .requestResolution': function (event) {
+		event.preventDefault();
+		// return helpRequests.find({$and: [{"room": Meteor.userId(), "requestCreated": {$gt: Date.now() - 300000}}]});
+		console.log(event.target.id);
+		Session.set("resolveModalId", event.target.id);
+		$("#myModal").modal('toggle');
+	}
+});
+
+Template.resolve.helpers({
+	potentialHelpers: function () {
+		console.log(this.reqId);
+		console.log(helpRequests.find({"_id": this.reqId}));
+		return smallGroups.find({$and: [{"room": Meteor.userId()}, {"info": {$ne: "boxList"}} ]}, {sort: {"team": 1}});
+	},
+
+	requestInfo: function () {
+		req = helpRequests.findOne({"_id": Session.get("resolveModalId")});
+		if (req == null) {
+			return "This modal doesn't belong to a valid request!";
+			Session.set("resolveModalId", null);
+			$("#myModal").modal('toggle');
+			console.log("resolveModalId is invalid");
+		}
+		else {
+			return "Request: " + req.helpee + " wants help in " + req.affinity + ".";
+		}
+	}
+ });
+
+Template.resolve.events({
+	'submit .resolveForm': function (event) {
+		event.preventDefault();
+		// return helpRequests.find({$and: [{"room": Meteor.userId(), "requestCreated": {$gt: Date.now() - 300000}}]});
+		console.log(event.target.helper.value);
+		if (Session.get("resolveModalId") != null) {
+			Meteor.call("resolveRequest", Session.get("resolveModalId"), event.target.helper.value, event.target.resolveComments.value);
+			console.log("form submitted successfully")
+		}
+		$("#myModal").modal('toggle');
+
+
+	}
+});
+
 
 Template.administration.helpers({
 	otherLocations: function () {
