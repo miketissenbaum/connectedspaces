@@ -250,6 +250,17 @@ Template.activeRequests.helpers({
 			]}
 		);
 	},
+	fontAwesomeClass: function () {
+		console.log(this.affinityName);
+		affin = affinities.findOne({$and: [{"room": Meteor.userId()}, {"affinity": this.affinity}]});
+		// console.log(affin);
+		if (affin == null) {
+			return null;
+		}
+		else {
+			return affin.faclass;
+		}
+	}
 
 	// helpeeName: function () {
 	// 	return smallGroups.findOne({$and: [{"room": Meteor.userId()}, {}]})

@@ -23,7 +23,10 @@
 <template name="activeRequests">
   {{#each aliveRequests}}
     <div class="alert alert-warning" role="alert">
-      <strong>{{helpee}}</strong> wants help regarding {{affinity}}.
+      <strong>{{helpee}}</strong> needs help with<br> 
+      <i class="fa fa-{{fontAwesomeClass}} helpIcon"></i><br>
+      {{affinity}}
+
     </div>
     <!-- <br /> -->
   {{/each}}
