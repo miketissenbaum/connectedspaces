@@ -21,6 +21,19 @@ Router.route('/askHelp', function() {
 	}
 });
 
+Router.route('/askHelp/:roomName', function() {
+	var allRooms = ["maldenengg", "maldendesign"];
+	var rName = String(this.params.roomName).toLowerCase();
+	if (allRooms.indexOf(roomname) > -1) {
+		Session.set("helpRoom", rName);
+		this.render("askHelp");
+	}
+	else {
+		Session.set("helpRoom", null);
+		this.render("loading");
+	}
+}
+
 Router.route('/member/:memid', function () {
 	var memId = String(this.params.memid);
 	Session.set("Member", memId);

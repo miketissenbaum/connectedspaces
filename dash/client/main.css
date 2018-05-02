@@ -148,13 +148,24 @@ position: relative;
 	right: 0;
 }
 
+.alert-floater {
+	width: 800px;
+	z-index: 1000;
+	position: absolute;
+    top: 35%;
+    left: 20%;
+    background-color: rgb(240, 240, 240, 0.6);
+}
+
 /* alert stylizing */
 .alert-warning {
 	width: 200px;
-	position: absolute;
+	display: inline-block;
+	margin: 30px;
+	/*position: absolute;
     top: 50%;
-    left: 40%;
-	z-index: 1000;
+    left: 40%;*/
+	/*z-index: 1000;*/
 	color: #424242;
     background-color: #fff1ff;
 	border-color: #af8eb5;

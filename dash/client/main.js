@@ -222,11 +222,23 @@ Template.legend.helpers({
 
 Template.askHelp.helpers({
 	allAffinities: function () {
-		return affinities.find({$and: [{"room": Meteor.userId()}, {"affinity": {$ne: "-99"}}]});
+		roomid = Meteor.userId();
+		if (roomid == null) {
+			roomid = Session.get("helpRoom");
+		}
+		if (roomid != null){
+			return affinities.find({$and: [{"room": roomid}, {"affinity": {$ne: "-99"}}]});
+		}
 	},
 
 	allMembers: function () {
-		return smallGroups.find({$and: [{"room": Meteor.userId()}, {"info": {$ne: "boxList"}} ]}, {sort: {"team": 1}});
+		roomid = Meteor.userId();
+		if (roomid == null) {
+			roomid = Session.get("helpRoom");
+		}
+		if (roomid != null){
+			return smallGroups.find({$and: [{"room": roomid}, {"info": {$ne: "boxList"}} ]}, {sort: {"team": 1}});
+		}
 	},
 });
 
