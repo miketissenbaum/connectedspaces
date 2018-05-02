@@ -302,6 +302,7 @@ Template.resolveRequests.helpers({
 		// 		"resolved": "false"} 
 		// 	]}
 		// ).fetch());
+		roomid = Meteor.userId();
 		if (roomid == null) {
 			roomid = Session.get("helpRoom");
 		}
@@ -328,7 +329,11 @@ Template.resolve.helpers({
 	potentialHelpers: function () {
 		console.log(this.reqId);
 		console.log(helpRequests.find({"_id": this.reqId}));
-		return smallGroups.find({$and: [{"room": Meteor.userId()}, {"info": {$ne: "boxList"}} ]}, {sort: {"team": 1}});
+		roomid = Meteor.userId();
+		if (roomid == null) {
+			roomid = Session.get("helpRoom");
+		}
+		return smallGroups.find({$and: [{"room": roomid}, {"info": {$ne: "boxList"}} ]}, {sort: {"team": 1}});
 	},
 
 	requestInfo: function () {
