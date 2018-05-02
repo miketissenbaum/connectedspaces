@@ -10,7 +10,9 @@
 <template name = "spaceTitle">
   <h1>Connected Spaces &mdash;  {{currentUser.username}} <i class="fa fa-user"></i> </h1>
   <!-- <i class="fa fa-home"></i> Home -->
+<footer class="footer">
 {{> legend}}
+</footer>
 {{> activeRequests}}
   <!-- <p>Tap your card at the reader to sign in or register!</p> -->
 </template>
@@ -18,7 +20,7 @@
 
 <template name = "loading">
   Loading... <br />
-  If nothing comes up in some time, <a href="/setLocation">go to the homepage</a>.
+  If nothing comes up in some time, go to the login page.
 </template>
 
 <template name = "noLocation">
