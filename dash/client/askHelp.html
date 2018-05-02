@@ -21,6 +21,7 @@
 
 
 <template name="activeRequests">
+  <div class = "alert-floater">
   {{#each aliveRequests}}
     <div class="alert alert-warning" role="alert">
       <strong>{{helpee}}</strong> needs help with<br> 
@@ -30,6 +31,7 @@
     </div>
     <!-- <br /> -->
   {{/each}}
+  </div>
 </template>
 
 <template name="resolveRequests">
