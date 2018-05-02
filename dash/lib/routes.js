@@ -32,7 +32,7 @@ Router.route('/askHelp/:roomName', function() {
 		Session.set("helpRoom", null);
 		this.render("loading");
 	}
-}
+});
 
 Router.route('/member/:memid', function () {
 	var memId = String(this.params.memid);
