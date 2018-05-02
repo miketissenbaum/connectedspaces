@@ -243,6 +243,10 @@ Template.askHelp.helpers({
 });
 
 Template.askHelp.events({
+	roomid = Meteor.userId();
+	if (roomid == null) {
+		roomid = Session.get("helpRoom");
+	}
 	'submit .helpRequest': function (event) {
 		event.preventDefault();
 		if (event.target.member.value != "—") {
