@@ -15,6 +15,16 @@ a:hover {
 	color:gray;
 }
 
+.footer {
+    position: fixed; 
+    bottom: 0;
+    left: 0;
+    right: 0;
+	z-index: 100;    
+    background-color: rgb(240, 240, 240, 0.6);
+    height: 50px;
+    padding: 20px;
+}
 
 #vidframe { 
 	width: 100%; 
