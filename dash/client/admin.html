@@ -40,8 +40,10 @@
 </template>
 
 <template name="legend">
-	{{#each allAffinities}}
-		{{affinity}} : <i class="fa fa-{{faclass}}"> </i>
-		<br />
-	{{/each}}
+	<footer class="footer">
+		{{#each allAffinities}}
+			{{affinity}} : <i class="fa fa-{{faclass}}"> </i>
+			<br />
+		{{/each}}
+	</footer>
 </template>

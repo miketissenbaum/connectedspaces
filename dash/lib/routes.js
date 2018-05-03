@@ -24,8 +24,14 @@ Router.route('/askHelp', function() {
 Router.route('/askHelp/:roomName', function() {
 	var allRooms = ["maldenengg", "maldendesign"];
 	var rName = String(this.params.roomName).toLowerCase();
-	if (allRooms.indexOf(roomname) > -1) {
-		Session.set("helpRoom", rName);
+	roomUser = Meteor.users.findOne({"username": rName});
+	roomID = null;
+	if (roomUser != null) {
+		roomID = roomUser._id;
+	}
+	
+	if (roomID != null) {
+		Session.set("helpRoom", roomID);
 		this.render("askHelp");
 	}
 	else {

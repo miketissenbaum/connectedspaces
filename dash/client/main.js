@@ -239,24 +239,32 @@ Template.askHelp.helpers({
 		if (roomid != null){
 			return smallGroups.find({$and: [{"room": roomid}, {"info": {$ne: "boxList"}} ]}, {sort: {"team": 1}});
 		}
-	},
+	}
 });
 
 Template.askHelp.events({
 	'submit .helpRequest': function (event) {
+		roomid = Meteor.userId();
+		if (roomid == null) {
+			roomid = Session.get("helpRoom");
+		}
 		event.preventDefault();
 		if (event.target.member.value != "—") {
-			console.log(Meteor.userId() + " " + event.target.affinity.value + " " + event.target.member.value);
-			Meteor.call("requestHelp", Meteor.userId(), event.target.affinity.value, event.target.member.value);
+			console.log(roomid + " " + event.target.affinity.value + " " + event.target.member.value);
+			Meteor.call("requestHelp", roomid, event.target.affinity.value, event.target.member.value);
 		}
 	}
 });
 
 Template.activeRequests.helpers({
 	aliveRequests: function () {
+		roomid = Meteor.userId();
+		if (roomid == null) {
+			roomid = Session.get("helpRoom");
+		}
 		return helpRequests.find(
 			{$and: [
-				{"room": Meteor.userId() , 
+				{"room": roomid , 
 				"requestCreated": {$gt: Date.now() - 300000},
 				"resolved": false}
 			]}
@@ -264,7 +272,12 @@ Template.activeRequests.helpers({
 	},
 	fontAwesomeClass: function () {
 		console.log(this.affinityName);
-		affin = affinities.findOne({$and: [{"room": Meteor.userId()}, {"affinity": this.affinity}]});
+		roomid = Meteor.userId();
+		if (roomid == null) {
+			roomid = Session.get("helpRoom");
+		}
+		
+		affin = affinities.findOne({$and: [{"room": roomid}, {"affinity": this.affinity}]});
 		// console.log(affin);
 		if (affin == null) {
 			return null;
@@ -289,9 +302,13 @@ Template.resolveRequests.helpers({
 		// 		"resolved": "false"} 
 		// 	]}
 		// ).fetch());
+		roomid = Meteor.userId();
+		if (roomid == null) {
+			roomid = Session.get("helpRoom");
+		}
 		return helpRequests.find({
 			$and: [
-			{"room": Meteor.userId(), 
+			{"room": roomid, 
 			"requestCreated": {$gt: Date.now() - 300000}, 
 			"resolved": false} ]
 		});
@@ -312,7 +329,11 @@ Template.resolve.helpers({
 	potentialHelpers: function () {
 		console.log(this.reqId);
 		console.log(helpRequests.find({"_id": this.reqId}));
-		return smallGroups.find({$and: [{"room": Meteor.userId()}, {"info": {$ne: "boxList"}} ]}, {sort: {"team": 1}});
+		roomid = Meteor.userId();
+		if (roomid == null) {
+			roomid = Session.get("helpRoom");
+		}
+		return smallGroups.find({$and: [{"room": roomid}, {"info": {$ne: "boxList"}} ]}, {sort: {"team": 1}});
 	},
 
 	requestInfo: function () {
