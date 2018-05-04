@@ -17,8 +17,6 @@ connected spaces.sublime-workspace
 
 dash/mup.json
 
-dash/package.json
-
 dash/npm-debug.log
 
 .deploy/mup.js
@@ -54,4 +52,3 @@ obsolete/*
 hardware/*
 
 poster/*
-dash/package-lock.json

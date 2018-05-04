@@ -45,7 +45,7 @@ Template.boxes.helpers({
 
 	teamMembers: function () {
 		// console.log (this.team);
-		return smallGroups.find({$and: [{"room": Meteor.userId()}, {"team": this.team}, {"affinity": {$ne: "-99"}}]});
+		return smallGroups.find({$and: [{"room": Meteor.userId()}, {"team": this.team}, {"visibility": {$ne: false}}]});
 	},
 
 	fontAwesomeClass: function () {
@@ -396,9 +396,12 @@ Template.administration.events({
 		event.preventDefault();
 		affs = event.target.affinity.value.split(",");
 		console.log(affs);
-		affs = affs.map(function(s) { console.log(s); return {"affinityName": String.prototype.trim.apply(s)}; });
-		console.log(affs);
-		Meteor.call("addBoxPerson", Meteor.userId(), event.target.teamName.value, event.target.studName.value, affs);
+		vis = true;
+		if (affs == "-99")
+			vis = false;
+		affs = affs.map(function(s) { aff = String.prototype.trim.apply(s); return {"affinityName": aff}; });
+		// console.log(affs);
+		Meteor.call("addBoxPerson", Meteor.userId(), event.target.teamName.value, event.target.studName.value, affs, vis);
 		// Router.go("/");
 	},
 

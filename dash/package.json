@@ -1,0 +1,22 @@
+{
+  "name": "c-spaces",
+  "version": "1.0.0",
+  "description": "connecting space",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "bcrypt": "^0.8.7",
+    "babel-runtime": "^6.23.0",
+    "font-awesome": "^4.7.0",
+    "fibers": "^1.0.15",
+    "phantomjs": "^2.1.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

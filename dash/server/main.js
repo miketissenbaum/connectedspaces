@@ -145,20 +145,33 @@ Meteor.startup(() => {
             });
         },
 
-        addBoxPerson: function (room, team, student, affinities) {
-            smallGroups.update({
-                $and: 
-                    [{"room": room}, 
-                    {"team": team}, 
-                    {"student": student}]
-            }, {
-                "room": room, 
-                "team": team, 
-                "student": student, 
-                "affinities": affinities
-            }, {
-                upsert: true
-            });
+        addBoxPerson: function (room, team, student, affinities, visibility) {
+            if (visibility == false) {
+                smallGroups.update({
+                    $and: 
+                        [{"room": room}, 
+                        {"team": team}, 
+                        {"student": student}]
+                }, {
+                    $set: {"visibility": false}
+                })
+            }
+            else {
+                smallGroups.update({
+                    $and: 
+                        [{"room": room}, 
+                        {"team": team}, 
+                        {"student": student}]
+                }, {
+                    "room": room, 
+                    "team": team, 
+                    "student": student, 
+                    "affinities": affinities,
+                    "visibility": true
+                }, {
+                    upsert: true
+                });
+            }
             // smallGroups.update(
             //     {$and: [
             //         {"room": room}, 
