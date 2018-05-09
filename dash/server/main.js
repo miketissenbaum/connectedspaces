@@ -41,6 +41,14 @@ Meteor.startup(() => {
 
 
     Meteor.methods({
+
+        addLog: function (logObject) {
+            logObject["version"] = "cspace_0.2.1";
+            logObject["epoch"] = (new Date()).getTime();
+            console.log("adding log");
+            eventLogs.insert(logObject);
+        },
+
         createMember: function(memId, name, zipcode) {
             members.insert({
                 "MemberID": memId,
