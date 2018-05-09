@@ -61,45 +61,11 @@ Template.boxes.helpers({
 	},
 
 	allData: function() {
-		// Mousetrap.bind('4', function() { console.log('4'); });
-		// if (Session.get("locationSet") == true){
-		// 	Session.set("locationSet", false);
-		// }
-		// console.log(Template.instance().paneLocation);
-		// if (Template.instance().paneLocation != 0){
-		// 	return activities.find({$and: [{locationID: Template.instance().paneLocation}, {Status: "in"}]}).fetch();
-		// }
-		// else {
-		// 	return activities.find({$and: [{locationID: Meteor.users.findOne()._id}, {Status: "in"}]}).fetch();
-		// }
-		// console.log(this.spaceID);
 		thisID = this.spaceID;
 		return activities.find({$and: [{locationID: thisID}, {Status: "in"}]}).fetch();
 	}
 });
 
-// Template.eachBox.helpers({
-	
-
-// 	otherLocations: function () {
-// 		users = Meteor.users.find({_id: {$ne: Meteor.userId()}});
-// 		// numb = users.count();
-// 		return users;
-// 	},
-
-	
-// });
-
-// Template.eachBox.events({
-// 	"change .locationSelector": function (event) {
-// 		event.preventDefault();
-// 		// a = event;
-// 		Template.instance().paneLocation = event.currentTarget.location.value;
-// 		// Template.instance().paneLocation2 = event.currentTarget.location2.value;
-// 		// console.log("in change form thing " + Template.instance().paneLocation);
-// 		Session.set("locationSet", true);
-// 	}
-// });
 
 Template.activityEntry.helpers({
 	name() {
@@ -198,6 +164,13 @@ Template.activityEntry.events({
 Template.signUp.events({
 	'submit .signup': function(event) {
 		event.preventDefault();
+		eventLog = {
+			"key": "signUpEvent",
+			"room": event.target.name.value,
+			"zipcode": event.target.zipcode.value,
+			"success": "ambiguous"
+		}
+		
 		Meteor.call("createMember", 
 			Session.get("Member"), 
 			event.target.name.value, 
@@ -211,6 +184,8 @@ Template.signUp.events({
 				Router.go('/actitout');
 			}
 		});
+
+		Meteor.call("addLog", eventLog);
 	}
 });
 
@@ -244,15 +219,29 @@ Template.askHelp.helpers({
 
 Template.askHelp.events({
 	'submit .helpRequest': function (event) {
+		eventLog = {
+			"key": "askHelpEvent",
+			"room": "NA",
+			"pageState": "loggedIn",
+			"requestMakingSuccess": false,
+			"helpSeeker": event.target.member.value,
+			"affinity": event.target.affinity.value
+		}
+		
 		roomid = Meteor.userId();
 		if (roomid == null) {
 			roomid = Session.get("helpRoom");
+			eventLog["pageState"] = "userlessURL";
+			eventLog["room"] = roomid;
 		}
 		event.preventDefault();
 		if (event.target.member.value != "—") {
 			console.log(roomid + " " + event.target.affinity.value + " " + event.target.member.value);
 			Meteor.call("requestHelp", roomid, event.target.affinity.value, event.target.member.value);
+			eventLog["requestMakingSuccess"] = true;
 		}
+
+		Meteor.call("addLog", eventLog);
 	}
 });
 
@@ -322,6 +311,12 @@ Template.resolveRequests.events({
 		console.log(event.target.id);
 		Session.set("resolveModalId", event.target.id);
 		$("#myModal").modal('toggle');
+
+		eventLog = {
+			"key": "openHelpResolveForm",
+			"helpCallId": event.target.id
+		}
+		Meteor.call("addLog", eventLog);	
 	}
 });
 
@@ -355,13 +350,33 @@ Template.resolve.events({
 		event.preventDefault();
 		// return helpRequests.find({$and: [{"room": Meteor.userId(), "requestCreated": {$gt: Date.now() - 300000}}]});
 		console.log(event.target.helper.value);
+		eventLog = {
+			"key": "helpResolutionDialog",
+			"action": "submit",
+			"requestId": "NA"
+		};
+
 		if (Session.get("resolveModalId") != null) {
 			Meteor.call("resolveRequest", Session.get("resolveModalId"), event.target.helper.value, event.target.resolveComments.value);
-			console.log("form submitted successfully")
+			console.log("form submitted successfully");
+			eventLog["requestId"] = Session.get("resolveModalId");
+			eventLog["helper"] = event.target.helper.value;
+			eventLog["resolveComments"] = event.target.resolveComments.value;
 		}
+		event.target.resolveComments.value = "";
 		$("#myModal").modal('toggle');
 
+		Meteor.call("addLog", eventLog);
+	},
 
+	'click .modal-close': function (event) {
+		eventLog = {
+			"key": "helpResolutionDialogSubmit",
+			"action": "cancel",
+			"requestId": Session.get("resolveModalId"),
+		};
+		Meteor.call("addLog", eventLog);	
+		Session.get("resolveModalId", null);
 	}
 });
 
@@ -402,6 +417,16 @@ Template.administration.events({
 		affs = affs.map(function(s) { aff = String.prototype.trim.apply(s); return {"affinityName": aff}; });
 		// console.log(affs);
 		Meteor.call("addBoxPerson", Meteor.userId(), event.target.teamName.value, event.target.studName.value, affs, vis);
+
+		eventLog = {
+			"key": "addPersonEvent",
+			"room": Meteor.userId(),
+			"teamName": event.target.teamName.value,
+			"studentName": event.target.studName.value,
+			"affinities": affs,
+			"visibility": vis
+		}
+		Meteor.call("addLog", eventLog);
 		// Router.go("/");
 	},
 
@@ -409,6 +434,13 @@ Template.administration.events({
 		event.preventDefault();
 		console.log("adding affinity");
 		Meteor.call("addAffinity", Meteor.userId(), event.target.affinityName.value, event.target.faclass.value);
+		eventLog = {
+			"key": "addAffinityEvent",
+			"room": Meteor.userId(),
+			"affinityName": event.target.affinityName.value,
+			"fontAwesomeClass": event.target.faclass.value
+		}
+		Meteor.call("addLog", eventLog);
 		// Router.go("/");
 	},
 
@@ -428,6 +460,12 @@ Template.administration.events({
 		if (checks.length > 0){
 			Meteor.call("setVisibleBoxes", Meteor.userId(), checks)
 		}
+		eventLog = {
+			"key": "changeVisibleTeams",
+			"room": Meteor.userId(),
+			"visibleBoxes": checks,
+		}
+		Meteor.call("addLog", eventLog);
 		// else {
 
 		// }
@@ -443,6 +481,11 @@ Template.administration.events({
 
 	'click .logOut': function () {
 		// console.log("logging out?");
+		logOutEvent = {
+			"key": "logOutEvent",
+			"room": Meteor.userId()
+		}
+		Meteor.call("addLog", logOutEvent);
 		AccountsTemplates.logout();
 		Router.go('/setLocation');
 	}

@@ -17,3 +17,5 @@ smallGroups = new Mongo.Collection("smallGroups");
 affinities = new Mongo.Collection("affinities");
 
 helpRequests = new Mongo.Collection("helpRequests");
+
+eventLogs = new Mongo.Collection("eventLogs");
