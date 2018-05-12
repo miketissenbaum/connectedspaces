@@ -50,7 +50,7 @@ Template.boxes.helpers({
 
 	fontAwesomeClass: function () {
 		console.log(this.affinityName);
-		affin = affinities.findOne({$and: [{"room": Meteor.userId()}, {"affinity": this.affinityName}]});
+		affin = affinities.findOne({$and: [{"room": Meteor.userId()}, {"affinity": this.affinityName}, {"faclass": {$ne: "-99"}}]});
 		// console.log(affin);
 		if (affin == null) {
 			return null;
@@ -191,7 +191,7 @@ Template.signUp.events({
 
 Template.legend.helpers({
 	allAffinities: function () {
-		return affinities.find({$and: [{"room": Meteor.userId()}, {"affinity": {$ne: "-99"}}]});
+		return affinities.find({$and: [{"room": Meteor.userId()}, {"faclass": {$ne: "-99"}}]});
 	}
 });
 
@@ -202,7 +202,7 @@ Template.askHelp.helpers({
 			roomid = Session.get("helpRoom");
 		}
 		if (roomid != null){
-			return affinities.find({$and: [{"room": roomid}, {"affinity": {$ne: "-99"}}]});
+			return affinities.find({$and: [{"room": roomid}, {"faclass": {$ne: "-99"}}]});
 		}
 	},
 
@@ -471,6 +471,13 @@ Template.administration.events({
 		// }
 		// Meteor.call("setDisplayBoxes", Meteor.userId(), event.target.teamName.value, event.target.studName.value, event.target.affinity.value);
 		// Router.go("/");
+
+	},
+
+	'submit .changeTeamName': function(event) {
+		event.preventDefault();
+		Meteor.call("changeTeamName", Meteor.userId(), event.target.teamName.value, event.target.newTeamName.value);
+		
 	},
 
 	'submit .locationSelector': function(event) {

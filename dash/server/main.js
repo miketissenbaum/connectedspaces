@@ -43,7 +43,7 @@ Meteor.startup(() => {
     Meteor.methods({
 
         addLog: function (logObject) {
-            logObject["version"] = "cspace_0.2.1";
+            logObject["version"] = "cspace_0.2.2";
             logObject["epoch"] = (new Date()).getTime();
             console.log("adding log");
             eventLogs.insert(logObject);
@@ -225,6 +225,45 @@ Meteor.startup(() => {
                 {upsert: true, multi:false}
             );
 
+        },
+
+        changeTeamName: function (room, oldTeamName, newTeamName) {
+            eventLog = {
+                "key": "teamNameChange",
+                "room": room,
+                "oldTeamName": oldTeamName,
+                "newTeamName": newTeamName,
+                "existingBoxChanged": false
+            }
+            
+            smallGroups.update({$and: [{"room": room}, {"team": oldTeamName}]}, {$set: {"team": newTeamName}});
+            sgList = smallGroups.findOne({$and: [{"room": room}, {"info": "boxList"}]});
+            visList = sgList.visibleBoxes;
+            exisList = sgList.existingBoxes;
+            if (visList.indexOf(oldTeamName) != -1) {
+                visList[visList.indexOf(oldTeamName)] = newTeamName;
+            }
+
+            if (exisList.indexOf(oldTeamName) != -1) {
+                exisList[exisList.indexOf(oldTeamName)] = newTeamName;
+                eventLog["existingBoxChanged"] = true;
+            }
+            console.log(visList + " " + exisList);
+            
+            smallGroups.update({$and: [{"room": room}, {"info": "boxList"}]}, {$set: {
+                "visibleBoxes": visList,
+                "existingBoxes": exisList
+            }});
+
+            // smallGroups.update(
+            //    {$and: [{"room": room}, {"info": "boxList"}]},
+            //    { $set: { "visibleBoxes.$.[tnameMatch]" : newTeamName, "existingBoxes.$.[tnameMatch]" : newTeamName } },
+            //    { 
+            //      arrayFilters: [ { "tnameMatch": { $eq: oldTeamName } } ]
+            //    }
+            // )
+
+            Meteor.call("addLog", eventLog);
         }
     });
 
