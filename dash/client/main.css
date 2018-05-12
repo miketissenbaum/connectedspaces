@@ -89,6 +89,7 @@ a:hover {
 
 /*.boxdiv { height: 400px; margin: 15px; padding: 10px; overflow: scroll;}*/
 .boxdiv{
+	max-width: 22%;
 	min-height: 195px; 
 	margin: 15px; 
 	padding: 15px; 
