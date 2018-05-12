@@ -22,8 +22,16 @@ a:hover {
     right: 0;
 	z-index: 100;    
     background-color: rgb(240, 240, 240, 0.6);
-    height: 50px;
+    height: 150px;
     padding: 20px;
+}
+.lengendItems{
+	list-style-type: none;
+	display: inline;
+	margin-right: 25px;
+	padding-right: 20px;
+	font-size: 1.5em;
+	border-right: 2px black solid;
 }
 
 #vidframe { 
@@ -159,12 +167,13 @@ position: relative;
 }
 
 .alert-floater {
-	width: 800px;
+	width: 100%;
 	z-index: 1000;
 	position: absolute;
-    top: 35%;
-    left: 20%;
-    background-color: rgb(240, 240, 240, 0.6);
+	top: 35%;
+    /* left: 20%; */
+	background-color: rgb(240, 240, 240, 0.6);
+	text-align: center;
 }
 
 /* alert stylizing */

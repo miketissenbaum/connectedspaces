@@ -53,9 +53,12 @@
 
 <template name="legend">
 	<footer class="footer">
-		{{#each allAffinities}}
-			{{affinity}} : <i class="fa fa-{{faclass}}"> </i>
-			<br />
-		{{/each}}
+		<ul>
+			{{#each allAffinities}}
+				<li class=lengendItems>
+				{{affinity}} : <i class="fa fa-{{faclass}}"> </i>
+				</li>
+			{{/each}}
+		</ul>
 	</footer>
 </template>
