@@ -129,6 +129,10 @@ a:hover {
 	margin-bottom: 0px;
 }
 
+.panel-heading {
+	text-align: center;
+    font-weight: bold;
+}
 
 #div1:nth-of-type(odd) .panel-heading {
 	background-color: #9fa8da; 
