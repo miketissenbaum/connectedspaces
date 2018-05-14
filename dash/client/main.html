@@ -38,7 +38,14 @@
 
 <template name = "home">
   {{> spaceTitle}}
-  {{> boxes}}
+  <button type="button" class="viewOption btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+    Team View
+  </button>
+  {{#if seeingTeams}}
+    {{> teamBoxes}}
+  {{else}}
+    {{> skillBoxes}}
+  {{/if}}
   <!-- {{> videoBox}} -->
 </template>
 
@@ -70,7 +77,7 @@
   </div>
 </template> -->
 
-<template name="boxes"> 
+<template name="teamBoxes"> 
   {{> noLocation}}
   <div class = "row">
   {{#each boxesToDisplay}}
@@ -89,6 +96,34 @@
                        <!-- {{printaff}} -->
                       <i class="fa fa-{{fontAwesomeClass}}"> </i>  
                     {{/each}}
+                </li>
+            {{/each}}
+        </ul>
+      </div>
+
+    </div>
+
+      <!-- <div class = "col-md-1"> </div> -->
+    <!-- <div id="div2" class="boxdiv col-md-5">
+        {{> eachBox}}
+    </div> -->
+  {{/each}}
+  </div>
+</template>
+
+
+<template name="skillBoxes"> 
+  {{> noLocation}}
+  <div class = "row">
+  {{#each skillGroups}}
+    <div id="div1" class="boxdiv col-md-3">
+      <!-- {{> eachBox}} -->
+      <div class="panel panel-default">
+        <div class="panel-heading">{{affinity}} – <i class="fa fa-{{faclass}}"></i></div>
+        <ul class="list-group">
+            {{#each students}}
+                <li class="list-group-item">
+                    <a class="studentName" href="#">{{student}}</a> – {{team}}
                 </li>
             {{/each}}
         </ul>

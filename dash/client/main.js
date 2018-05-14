@@ -11,10 +11,64 @@ Session.set("refreshBox", true);
 Session.set("peerId", 0);
 
 Session.set("streamSettings", {audio: true, video: true});
+Session.set("viewMode", "teams");
 
 Meteor.subscribe('userPresence');
 
-Template.boxes.helpers({
+Template.home.helpers({
+	seeingTeams: function () {
+		if (Session.get("viewMode") == "skills") {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+});
+
+Template.home.events({
+	'click .viewOption': function (event) {
+		event.preventDefault();
+		// console.log(a = event.target);
+		view = Session.get("viewMode");
+		if (view == "teams"){
+			event.target.textContent = "Skill View";
+			Session.set("viewMode", "skills");
+		}
+		else {
+			event.target.textContent = "Team View";	
+			Session.set("viewMode", "teams");
+		}
+		
+	}
+});
+
+Template.skillBoxes.helpers({
+	skillGroups: function () {
+		roomId = Meteor.userId();
+
+		affs = affinities.find({$and: [{"room": roomId}, {"faclass": {$ne: "-99"}}]}).fetch();
+		affStudList = [];
+		// console.log(affs);
+		for (a in affs) {
+			affStud = {};
+			affStud["affinity"] = affs[a].affinity;
+			affStud["faclass"] = affs[a].faclass;
+			affStud["students"] = smallGroups.find({
+				$and: [{"room": roomId}, 
+				{"visibility": {$ne: false}}, 
+				{"affinities.affinityName": affs[a].affinity} 
+			]});
+			affStudList.push(affStud);
+			// console.log(affStud);
+		}
+		return affStudList;
+	}
+
+});
+
+
+Template.teamBoxes.helpers({
 	spacesToDisplay: function () {
 		return displaySpaces.find({"roomID": Meteor.userId()});
 	},
@@ -55,7 +109,7 @@ Template.boxes.helpers({
 	},
 
 	fontAwesomeClass: function () {
-		console.log(this.affinityName);
+		// console.log(this.affinityName);
 		affin = affinities.findOne({$and: [{"room": Meteor.userId()}, {"affinity": this.affinityName}, {"faclass": {$ne: "-99"}}]});
 		// console.log(affin);
 		if (affin == null) {
