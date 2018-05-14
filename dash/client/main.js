@@ -21,16 +21,22 @@ Template.boxes.helpers({
 
 	boxesToDisplay: function () {
 		// u = Meteor.user();
-		console.log(Meteor.userId());
+		currentUser = Meteor.userId();
+		console.log(currentUser);
 		// teamnames = u.visibleBoxes;
-		teamnames = smallGroups.findOne({$and: [{"room": Meteor.userId()}, {"info": "boxList"}]}).visibleBoxes;
-		// console.log(teamnames);
-		if (teamnames == undefined) {
-			return null;
+		if (currentUser != undefined) {
+			teamnames = smallGroups.findOne({$and: [{"room": Meteor.userId()}, {"info": "boxList"}]}).visibleBoxes;
+			// console.log(teamnames);
+			if (teamnames == undefined) {
+				return null;
+			}
+			else {
+				teamnames = teamnames.map(x => { return({"team": x}); });
+				return teamnames;
+			}
 		}
 		else {
-			teamnames = teamnames.map(x => { return({"team": x}); });
-			return teamnames;
+			return null;
 		}
 	},
 
