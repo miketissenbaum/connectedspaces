@@ -8,7 +8,7 @@
 </body>
 
 <template name = "spaceTitle">
-  <h1>Connected Spaces &mdash;  {{currentUser.username}} <i class="fa fa-user"></i> </h1>
+  <h1 class="spaceName">Connected Spaces &mdash;  {{currentUser.username}} <!-- <i class="fa fa-user"></i> --> </h1>
   <!-- <i class="fa fa-home"></i> Home -->
 {{> legend}}
 {{> activeRequests}}
@@ -82,7 +82,7 @@
             {{#each teamMembers team = "{{team}}"}}
             
                 <li class="list-group-item">
-                    <a href="#">{{student}}</a> – <!-- <a href="#">{{affinity}}</a> -->
+                    <a class="studentName" href="#">{{student}}</a> – <!-- <a href="#">{{affinity}}</a> -->
                     <!-- {{printAffinities}} -->
                     <!-- {{affinities}} -->
                     {{#each affinities}}
