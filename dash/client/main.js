@@ -52,15 +52,32 @@ Template.skillBoxes.helpers({
 		// console.log(affs);
 		for (a in affs) {
 			affStud = {};
-			affStud["affinity"] = affs[a].affinity;
-			affStud["faclass"] = affs[a].faclass;
+			console.log(affs[a]);
+			affStud["affinity"] = affs[a]["affinity"];
+			affStud["faclass"] = affs[a]["faclass"];
+			
+			// var a = ["1", "1", "2", "3", "3", "1"];
+			// var unique = a.filter(function(item, i, ar){ return ar.indexOf(item) === i; });
+
 			affStud["students"] = smallGroups.find({
 				$and: [{"room": roomId}, 
 				{"visibility": {$ne: false}}, 
-				{"affinities.affinityName": affs[a].affinity} 
-			]});
+				{"affinities": {$elemMatch: {"affinityName": affs[a]["affinity"]} } } 
+			]}).fetch();
+
+			teamlist = affStud["students"].map(function(t){ return t.team });
+			diffTeams = teamlist.filter(function(item, i, ar){ return ar.indexOf(item) === i; });
+			teamStuds = [];
+			for (t in diffTeams) {
+				tstudlist = {"teamName": diffTeams[t]};
+				tstuds = affStud["students"].filter(function(item, i, ar){ return item.team == diffTeams[t]; });
+				tstudlist["students"] = tstuds;
+				teamStuds.push(tstudlist);
+			}
+			affStud["teamStudents"] = teamStuds;
+
 			affStudList.push(affStud);
-			// console.log(affStud);
+			console.log(affStud);
 		}
 		return affStudList;
 	}

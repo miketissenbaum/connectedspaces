@@ -121,9 +121,15 @@
       <div class="panel panel-default">
         <div class="panel-heading">{{affinity}} – <i class="fa fa-{{faclass}}"></i></div>
         <ul class="list-group">
-            {{#each students}}
+            {{#each teamStudents}}
                 <li class="list-group-item">
-                    <a class="studentName" href="#">{{student}}</a> – {{team}}
+                    <!-- <a class="teamName" href="#"> -->
+                    {{teamName}} --
+                    <!-- </a> – {{team}} -->
+                    {{#each students}}
+                      <a class="studentName" href="#">{{student}}</a>  |  
+                      <!-- <i class="fa fa-{{fontAwesomeClass}}"> </i>   -->
+                    {{/each}}
                 </li>
             {{/each}}
         </ul>
