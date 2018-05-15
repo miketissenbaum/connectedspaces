@@ -29,13 +29,31 @@ a:hover {
     height: 150px;
     padding: 20px;
 }
-.lengendItems{
+
+.legendItems{
 	list-style-type: none;
 	display: inline;
 	margin-right: 25px;
 	padding-right: 20px;
 	font-size: 1.5em;
 	border-right: 2px black solid;
+}
+
+@-webkit-keyframes blinker {
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+@-moz-keyframes blinker {
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+
+.blink {
+  -webkit-animation: blinker 1s 5;
+  -moz-animation: blinker 1s 5;
+  animation: blinker 1s 5;
 }
 
 #vidframe { 
@@ -45,8 +63,7 @@ a:hover {
     position:relative; 
 }
 
-#space-title {
-	
+#space-title {	
 	font-family: 'Open Sans', sans-serif;	
 }
 #space-title h1,p {
