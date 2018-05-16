@@ -8,7 +8,7 @@
 </body>
 
 <template name = "spaceTitle">
-  <h1>Connected Spaces &mdash;  {{currentUser.username}} <i class="fa fa-user"></i> </h1>
+  <h1 class="spaceName">Connected Spaces &mdash;  {{currentUser.username}} <!-- <i class="fa fa-user"></i> --> </h1>
   <!-- <i class="fa fa-home"></i> Home -->
 {{> legend}}
 {{> activeRequests}}
@@ -38,7 +38,14 @@
 
 <template name = "home">
   {{> spaceTitle}}
-  {{> boxes}}
+  <button type="button" class="viewOption btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+    Team View
+  </button>
+  {{#if seeingTeams}}
+    {{> teamBoxes}}
+  {{else}}
+    {{> skillBoxes}}
+  {{/if}}
   <!-- {{> videoBox}} -->
 </template>
 
@@ -70,7 +77,7 @@
   </div>
 </template> -->
 
-<template name="boxes"> 
+<template name="teamBoxes"> 
   {{> noLocation}}
   <div class = "row">
   {{#each boxesToDisplay}}
@@ -82,12 +89,46 @@
             {{#each teamMembers team = "{{team}}"}}
             
                 <li class="list-group-item">
-                    <a href="#">{{student}}</a> – <!-- <a href="#">{{affinity}}</a> -->
+                    <a class="studentName" href="#">{{student}}</a> – <!-- <a href="#">{{affinity}}</a> -->
                     <!-- {{printAffinities}} -->
                     <!-- {{affinities}} -->
                     {{#each affinities}}
                        <!-- {{printaff}} -->
                       <i class="fa fa-{{fontAwesomeClass}}"> </i>  
+                    {{/each}}
+                </li>
+            {{/each}}
+        </ul>
+      </div>
+
+    </div>
+
+      <!-- <div class = "col-md-1"> </div> -->
+    <!-- <div id="div2" class="boxdiv col-md-5">
+        {{> eachBox}}
+    </div> -->
+  {{/each}}
+  </div>
+</template>
+
+
+<template name="skillBoxes"> 
+  {{> noLocation}}
+  <div class = "row">
+  {{#each skillGroups}}
+    <div id="div1" class="boxdiv col-md-3">
+      <!-- {{> eachBox}} -->
+      <div class="panel panel-default">
+        <div class="panel-heading">{{affinity}} – <i class="fa fa-{{faclass}}"></i></div>
+        <ul class="list-group">
+            {{#each teamStudents}}
+                <li class="list-group-item">
+                    <!-- <a class="teamName" href="#"> -->
+                    {{teamName}} --
+                    <!-- </a> – {{team}} -->
+                    {{#each students}}
+                      <a class="studentName" href="#">{{student}}</a>  |  
+                      <!-- <i class="fa fa-{{fontAwesomeClass}}"> </i>   -->
                     {{/each}}
                 </li>
             {{/each}}

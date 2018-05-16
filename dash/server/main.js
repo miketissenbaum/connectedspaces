@@ -41,6 +41,9 @@ Meteor.startup(() => {
 
 
     Meteor.methods({
+        // refineDbs: function () {
+        //     if (find)
+        // },
 
         addLog: function (logObject) {
             logObject["version"] = "cspace_0.2.2";

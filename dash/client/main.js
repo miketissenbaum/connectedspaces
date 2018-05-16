@@ -11,26 +11,103 @@ Session.set("refreshBox", true);
 Session.set("peerId", 0);
 
 Session.set("streamSettings", {audio: true, video: true});
+Session.set("viewMode", "teams");
 
 Meteor.subscribe('userPresence');
 
-Template.boxes.helpers({
+Template.home.helpers({
+	seeingTeams: function () {
+		if (Session.get("viewMode") == "skills") {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+});
+
+Template.home.events({
+	'click .viewOption': function (event) {
+		event.preventDefault();
+		// console.log(a = event.target);
+		view = Session.get("viewMode");
+		if (view == "teams"){
+			event.target.textContent = "Skill View";
+			Session.set("viewMode", "skills");
+		}
+		else {
+			event.target.textContent = "Team View";	
+			Session.set("viewMode", "teams");
+		}
+		
+	}
+});
+
+Template.skillBoxes.helpers({
+	skillGroups: function () {
+		roomId = Meteor.userId();
+
+		affs = affinities.find({$and: [{"room": roomId}, {"faclass": {$ne: "-99"}}]}).fetch();
+		affStudList = [];
+		// console.log(affs);
+		for (a in affs) {
+			affStud = {};
+			// console.log(affs[a]);
+			affStud["affinity"] = affs[a]["affinity"];
+			affStud["faclass"] = affs[a]["faclass"];
+			
+			// var a = ["1", "1", "2", "3", "3", "1"];
+			// var unique = a.filter(function(item, i, ar){ return ar.indexOf(item) === i; });
+
+			affStud["students"] = smallGroups.find({
+				$and: [{"room": roomId}, 
+				{"visibility": {$ne: false}}, 
+				{"affinities": {$elemMatch: {"affinityName": affs[a]["affinity"]} } } 
+			]}).fetch();
+
+			teamlist = affStud["students"].map(function(t){ return t.team });
+			diffTeams = teamlist.filter(function(item, i, ar){ return ar.indexOf(item) === i; });
+			teamStuds = [];
+			for (t in diffTeams) {
+				tstudlist = {"teamName": diffTeams[t]};
+				tstuds = affStud["students"].filter(function(item, i, ar){ return item.team == diffTeams[t]; });
+				tstudlist["students"] = tstuds;
+				teamStuds.push(tstudlist);
+			}
+			affStud["teamStudents"] = teamStuds;
+
+			affStudList.push(affStud);
+			// console.log(affStud);
+		}
+		return affStudList;
+	}
+
+});
+
+
+Template.teamBoxes.helpers({
 	spacesToDisplay: function () {
 		return displaySpaces.find({"roomID": Meteor.userId()});
 	},
 
 	boxesToDisplay: function () {
 		// u = Meteor.user();
-		console.log(Meteor.userId());
+		currentUser = Meteor.userId();
+		console.log(currentUser);
 		// teamnames = u.visibleBoxes;
-		teamnames = smallGroups.findOne({$and: [{"room": Meteor.userId()}, {"info": "boxList"}]}).visibleBoxes;
-		// console.log(teamnames);
-		if (teamnames == undefined) {
-			return null;
+		if (currentUser != undefined) {
+			teamnames = smallGroups.findOne({$and: [{"room": Meteor.userId()}, {"info": "boxList"}]}).visibleBoxes;
+			// console.log(teamnames);
+			if (teamnames == undefined) {
+				return null;
+			}
+			else {
+				teamnames = teamnames.map(x => { return({"team": x}); });
+				return teamnames;
+			}
 		}
 		else {
-			teamnames = teamnames.map(x => { return({"team": x}); });
-			return teamnames;
+			return null;
 		}
 	},
 
@@ -49,7 +126,7 @@ Template.boxes.helpers({
 	},
 
 	fontAwesomeClass: function () {
-		console.log(this.affinityName);
+		// console.log(this.affinityName);
 		affin = affinities.findOne({$and: [{"room": Meteor.userId()}, {"affinity": this.affinityName}, {"faclass": {$ne: "-99"}}]});
 		// console.log(affin);
 		if (affin == null) {
@@ -218,13 +295,26 @@ Template.askHelp.helpers({
 });
 
 Template.askHelp.events({
+	'click .radio-helpee': function (event) {
+		console.log(a = event.target);
+	},
+
+
 	'submit .helpRequest': function (event) {
+		event.preventDefault();
+		// console.log("radio: " + event.target["request-helpee"].value);
+		helpSeekerid = event.target["request-helpee"].value;
+		helpeeObj = smallGroups.findOne({"_id": helpSeekerid});
 		eventLog = {
 			"key": "askHelpEvent",
 			"room": "NA",
 			"pageState": "loggedIn",
 			"requestMakingSuccess": false,
-			"helpSeeker": event.target.member.value,
+			// "helpSeeker": event.target.member.value,
+			"helpSeekerid": event.target["request-helpee"].value,
+			"helpSeeker": null,
+			"helpSeekerTeam": null,
+			"helpSeekerObject": helpeeObj,
 			"affinity": event.target.affinity.value
 		}
 		
@@ -235,10 +325,15 @@ Template.askHelp.events({
 			eventLog["room"] = roomid;
 		}
 		event.preventDefault();
-		if (event.target.member.value != "—") {
-			console.log(roomid + " " + event.target.affinity.value + " " + event.target.member.value);
-			Meteor.call("requestHelp", roomid, event.target.affinity.value, event.target.member.value);
+		if (event.target["request-helpee"].value != "") {
+			// console.log(roomid + " " + event.target.affinity.value + " " + event.target.member.value);
+			Meteor.call("requestHelp", roomid, event.target.affinity.value, helpeeObj.student);
 			eventLog["requestMakingSuccess"] = true;
+			eventLog["helpSeeker"] = helpeeObj.student;
+			eventLog["helpSeekerTeam"] = helpeeObj.team;
+		}
+		else {
+			console.log("no radio selected");
 		}
 
 		Meteor.call("addLog", eventLog);
