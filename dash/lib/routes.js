@@ -14,9 +14,11 @@ Router.route('/', function() {
 
 Router.route('/askHelp', function() {
 	if (Meteor.userId() != undefined){
+		Session.set("helpRoom", Meteor.userId());
 		this.render("askHelp");
 	}
 	else{
+		Session.set("helpRoom", null);
 		this.render("loading");
 	}
 });
