@@ -52,7 +52,7 @@ Template.skillBoxes.helpers({
 		// console.log(affs);
 		for (a in affs) {
 			affStud = {};
-			console.log(affs[a]);
+			// console.log(affs[a]);
 			affStud["affinity"] = affs[a]["affinity"];
 			affStud["faclass"] = affs[a]["faclass"];
 			
@@ -77,7 +77,7 @@ Template.skillBoxes.helpers({
 			affStud["teamStudents"] = teamStuds;
 
 			affStudList.push(affStud);
-			console.log(affStud);
+			// console.log(affStud);
 		}
 		return affStudList;
 	}
@@ -295,13 +295,26 @@ Template.askHelp.helpers({
 });
 
 Template.askHelp.events({
+	'click .radio-helpee': function (event) {
+		console.log(a = event.target);
+	},
+
+
 	'submit .helpRequest': function (event) {
+		event.preventDefault();
+		// console.log("radio: " + event.target["request-helpee"].value);
+		helpSeekerid = event.target["request-helpee"].value;
+		helpeeObj = smallGroups.findOne({"_id": helpSeekerid});
 		eventLog = {
 			"key": "askHelpEvent",
 			"room": "NA",
 			"pageState": "loggedIn",
 			"requestMakingSuccess": false,
-			"helpSeeker": event.target.member.value,
+			// "helpSeeker": event.target.member.value,
+			"helpSeekerid": event.target["request-helpee"].value,
+			"helpSeeker": null,
+			"helpSeekerTeam": null,
+			"helpSeekerObject": helpeeObj,
 			"affinity": event.target.affinity.value
 		}
 		
@@ -312,10 +325,15 @@ Template.askHelp.events({
 			eventLog["room"] = roomid;
 		}
 		event.preventDefault();
-		if (event.target.member.value != "—") {
-			console.log(roomid + " " + event.target.affinity.value + " " + event.target.member.value);
-			Meteor.call("requestHelp", roomid, event.target.affinity.value, event.target.member.value);
+		if (event.target["request-helpee"].value != "") {
+			// console.log(roomid + " " + event.target.affinity.value + " " + event.target.member.value);
+			Meteor.call("requestHelp", roomid, event.target.affinity.value, helpeeObj.student);
 			eventLog["requestMakingSuccess"] = true;
+			eventLog["helpSeeker"] = helpeeObj.student;
+			eventLog["helpSeekerTeam"] = helpeeObj.team;
+		}
+		else {
+			console.log("no radio selected");
 		}
 
 		Meteor.call("addLog", eventLog);

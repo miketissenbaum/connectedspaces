@@ -39,6 +39,8 @@ a:hover {
 	border-right: 2px black solid;
 }
 
+
+/*
 @-webkit-keyframes blinker {
   0% { opacity: 1.0; }
   50% { opacity: 0.0; }
@@ -54,6 +56,23 @@ a:hover {
   -webkit-animation: blinker 1s 5;
   -moz-animation: blinker 1s 5;
   animation: blinker 1s 5;
+}
+
+*/
+
+@keyframes blink {
+  50% {
+    opacity: 0.0;
+  }
+}
+@-webkit-keyframes blink {
+  50% {
+    opacity: 0.0;
+  }
+}
+.blink {
+  animation: blink 1s step-start 0s 5;
+  -webkit-animation: blink 1s step-start 0s 5;
 }
 
 #vidframe { 
@@ -155,6 +174,18 @@ h1 {
 	position:relative;
 }
 
+.radio-f-group {
+	padding: 20px;
+}
+
+.radio-styles {
+	/*margin: 30px;*/
+	/*margin-top: 30px;*/
+	margin-left: 20px;
+	margin-bottom: 30px;
+	margin-right: 20px;
+	/*margin-top: 20px;*/
+}
 
 
 .panel  {
@@ -209,21 +240,32 @@ position: relative;
 	position: absolute;
 	top: 35%;
     /* left: 20%; */
-	background-color: rgb(240, 240, 240, 0.6);
+	background-color: rgb(240, 40, 40, 0.8);
 	text-align: center;
 }
 
 /* alert stylizing */
+.alert-bg {
+	width: 100%;
+	z-index: 1000;
+	position: absolute;
+	top: 35%;
+    /* left: 20%; */
+	background-color: rgb(240, 40, 40, 0.8);
+	text-align: center;	
+}
+
 .alert-warning {
-	width: 200px;
+	width: 220px;
 	display: inline-block;
 	margin: 30px;
+	font-size: 17pt;
 	/*position: absolute;
     top: 50%;
     left: 40%;*/
 	/*z-index: 1000;*/
 	color: #424242;
-    background-color: #fff1ff;
+    background-color: #ffff00;
 	border-color: #af8eb5;
 	text-align: center;
 }
@@ -231,6 +273,7 @@ position: relative;
 .helpIcon {
 	color: purple;
 	font-size: 6em;
+    margin: 12px;
 	display: flex;
 	justify-content: center;
 }

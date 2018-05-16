@@ -6,12 +6,44 @@
         <option value="{{affinity}}"><i class = "fa fa-{{faclass}}"> </i> &mdash; {{affinity}}</option> 
       {{/each}}
     </select>
-    I am:
-    <select name = "member" class = "form-control" id = "member">
+<!--     I am:
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <label class="btn btn-secondary active">
+        <input type="radio" name="options" id="option1" autocomplete="off" checked> Active
+      </label>
+      <label class="btn btn-secondary">
+        <input type="radio" name="options" id="option2" autocomplete="off"> Radio
+      </label>
+      <label class="btn btn-secondary">
+        <input type="radio" name="options" id="option3" autocomplete="off"> Radio
+      </label>
+    </div>
+     -->
+    <!-- <div class="row"> -->
+    <div class="row">
+      <div class = "col-md-1">
+        <h3>  I am:  </h3>
+      </div>
+      <div class = "col-md-11">
+        <div class="form-group radio-f-group">
+          <h4>
+            {{#each allMembers}}
+              <label class="radio-inline radio-styles">
+                <input id="{{student}}-{{team}}" class="helpee-radio" name="request-helpee" value="{{_id}}" type="radio">
+                  {{student}} &mdash; {{team}}
+               </label>
+            {{/each}}
+          </h4>
+        </div>
+      </div>
+    </div>
+
+
+<!--     <select name = "member" class = "form-control" id = "member">
       {{#each allMembers}}
         <option value="{{student}}">{{student}} &mdash; {{team}} </option> 
       {{/each}}
-    </select>
+    </select> -->
     <!-- <input type = "checkbox" name = "{{team}}" value = "{{team}}" /> -->
     <input class = "btn btn-primary" type="submit" value="Ask for help!">
   </form>
@@ -23,7 +55,7 @@
 <template name="activeRequests">
   <div class = "alert-floater">
   {{#each aliveRequests}}
-    <div class="alert alert-warning" role="alert">
+    <div class="alert alert-warning blink" role="alert">
       <strong>{{helpee}}</strong> needs help with<br> 
       <i class="fa fa-{{fontAwesomeClass}} helpIcon"></i>
       {{affinity}}
@@ -70,6 +102,7 @@
             <label class = "control-label col-sm-4">Who helped you?</label>
             <div class = "col-sm-8">
                   <select name = "helper" class = "form-control">
+                    <option value="teacher" id="teacher">Helped by teacher</option> 
                     {{#each potentialHelpers}}
                       <option value="{{_id}}">{{student}} &mdash; {{team}} </option> 
                     {{/each}}
