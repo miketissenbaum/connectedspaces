@@ -290,13 +290,73 @@ Template.askHelp.helpers({
 		}
 		if (roomid != null){
 			return smallGroups.find({$and: [{"room": roomid}, {"info": {$ne: "boxList"}} ]}, {sort: {"team": 1}});
+			// return smallGroups.find({$and: [{"room": roomid}, {"info": {$ne: "boxList"}}, {"visibility": {$ne: false}} ]}, {sort: {"team": 1}});
+
 		}
+	},
+
+	selectedAffinity: function () {
+		helpSeekingAff = "";
+		// console.log(afsel = $("#affinity"));
+		helpSeekingAff = Session.get("HelpSeekingAff");
+		if (helpSeekingAff != undefined){
+			return "People who might be able to help with " + 	helpSeekingAff;
+		}
+		else {
+			return "Select an affinity in the dropdown to the list"
+		}
+		
+	},
+
+	helpMembers: function () {
+		roomid = Meteor.userId();
+		if (roomid == null) {
+			roomid = Session.get("helpRoom");
+		}
+		console.log("checking selected affinity for displaying potential helpers: " + Session.get("HelpSeekingAff"));
+		// helpSeekingAff = $("#affinity")[0].value;
+		helpSeekingAff = Session.get("HelpSeekingAff");
+		if (roomid != null && helpSeekingAff != undefined){
+
+			return smallGroups.find({$and:[
+				{"room": roomid},
+				{"info": {$ne: "boxList"}},
+				{"affinities.affinityName": helpSeekingAff}
+			]});
+		}
+		
 	}
 });
 
 Template.askHelp.events({
 	'click .radio-helpee': function (event) {
 		console.log(a = event.target);
+	},
+
+
+	'change #affinity': function (event) {
+		Session.set("HelpSeekingAff", event.target.value);
+		// console.log(event);
+	},
+
+	'click #affinity': function (event) {
+		console.log(a = event);
+		if (event.type == "change"){
+			console.log(event);
+		}
+		roomid = Session.get("helpRoom");
+		eventLog = {
+			"key": "helpSeekingAffinitySelection",
+			"room": "NA",
+			// "pageState": "loggedIn",
+			// "requestMakingSuccess": false,
+			// "helpSeeker": event.target.member.value,
+			// "helpSeekerid": event.target["request-helpee"].value,
+			// "helpSeeker": null,
+			// "helpSeekerTeam": null,
+			// "helpSeekerObject": helpeeObj,
+			"affinity": event.target.value
+		}
 	},
 
 
@@ -374,6 +434,13 @@ Template.activeRequests.helpers({
 	// helpeeName: function () {
 	// 	return smallGroups.findOne({$and: [{"room": Meteor.userId()}, {}]})
 	// }
+});
+
+Template.activeRequests.events({
+	'click .alert-warning-link': function (event) {
+		event.preventDefault();
+		console.log(event);
+	}
 });
 
 Template.resolveRequests.helpers({
